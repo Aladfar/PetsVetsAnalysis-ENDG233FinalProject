@@ -1,111 +1,108 @@
-Neighborhood,Vet Clinic Name
-Mission,17th Avenue Animal Hospital Ltd.
-Willow Park,Acadia Drive Animal Clinic
-Windsor Park,Alberta Veterinary Dentistry Inc.
-Windsor Park,Alpine 24/7 Pet Hospital
-Sunalta,Animal Clinic-Downtown
-Fairview,Antech Diagnostics Canada
-Aspen,Aspen Animal Hospital
-Varsity,Atkins Veterinary Services Ltd.
-Auburn Bay,Auburn Bay Veterinary Clinic
-Lake Bonavista,Avenida Pet Clinic
-Mayland Heights,Barlow Trail Animal Hospital
-Beddington Heights,Beddington Trail Animal Hospital
-Deer Ridge,Bow Bottom Veterinary Hospital
-Montgomery,Bowmont Animal Hospital (1998) Ltd.
-Bowness,Bowness Animal Hospital
-Braeside,Braeside Veterinary Clinic
-Bridgeland/Riverside,Bridgeland Vet Clinic
-Bridlewood,Bridlewood Veterinary Clinic
-Kingsland,Britannia-Kingsland Veterinary Clinic
-Fairview,Calgary Animal Referral & Emergency (CARE) Centre
-Banff Trail,Calgary Cat Clinic
-Hounsfield Heights/Briar Hill,Calgary Holistic Veterinary Clinic
-Highland Park,Calgary North Animal Hospital & 24 Hour Emergency Service
-Parkhill,Calgary Pet Dermatology Centre
-Erin Woods,Calgary Pet Wellness & Spay/Neuter Clinic
-Rosscarrock,Calgary West Animal Hospital
-Rocky Ridge,Calgary Wildlife Veterinary Hospital
-Cambrian Heights,Cambrian Animal Hospital
-South Calgary,Canine Companion Clinic
-Canyon Meadows,Canyon Meadows Veterinary Clinic
-Castleridge,Castleridge Veterinary Clinic
-Thorncliffe,Centre Street Veterinary Clinic
-Chaparral,Chaparral Veterinary Clinic
-Coach Hill,Coach Hill Animal Hospital
-Copperfield,Copperfield Veterinary Hospital
-Discovery Ridge,Cornerstone Square Veterinary Hospital
-Country Hills,Country Hills Animal Hospital
-Cranston,Cranston Veterinary Hospital
-Legacy,Creature Comforts Animal Clinic
-Evanston,Creek Side Veterinary Hospital
-Crescent Height,Crescent Animal Clinic
-Lakeview,Crowchild Trail Veterinary Clinic
-Arbour Lake,Crowfoot Animal Hospital
-Dalhousie,Dalhousie Varsity Animal Hospital
-Dover,"Deerfoot South Spay, Neuter And Wellness Clinic"
-Harvest Hills,District Animal Hospital & Urgent Care
-Douglasdale/Douglas Glen,Douglas Square Pet Clinic
-Coventry Hills,Dr. Romus Vetstreet
-Edgemont,Edgemont Veterinary Clinic
-Dalhousie,Dalhousie Varsity Animal Hospital
-Dover,"Deerfoot South Spay, Neuter And Wellness Clinic"
-Harvest Hills,District Animal Hospital & Urgent Care
-Douglasdale/Douglas Glen,Douglas Square Pet Clinic
-Coventry Hills,Dr. Romus Vetstreet
-Edgemont,Edgemont Veterinary Clinic
-Falconridge,Falconridge Animal Hospital
-Midnapore,Fish Creek 24 Hr Pet Hospital & Emergency Services
-Forest Lawn,Forest Lawn Animal Hospital
-Glamorgan,Glamorgan Animal Clinic Ltd.
-Harvest Hills,Harvest Hills Animal Hospital
-Parkhill,Healing Traditions Holistic Veterinary Clinic
-Evanston,Healthy Paws Forward Veterinary Hospital
-Highland Park,Highland Park Animal Clinic
-Killarney/Glengarry,Killarney Cat Hospital
-Lake Bonavista,Lake Bonavista Animal Clinic
-Bayview,Landing Animal Hospital
-Legacy,Legacy Veterinary Clinic
-Millrise,Little Creek Veterinary Clinic
-MacEwan Glen,MacEwan Animal Hospital
-MacEwan Glen,Macleod Trail Animal Hospital
-Mahogany,Mahogany Veterinary Clinic
-South Calgary,Marda Loop Animal Hospital
-Marlborough Park,Marlborough Animal Hospital
-McKenzie Town,McKenzie Towne Animal Hospital
-Greenview,McKnight 24 Hour Veterinary Hospital
-Midnapore,Midlake Veterinary Clinic
-Montgomery,Monterey Veterinary Clinic Ltd.
-Montgomery,Montgomery Village Veterinary Clinic and Dekens Housecall Services
-Sage Hill,Nolan Hill Veterinary Hospital
-Pineridge,North East Animal Clinic
-Oakridge,Oakridge Animal Clinic
-Panorama Hills,Panorama Hills Animal Hospital
-Varsity,Paramount 24 Hour Animal Hospital
-Parkdale,Parkdale Veterinary Clinic
-Castleridge,Prairie Winds Animal Clinic
-Temple,Properties Animal Clinic
-Ramsay,Ramsay Animal Clinic
-Ranchlands,Ranchlands Veterinary Clinic
-Riverbend,Riverbend Animal Hospital
-Rocky Ridge,Rocky Ridge Pet Hospital
-Bowness,Rocky View Veterinary Service
-Chaparral,Rodger Veterinary Services
-Royal Oak,Royal Oak Animal Hospital
-Rocky Ridge,Royal Veterinary Hospital
-Bridlewood,Sabadilla Animal Clinic
-Sage Hill,Sage Hill Animal Hospital
-Scenic Acres,Scenic Acres Veterinary Clinic
-Shawnessy,Shawnessy South Animal Hospital
-Signal Hill,Signal Hill Animal Clinic
-Silver Springs,Silver Springs Animal Hospital
-Silverado,Silverado Veterinary Hospital
-McKenzie Town,South Trail Animal Hospital
-West Springs,South West Veterinary Hospital
-McKenzie Town,Southpointe Pet Hospital
-Southwood,Southwood Veterinary Hospital
-Springbank Hill,Springbank Integrative Veterinary Centre
-Valley Ridge,Stoney Trail Veterinary Clinic
-Sundance,Sundance Animal Hospital
-Rundle,Sunridge Veterinary Clinic
-Bowness,Trinity Hills 24 Hour Pet Hospital
+Neighborhood,Vet Clinic Name,24 Hour
+Mission,17th Avenue Animal Hospital Ltd.,0
+Willow Park,Acadia Drive Animal Clinic,0
+Windsor Park,Alberta Veterinary Dentistry Inc.,0
+Windsor Park,Alpine 24/7 Pet Hospital,1
+Sunalta,Animal Clinic-Downtown,0
+Aspen,Aspen Animal Hospital,0
+Varsity,Atkins Veterinary Services Ltd.,0
+Auburn Bay,Auburn Bay Veterinary Clinic,0
+Lake Bonavista,Avenida Pet Clinic,0
+Mayland Heights,Barlow Trail Animal Hospital,0
+Beddington Heights,Beddington Trail Animal Hospital,0
+Deer Ridge,Bow Bottom Veterinary Hospital,0
+Montgomery,Bowmont Animal Hospital (1998) Ltd.,0
+Bowness,Bowness Animal Hospital,0
+Braeside,Braeside Veterinary Clinic,0
+Bridgeland/Riverside,Bridgeland Vet Clinic,0
+Bridlewood,Bridlewood Veterinary Clinic,0
+Kingsland,Britannia-Kingsland Veterinary Clinic,0
+Fairview,Calgary Animal Referral & Emergency (CARE) Centre,1
+Banff Trail,Calgary Cat Clinic,0
+Hounsfield Heights/Briar Hill,Calgary Holistic Veterinary Clinic,0
+Highland Park,Calgary North Animal Hospital & 24 Hour Emergency Service,0
+Parkhill,Calgary Pet Dermatology Centre,0
+Erin Woods,Calgary Pet Wellness & Spay/Neuter Clinic,0
+Rosscarrock,Calgary West Animal Hospital,0
+Rocky Ridge,Calgary Wildlife Veterinary Hospital,0
+Cambrian Heights,Cambrian Animal Hospital,0
+South Calgary,Canine Companion Clinic,0
+Canyon Meadows,Canyon Meadows Veterinary Clinic,0
+Castleridge,Castleridge Veterinary Clinic,0
+Thorncliffe,Centre Street Veterinary Clinic,0
+Chaparral,Chaparral Veterinary Clinic,0
+Coach Hill,Coach Hill Animal Hospital,0
+Copperfield,Copperfield Veterinary Hospital,0
+Discovery Ridge,Cornerstone Square Veterinary Hospital,0
+Country Hills,Country Hills Animal Hospital,0
+Cranston,Cranston Veterinary Hospital,0
+Legacy,Creature Comforts Animal Clinic,0
+Evanston,Creek Side Veterinary Hospital,0
+Crescent Height,Crescent Animal Clinic,0
+Lakeview,Crowchild Trail Veterinary Clinic,0
+Arbour Lake,Crowfoot Animal Hospital,0
+Dalhousie,Dalhousie Varsity Animal Hospital,0
+Dover,"Deerfoot South Spay, Neuter And Wellness Clinic",0
+Harvest Hills,District Animal Hospital & Urgent Care,0
+Douglasdale/Douglas Glen,Douglas Square Pet Clinic,0
+Edgemont,Edgemont Veterinary Clinic,0
+Dalhousie,Dalhousie Varsity Animal Hospital,0
+Dover,"Deerfoot South Spay, Neuter And Wellness Clinic",0
+Harvest Hills,District Animal Hospital & Urgent Care,0
+Douglasdale/Douglas Glen,Douglas Square Pet Clinic,0
+Edgemont,Edgemont Veterinary Clinic,0
+Falconridge,Falconridge Animal Hospital,0
+Midnapore,Fish Creek 24 Hr Pet Hospital & Emergency Services,0
+Forest Lawn,Forest Lawn Animal Hospital,0
+Glamorgan,Glamorgan Animal Clinic Ltd.,0
+Harvest Hills,Harvest Hills Animal Hospital,0
+Parkhill,Healing Traditions Holistic Veterinary Clinic,0
+Evanston,Healthy Paws Forward Veterinary Hospital,0
+Highland Park,Highland Park Animal Clinic,0
+Killarney/Glengarry,Killarney Cat Hospital,0
+Lake Bonavista,Lake Bonavista Animal Clinic,0
+Bayview,Landing Animal Hospital,0
+Legacy,Legacy Veterinary Clinic,0
+Millrise,Little Creek Veterinary Clinic,0
+MacEwan Glen,MacEwan Animal Hospital,0
+MacEwan Glen,Macleod Trail Animal Hospital,0
+Mahogany,Mahogany Veterinary Clinic,0
+South Calgary,Marda Loop Animal Hospital,0
+Marlborough Park,Marlborough Animal Hospital,0
+McKenzie Town,McKenzie Towne Animal Hospital,0
+Greenview,McKnight 24 Hour Veterinary Hospital,1
+Midnapore,Midlake Veterinary Clinic,0
+Montgomery,Monterey Veterinary Clinic Ltd.,0
+Montgomery,Montgomery Village Veterinary Clinic and Dekens Housecall Services,0
+Sage Hill,Nolan Hill Veterinary Hospital,0
+Pineridge,North East Animal Clinic,0
+Oakridge,Oakridge Animal Clinic,0
+Panorama Hills,Panorama Hills Animal Hospital,0
+Varsity,Paramount 24 Hour Animal Hospital,1
+Parkdale,Parkdale Veterinary Clinic,0
+Castleridge,Prairie Winds Animal Clinic,0
+Temple,Properties Animal Clinic,0
+Ramsay,Ramsay Animal Clinic,0
+Ranchlands,Ranchlands Veterinary Clinic,0
+Riverbend,Riverbend Animal Hospital,0
+Rocky Ridge,Rocky Ridge Pet Hospital,0
+Bowness,Rocky View Veterinary Service,0
+Chaparral,Rodger Veterinary Services,0
+Royal Oak,Royal Oak Animal Hospital,0
+Rocky Ridge,Royal Veterinary Hospital,0
+Bridlewood,Sabadilla Animal Clinic,0
+Sage Hill,Sage Hill Animal Hospital,0
+Scenic Acres,Scenic Acres Veterinary Clinic,0
+Shawnessy,Shawnessy South Animal Hospital,0
+Signal Hill,Signal Hill Animal Clinic,0
+Silver Springs,Silver Springs Animal Hospital,0
+Silverado,Silverado Veterinary Hospital,0
+McKenzie Town,South Trail Animal Hospital,0
+West Springs,South West Veterinary Hospital,0
+McKenzie Town,Southpointe Pet Hospital,0
+Southwood,Southwood Veterinary Hospital,0
+Springbank Hill,Springbank Integrative Veterinary Centre,0
+Valley Ridge,Stoney Trail Veterinary Clinic,0
+Sundance,Sundance Animal Hospital,0
+Rundle,Sunridge Veterinary Clinic,0
+Bowness,Trinity Hills 24 Hour Pet Hospital,1
