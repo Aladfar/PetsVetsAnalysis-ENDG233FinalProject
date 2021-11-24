@@ -1,7 +1,7 @@
 ﻿Community,Median Household Income,Median Age,Population 2014,Dwellings 2014,City Quadrant
 Abbeydale,55345,34,6071,2031,4
 Acadia,46089,42,10969,5067,4
-Albert Park / Radisson Heights,38019,37,6529,2936,4
+Albert Park/Radisson Heights,38019,37,6529,2936,4
 Altadore,53786,37,9518,4537,3
 Applewood Park,65724,33,6864,2228,4
 Arbour Lake,70590,41,10987,3931,2
@@ -25,8 +25,8 @@ Canyon Meadows,66787,40,7838,3210,3
 Capitol Hill,38670,34,4413,2322,2
 Castleridge,57923,33,6396,1983,1
 Cedarbrae,62063,39,6271,2609,3
-CFB Currie,81542,52,414,181,3
-CFB Lincoln Park,30411,35,2065,730,3
+Currie,81542,52,414,181,3
+Lincoln Park,30411,35,2065,730,3
 Chaparral,79761,35,12407,4044,4
 Charleswood,63828,45,3646,1478,2
 Chinook Park,88357,47,1708,589,3
@@ -49,7 +49,7 @@ Deer Ridge,59149,36,4165,1502,4
 Deer Run,76038,41,5335,2113,4
 Diamond Cove,120196,50,713,271,4
 Discovery Ridge,128844,38,4462,1650,3
-Douglasdale / Douglas Glen,85350,40,12952,4639,3
+Douglasdale/Douglas Glen,85350,40,12952,4639,3
 Dover,43875,40,11024,4869,4
 Eagle Ridge,119459,58,500,110,3
 Eau Claire,80210,56,1886,1321,3
@@ -87,6 +87,7 @@ Lake Bonavista,101025,46,10502,4106,4
 Lakeview,64535,46,5476,2340,3
 Legacy,64134,29,351,310,4
 Lincoln Park,30411,34,2623,1412,3
+Lower Mount Royal,35570,34,3319,2414,3
 MacEwan Glen,74045,39,5053,1781,2
 Mahogany,88390,31,2660,989,4
 Maple Ridge,72317,48,1936,811,3
@@ -104,8 +105,6 @@ Mission,37040,34,4350,3300,3
 Monterey Park,64208,39,10703,3168,1
 Montgomery,42795,40,4104,1893,2
 Mount Pleasant,48334,37,5442,2694,2
-Lower Mount Royal,35570,34,3319,2414,3
-Upper Mount Royal,127135,43,2609,1069,3
 New Brighton,64562,30,10628,3842,4
 North Glenmore Park,61175,42,2380,1017,3
 North Haven,56142,44,2434,1001,2
@@ -164,6 +163,7 @@ Sunnyside,42325,33,3848,2413,2
 Temple,59074,34,11303,3686,1
 Thorncliffe,50009,40,8838,3851,2
 Tuscany,92453,34,19465,6504,2
+Upper Mount Royal,127135,43,2609,1069,3
 University Heights,43079,31,3016,1373,2
 Valley Ridge,104947,41,5518,1904,2
 Varsity,58603,42,12553,5738,2
