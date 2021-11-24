@@ -22,6 +22,12 @@ def import_vets_data():
 
 #Start of Program Calculations
 def run_initial_pet_calculations(pets_data, communities_data, vets_data):
+    '''Runs initial calculations
+    
+    returns
+        Dictionary pairing communities with the most recent pet registration numbers
+        Array listing each quadrants communities
+    '''
     pass
 
 #Main menu
