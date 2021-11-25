@@ -10,7 +10,7 @@ def main():
     vets_data = np.genfromtxt('vets_data.csv',  dtype=('U100','U100',int), delimiter=',', skip_header = True)
 
     # print(pets_data)
-    print(communities_data)
+    # print(communities_data)
     # print(vets_data)
 
     initial_pet_calculations = run_initial_pet_calculations(pets_data, communities_data, vets_data)
@@ -110,6 +110,9 @@ def pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
         elif user_input == 'Pets Per Capita':
             area_most_least_pets_capita(pets_data, communities_data, vets_data,initial_pet_calculations)
             print_pets_menu()
+        elif user_input == 'Area Info':
+            pets_info(pets_data, communities_data, vets_data,initial_pet_calculations)
+            print_pets_menu()
         elif user_input == 'Return':
             print()
             return
@@ -125,6 +128,7 @@ def print_pets_menu():
     print('{selection_option:>15} : {reason}'.format(selection_option = 'Registration', reason = 'To see a graph comparing the change in pets for the last three years'))        
     print('{selection_option:>15} : {reason}'.format(selection_option = 'Total Pets', reason = 'To learn more about the areas in Calgary with the most or least pets'))
     print('{selection_option:>15} : {reason}'.format(selection_option = 'Pets Per Capita', reason = 'To learn more about the areas in Calgary with the most or least pets per capita'))
+    print('{selection_option:>15} : {reason}'.format(selection_option = 'Area Info', reason = 'To see a variety of statistics related to pets within an area of Calgary'))
     print('{selection_option:>15} : {reason}'.format(selection_option = 'Return', reason = 'To return to the main menu'))        
     print('{selection_option:>15} : {reason}'.format(selection_option = 'End', reason = 'To end the program'))
     return
@@ -140,6 +144,9 @@ def area_most_least_pets(pets_data, communities_data, vets_data,initial_pet_calc
     pass
 
 def area_most_least_pets_capita(pets_data, communities_data, vets_data,initial_pet_calculations):
+    pass
+
+def pets_info (pets_data, communities_data, vets_data,initial_pet_calculations):
     pass
 
 #Vets menu
