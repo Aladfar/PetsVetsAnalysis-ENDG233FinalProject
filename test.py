@@ -1,10 +1,13 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
 #Main Program
 def main():
-    pets_data = import_pets_data()
+    pets_data = np.genfromtxt('pets_data.csv',  dtype=('U100','U100','U100','U100',int), delimiter=',', skip_header = True)
 
-    communities_data = import_communities_data()
+    communities_data = np.genfromtxt('communities_data.csv',  dtype=('U100',int,int,int,int,int), delimiter=',', skip_header = True)
 
-    vets_data = import_vets_data()
+    vets_data = np.genfromtxt('vets_data.csv',  dtype=('U100','U100',int), delimiter=',', skip_header = True)
 
     initial_pet_calculations = run_initial_pet_calculations(pets_data, communities_data, vets_data)
 
@@ -25,8 +28,10 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     '''Runs initial calculations
     
     returns
-        Dictionary pairing communities with the most recent pet registration numbers
-        Array listing each quadrants communities
+        Dictionary pairing communities with the most recent pet registration numbers (for pets per capita, figure 1, )
+        Dictionary pairing communities with pets per capita (for figure 2 and generating statistics)
+        Array listing each quadrants communities 
+        List containing Calgary, quadrants then communities (for graphing and checking if valid usere input)
     '''
     pass
 
