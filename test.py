@@ -1,6 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+class Neighborhood:
+    def __init__(self, name, population, pets_per_capita, vets):
+        self.name = name
+        self.population = population
+        self.pets_per_capita = pets_per_capita
+        self.vets = vets
+
 #Main Program
 def main():
     pets_data = np.genfromtxt('pets_data.csv',  dtype=('U1000','U1000','U1000','U1000',int), delimiter=',', skip_header = True)
@@ -36,8 +43,8 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     '''Runs initial calculations
     
     returns
-        Dictionary pairing communities with the most recent pet registration numbers (for pets per capita, figure 1, )
-        Dictionary pairing communities with pets per capita (for figure 2 and generating statistics)
+        Dictionary (or maybe array) pairing communities with the most recent pet registration numbers (for pets per capita, figure 1, )
+        Dictionary (or maybe array) pairing communities with pets per capita (for figure 2 and generating statistics)
         Array listing each quadrants communities 
         List containing Calgary, quadrants then communities (for graphing and checking if valid usere input)
     '''
@@ -60,13 +67,12 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     # print(NW_communities)
     # print(SW_communities)
     # print(SE_communities)
+
     
 
+
     # quadrant_array = np.ndarray((4,), [NE_communities, NW_communities, SW_communities, SE_communities], dtype=str) #DOESNT WORK YET
-    # print(quadrant_array)
-
-
-   
+    # print(quadrant_array) 
     pets_per_capita = {}
     pass
 
