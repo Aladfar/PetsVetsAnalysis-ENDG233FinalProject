@@ -10,8 +10,11 @@ def main():
     vets_data = np.genfromtxt('vets_data.csv',  dtype=('U100','U100',int), delimiter=',', skip_header = True)
 
     initial_pet_calculations = run_initial_pet_calculations(pets_data, communities_data, vets_data)
-
+    
+    print('Welcome to a program examining the pet and veterinarian distributions across Calgary\n')
+    
     main_menu(pets_data, communities_data, vets_data,initial_pet_calculations)
+    return
 
 #Imports
 def import_pets_data():
@@ -37,39 +40,64 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
 
 #Main menu
 def main_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
-    user_input = get_and_check_main_menu_input()
+    print_main_menu()
+    while True:
+        user_input = input()
+        if user_input == 'Pets':
+            pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations)
+            print_main_menu()
+        elif user_input == 'Vets':
+            vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations)
+            print_main_menu()
+        elif user_input == 'End':
+            exit()
+        else:
+            print('That was an invalid entry. Please try again using one of the above options')
+    return
 
-    if user_input == 3:#placeholder
-        pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations)
-    elif user_input == 4:#placeholder 
-        vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations)
-    else:
-        exit()
-    pass
-
-def get_and_check_main_menu_input():
-    pass
+def print_main_menu():
+    print('This is the main menu. Please select one of the following options:\n')
+    print('{selection_option:>4} : {reason}'.format(selection_option = 'Pets', reason = 'To learn more about the pet distribution in Calgary'))
+    print('{selection_option:>4} : {reason}'.format(selection_option = 'Vets', reason = 'To learn more about the veterinarian distribution in Calgary'))
+    print('{selection_option:>4} : {reason}'.format(selection_option = 'End', reason = 'To end the program'))
+    return
 
 #Pets menu
 def pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
-    user_input = get_and_check_pets_menu_input()
+    print()
+    print_pets_menu()
+    while True:
+        user_input = input()
+        if user_input == 'Income':
+            graph_income_vs_pets_by_capita(pets_data, communities_data, vets_data,initial_pet_calculations)
+            print_pets_menu()
+        elif user_input == 'Registration': 
+            graph_time_vs_new_registration(pets_data, communities_data, vets_data,initial_pet_calculations)
+            print_pets_menu()
+        elif user_input == 'Total Pets':
+            area_most_least_pets(pets_data, communities_data, vets_data,initial_pet_calculations)
+            print_pets_menu()
+        elif user_input == 'Pets Per Capita':
+            area_most_least_pets_capita(pets_data, communities_data, vets_data,initial_pet_calculations)
+            print_pets_menu()
+        elif user_input == 'Return':
+            print()
+            return
+        elif user_input == 'End':
+            exit()
+        else:
+            print('That was an invalid entry. Please try again using one of the above options')
+    
 
-    if user_input == 3:#placeholder
-        graph_income_vs_pets_by_capita(pets_data, communities_data, vets_data,initial_pet_calculations)
-    elif user_input == 4:#placeholder 
-        graph_time_vs_new_registration(pets_data, communities_data, vets_data,initial_pet_calculations)
-    elif user_input == 4:#placeholder 
-        area_most_least_pets(pets_data, communities_data, vets_data,initial_pet_calculations)
-    elif user_input == 4:#placeholder 
-        area_most_least_pets_capita(pets_data, communities_data, vets_data,initial_pet_calculations)
-    elif user_input == 5:#pleacholder
-        return
-    else:
-        exit()
-    pass
-
-def get_and_check_pets_menu_input():
-    pass
+def print_pets_menu():
+    print('This is the pet statistics menu. Please select one of the following options:\n')
+    print('{selection_option:>15} : {reason}'.format(selection_option = 'Income', reason = 'To see a graph comparing income by community compared to pet ownership'))
+    print('{selection_option:>15} : {reason}'.format(selection_option = 'Registration', reason = 'To see a graph comparing the change in pets for the last three years'))        
+    print('{selection_option:>15} : {reason}'.format(selection_option = 'Total Pets', reason = 'To learn more about the areas in Calgary with the most or least pets'))
+    print('{selection_option:>15} : {reason}'.format(selection_option = 'Pets Per Capita', reason = 'To learn more about the areas in Calgary with the most or least pets per capita'))
+    print('{selection_option:>15} : {reason}'.format(selection_option = 'Return', reason = 'To return to the main menu'))        
+    print('{selection_option:>15} : {reason}'.format(selection_option = 'End', reason = 'To end the program'))
+    return
 
 #Pets related functions
 def graph_income_vs_pets_by_capita(pets_data, communities_data, vets_data,initial_pet_calculations):
@@ -86,20 +114,32 @@ def area_most_least_pets_capita(pets_data, communities_data, vets_data,initial_p
 
 #Vets menu
 def vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
-    user_input = get_and_check_vets_menu_input()
+    print()
+    print_vets_menu()
+    while True:
+        user_input = input()
+        if user_input == 'Pets Per Vet':
+            graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets_data,initial_pet_calculations)
+            print_pets_menu()
+        elif user_input == 'Vets In Area': 
+            vets_in_area(pets_data, communities_data, vets_data,initial_pet_calculations)
+            print_pets_menu()
+        elif user_input == 'Return':
+            print()
+            return
+        elif user_input == 'End':
+            exit()
+        else:
+            print('That was an invalid entry. Please try again using one of the above options')
+    
 
-    if user_input == 3:#placeholder
-        graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets_data,initial_pet_calculations)
-    elif user_input == 4:#placeholder 
-        vets_in_area(pets_data, communities_data, vets_data,initial_pet_calculations)
-    elif user_input == 5:#pleacholder
-        return
-    else:
-        exit()
-    pass
-
-def get_and_check_vets_menu_input():
-    pass
+def print_vets_menu():
+    print('This is the veterinarian statistics menu. Please select one of the following options:\n')
+    print('{selection_option:>12} : {reason}'.format(selection_option = 'Pets Per Vet', reason = 'To see a graph comparing the number of pets per veterinarian for different areas in Calgary'))
+    print('{selection_option:>12} : {reason}'.format(selection_option = 'Vets In Area', reason = 'To learn more about the veterinarian services offered for different areas of Calgary'))        
+    print('{selection_option:>12} : {reason}'.format(selection_option = 'Return', reason = 'To return to the main menu'))        
+    print('{selection_option:>12} : {reason}'.format(selection_option = 'End', reason = 'To end the program'))
+    return
 
 #Pets related functions
 def graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets_data,initial_pet_calculations):
