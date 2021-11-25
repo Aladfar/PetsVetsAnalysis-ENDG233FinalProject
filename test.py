@@ -5,9 +5,13 @@ import matplotlib.pyplot as plt
 def main():
     pets_data = np.genfromtxt('pets_data.csv',  dtype=('U100','U100','U100','U100',int), delimiter=',', skip_header = True)
 
-    communities_data = np.genfromtxt('communities_data.csv',  dtype=('U100',int,int,int,int,int), delimiter=',', skip_header = True)
+    communities_data = np.genfromtxt('communities_data.csv',  dtype=['U100',int,int,int,int,int], delimiter=',', skip_header = True)
 
     vets_data = np.genfromtxt('vets_data.csv',  dtype=('U100','U100',int), delimiter=',', skip_header = True)
+
+    # print(pets_data)
+    print(communities_data)
+    # print(vets_data)
 
     initial_pet_calculations = run_initial_pet_calculations(pets_data, communities_data, vets_data)
     
@@ -36,6 +40,32 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         Array listing each quadrants communities 
         List containing Calgary, quadrants then communities (for graphing and checking if valid usere input)
     '''
+    #TODO get a list of communities
+    # community_list = ['Calgary', 'NE', 'NW', 'SW', 'SE']
+    community_list, NE_communities, NW_communities, SW_communities, SE_communities = [], [], [], [], []
+    for x in communities_data:
+        community_list.append(x[0])
+        if x[5] == 1:
+            NE_communities.append(x[0])
+        elif x[5] == 2:
+            NW_communities.append(x[0])
+        elif x[5] == 3:
+            SW_communities.append(x[0])
+        elif x[5] == 4:
+            SE_communities.append(x[0])
+
+    # print(community_list)
+    # print(NE_communities)
+    # print(NW_communities)
+    # print(SW_communities)
+    # print(SE_communities)
+    
+    # quadrant_array = np.ndarray((4,), [NE_communities, NW_communities, SW_communities, SE_communities], dtype=str) #DOESNT WORK YET
+    # print(quadrant_array)
+
+
+   
+    pets_per_capita = {}
     pass
 
 #Main menu
