@@ -9,6 +9,10 @@ def main():
 
     vets_data = np.genfromtxt('vets_data.csv',  dtype=('U100','U100',int), delimiter=',', skip_header = True)
 
+    print(pets_data)
+    print(communities_data)
+    print(vets_data)
+
     initial_pet_calculations = run_initial_pet_calculations(pets_data, communities_data, vets_data)
 
     main_menu(pets_data, communities_data, vets_data,initial_pet_calculations)
