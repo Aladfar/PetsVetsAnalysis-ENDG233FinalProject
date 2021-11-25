@@ -1,6 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+class Neighborhood:
+    def __init__(self, name, population, pets_per_capita, vets):
+        self.name = name
+        self.population = population
+        self.pets_per_capita = pets_per_capita
+        self.vets = vets
+
 #Main Program
 def main():
     pets_data = np.genfromtxt('pets_data.csv',  dtype=('U100','U100','U100','U100',int), delimiter=',', skip_header = True)
