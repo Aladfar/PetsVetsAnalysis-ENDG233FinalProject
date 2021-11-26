@@ -17,14 +17,11 @@ def main():
 
     vets_data = np.genfromtxt('vets_data.csv',  dtype=('U1000','U1000',int), delimiter=',', skip_header = True)
 
-<<<<<<< Updated upstream
     # print(pets_data)
     print(communities_data)
     # print(vets_data)
     # print(pets_data[1][1])
 
-=======
->>>>>>> Stashed changes
     initial_pet_calculations = run_initial_pet_calculations(pets_data, communities_data, vets_data)
     
     print('Welcome to a program examining the pet and veterinarian distributions across Calgary\n')
