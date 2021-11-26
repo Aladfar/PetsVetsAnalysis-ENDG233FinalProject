@@ -17,11 +17,14 @@ def main():
 
     vets_data = np.genfromtxt('vets_data.csv',  dtype=('U1000','U1000',int), delimiter=',', skip_header = True)
 
+<<<<<<< Updated upstream
     # print(pets_data)
     # print(communities_data)
     # print(vets_data)
     # print(pets_data[1][1])
 
+=======
+>>>>>>> Stashed changes
     initial_pet_calculations = run_initial_pet_calculations(pets_data, communities_data, vets_data)
     
     print('Welcome to a program examining the pet and veterinarian distributions across Calgary\n')
@@ -163,18 +166,78 @@ def print_pets_menu():
 
 #Pets related functions
 def graph_income_vs_pets_by_capita(pets_data, communities_data, vets_data,initial_pet_calculations):
-    all_communities_income = {'a':9, 'b':4, 'c':5, 'd':6, 'e':7, 'f':8, 'g':1} #Placeholders
-    all_communities_cats_dogs = {'a':3, 'b':4, 'c':5, 'd':6, 'e':7, 'f':8, 'g':8} #Placeholders
-    all_communities_cats = {'a':2, 'b':2, 'c':4, 'd':5, 'e':8, 'f':0, 'g':2}
-    all_communities_dogs = {'a':4, 'b':6, 'c':7, 'd':8, 'e':3, 'f':4, 'g':2}
+    '''This function takes cats and dogs and income by community and graphs it
+    The x-axis is the communities ordered from poorest to richest
+    The x-axis is three lines, one for cats, one for dogs, one for cats and dogs
 
+    parameters:
+    UNCLEAR
+
+    returns: none
+
+        NOTES: Pretty much completed just needs correct incomes
+    '''
+    all_communities_income = {'a':9, 'b':4, 'c':5, 'd':6, 'e':7, 'f':8, 'g':8} #Placeholders
+    all_communities_cats_dogs = {'a':19, 'b':8, 'c':11, 'd':13, 'e':11, 'f':15, 'g':15} #Placeholders
+    all_communities_cats = {'a':10, 'b':2, 'c':6, 'd':9, 'e':8, 'f':13, 'g':7}
+    all_communities_dogs = {'a':9, 'b':6, 'c':5, 'd':4, 'e':3, 'f':2, 'g':8}
+
+    #This part pulls the income values, sorts them and then matches the communities back up with the incomes
     all_communities_sorted = {}
     income_sorted = sorted(all_communities_income.values())
     for sorted_income in income_sorted:
-        for community, income in all_communities_income.keys():
-            if income == income_sorted:
+        for community, income in all_communities_income.items():
+            if income == sorted_income:
                 all_communities_sorted[community] = income
-    print(all_communities_sorted)
+
+    #A list of the communities that has been sorted poorest to richest
+    income_x_axis_labels = list(all_communities_sorted.keys())
+
+    #Generates an order of numbers starting at 1 that has the same amount of numbers as then number of communities
+    income_x_axis_points = []
+    for i in range(len(income_x_axis_labels)):
+        income_x_axis_points.append(i+1)
+
+    #Creates the three y-axis data sets
+    cats_dogs_y_axis = []
+    cats_y_axis = []
+    dogs_y_axis = []
+    for community_sorted in all_communities_sorted.keys():
+        for community,population in all_communities_cats_dogs.items():
+            if community_sorted == community:
+                cats_dogs_y_axis.append(population)
+    for community_sorted in all_communities_sorted.keys():
+        for community,population in all_communities_cats.items():
+            if community_sorted == community:
+                cats_y_axis.append(population)
+    for community_sorted in all_communities_sorted.keys():
+        for community,population in all_communities_dogs.items():
+            if community_sorted == community:
+                dogs_y_axis.append(population)
+
+    #Graphs
+    FIGURE1 = 1
+
+    plt.figure(FIGURE1)
+
+    #Plots points
+    plt.plot(income_x_axis_points, cats_dogs_y_axis, 'bo--', label='Total Cats and Dogs') # Graphs all coordinates
+    plt.plot(income_x_axis_points, cats_y_axis, 'go--', label='Total Cats')
+    plt.plot(income_x_axis_points, dogs_y_axis, 'ro--', label='Total Dogs')
+
+    #Creates a title and a legends
+    plt.title('Pet Ownership Compared to Income')      
+    plt.xlabel('Communities (Ordered from lowest average income to highest)')
+    plt.ylabel('Number of pets')
+    plt.legend(shadow=True)
+
+    #Modifies x-axis labels
+    plt.xticks(income_x_axis_points, income_x_axis_labels)
+    
+    #Displays graph
+    plt.show()    
+
+    print('You are now being returned to the pet statistics menu')
 
     return
     
@@ -314,10 +377,10 @@ def vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
         user_input = input()
         if user_input == 'Pets Per Vet':
             graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets_data,initial_pet_calculations)
-            print_pets_menu()
+            print_vets_menu()
         elif user_input == 'Vets In Area': 
             vets_in_area(pets_data, communities_data, vets_data,initial_pet_calculations)
-            print_pets_menu()
+            print_vets_menu()
         elif user_input == 'Return':
             print()
             return
@@ -337,10 +400,50 @@ def print_vets_menu():
 
 #Pets related functions
 def graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets_data,initial_pet_calculations):
-    pass
+    '''This functions takes pet per capita and income data and compares it on the same graph
+
+    parameters:
+    UNCLEAR
+
+    returns: none
+
+    NOTES: Communities may be a tight fit
+    '''
+    all_communities_income = {'a':9, 'b':4, 'c':5, 'd':6, 'e':7, 'f':8, 'g':8} #Placeholders
+    all_communities_cats_dogs = {'a':19, 'b':8, 'c':11, 'd':13, 'e':11, 'f':15, 'g':15} #Placeholders
+
+    income_x_axis_labels = list(all_communities_income.keys())
+    #Generates an order of numbers starting at 1 that has the same amount of numbers as the number of communities
+    income_x_axis_points = []
+    for i in range(len(income_x_axis_labels)):
+        income_x_axis_points.append(i+1)
+
+    fig, ax1 = plt.subplots()
+    #Plots cat, dog points
+    ax1.plot(income_x_axis_points, all_communities_cats_dogs.values(), 'bo', label='Total Cats and Dogs') # Graphs all coordinates
+    ax1.set_ylabel('Pets per Vetrinarians if a New Vetrinarian Opened in Each Community', color='blue')
+
+    #Plots income points
+    ax2 = ax1.twinx()
+    ax2.plot(income_x_axis_points, all_communities_income.values(), 'go', label='Total Cats and Dogs') # Graphs all coordinates
+    ax2.set_ylabel('Average Income for Each Community', color='green')
+
+    #Creates a title and x-axis lables
+    plt.title('Pets per Vetrinarian and Income for Each Community')      
+    plt.xlabel('Communities')
+    plt.xticks(income_x_axis_points, income_x_axis_labels)
+
+    #Explains graph
+    plt.figtext(0.5, 0.01, "This graph is designed to identify the best locations to start a new veterinarian practice.\nThe left y-axis is designed to demonstrate where there would be a large market of pets.\nThe right y-axis demonstrates which communities have more money to pay for veterinarian services", ha="center", fontsize=12)
+
+    #Displays graph
+    plt.show()    
+
+    return
 
 def vets_in_area(pets_data, communities_data, vets_data,initial_pet_calculations):
     pass
+    
 
 if __name__ == '__main__':
     main()
