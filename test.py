@@ -56,6 +56,7 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     #TODO    Dictionary (or maybe array) pairing communities with their avergae income
     #TODO   Pets per vets if a new vet opened (vets in community + 1)
     # community_list = ['Calgary', 'NE', 'NW', 'SW', 'SE']
+    
     community_list, NE_communities, NW_communities, SW_communities, SE_communities = [], [], [], [], []
     for x in communities_data:
         community_list.append(x[0])
