@@ -98,7 +98,7 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         pets_per_cap[row[0]] = row[3] / communities_data[index][3]
         index += 1
 
-    print(cats_per_cap, dogs_per_cap, pets_per_cap)
+    print(dogs_per_cap)
 
     # print(community_list)
     # print(NE_communities)
