@@ -57,9 +57,11 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     print(pets_data)
     for x in pets_data:
         if x[0] == '2021-10-01':
+            pets_registration.append(x[2])
             pets_registration.append(x[4])
     pets_registration = np.array(pets_registration)
-    pets_registration = pets_registration.reshape((int(len(pets_registration)/2)), 2)
+    pets_registration = pets_registration.reshape((int(len(pets_registration)/4)), 4)
+    
     print(pets_registration)
         
         
@@ -156,8 +158,21 @@ def print_pets_menu():
 
 #Pets related functions
 def graph_income_vs_pets_by_capita(pets_data, communities_data, vets_data,initial_pet_calculations):
-    pass
+    all_communities_income = {'a':9, 'b':4, 'c':5, 'd':6, 'e':7, 'f':8, 'g':1} #Placeholders
+    all_communities_cats_dogs = {'a':3, 'b':4, 'c':5, 'd':6, 'e':7, 'f':8, 'g':8} #Placeholders
+    all_communities_cats = {'a':2, 'b':2, 'c':4, 'd':5, 'e':8, 'f':0, 'g':2}
+    all_communities_dogs = {'a':4, 'b':6, 'c':7, 'd':8, 'e':3, 'f':4, 'g':2}
 
+    all_communities_sorted = {}
+    income_sorted = sorted(all_communities_income.values())
+    for sorted_income in income_sorted:
+        for community, income in all_communities_income.keys():
+            if income == income_sorted:
+                all_communities_sorted[community] = income
+    print(all_communities_sorted)
+
+    return
+    
 def graph_time_vs_new_registration(pets_data, communities_data, vets_data,initial_pet_calculations):
     pass
 
