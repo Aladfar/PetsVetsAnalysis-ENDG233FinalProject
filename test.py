@@ -86,17 +86,22 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     pets_registration = np.array(pets_registration, dtype=dtp)          # Creates a structured array
     print(pets_registration)
     # print(pets_registration['Cats'])
-
-    
+    test_list = []
+    test_list2 = []
     #pets per capita
     print(np.shape(pets_registration))
     cats_per_cap, dogs_per_cap, pets_per_cap = {}, {}, {}
     index = 5
     for row in pets_registration:
-        cats_per_cap[row[0]] = row[1] / communities_data[index][3]
-        dogs_per_cap[row[0]] = row[2] / communities_data[index][3]
-        pets_per_cap[row[0]] = row[3] / communities_data[index][3]
+        population = communities_data[index][3]
+        cats_per_cap[row[0]] = row[1] / population
+        dogs_per_cap[row[0]] = row[2] / population
+        pets_per_cap[row[0]] = row[3] / population
         index += 1
+        test_list.append(population)
+        test_list2.append(row[0])
+    print('\n', test_list, '\n')
+    print('\n', test_list2, '\n')    
 
     print(dogs_per_cap)
 
