@@ -17,10 +17,10 @@ def main():
 
     vets_data = np.genfromtxt('vets_data.csv',  dtype=('U1000','U1000',int), delimiter=',', skip_header = True)
 
-    print(pets_data)
-    print(communities_data)
-    print(vets_data)
-    print(pets_data[1][1])
+    # print(pets_data)
+    # print(communities_data)
+    # print(vets_data)
+    # print(pets_data[1][1])
 
     initial_pet_calculations = run_initial_pet_calculations(pets_data, communities_data, vets_data)
     
@@ -52,19 +52,24 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     '''
     #TODO get a list of communities
     # community_list = ['Calgary', 'NE', 'NW', 'SW', 'SE']
-    pets_registration = []
+    pets_registration, combined_pets = [], []
 
-    print(pets_data)
+    # print(pets_data)
     for x in pets_data:
-        if x[0] == '2021-10-01':
+        if x[0] == '2021-10-01':                        #Gets the most recent cats and dogs registration data
             pets_registration.append(x[2])
             pets_registration.append(x[4])
-    pets_registration = np.array(pets_registration)
-    pets_registration = pets_registration.reshape((int(len(pets_registration)/4)), 4)
-    
+    pets_registration = np.array(pets_registration)                     #Creates a 1D array from the list
+    pets_registration = pets_registration.reshape((int(len(pets_registration)/4)), 4)   #Turns the 1D array into a 2D array with 4 columns and (1D Array Length / 4) Rows
+    pets_registration = np.delete(pets_registration, 2, 1)              #Deletes the third column (repeat of communtity name)
+    for x in pets_registration:
+        combined_pets.append(int(x[1]) + int(x[2]))
+    pets_registration = np.c_[pets_registration, combined_pets]       #Formatting is community, cats, dogs, combined total
+    pets_registration = list(zip(*pets_registration.T))
+    dtp = np.dtype([('Name', 'U100'), ('Cats', '>i4'), ('Dogs', '>i4'), ('Total', '>i4')])
+    pets_registration = np.array(pets_registration, dtype=dtp)          # Creates a structured array
     print(pets_registration)
-        
-        
+    print(pets_registration['Cats'])
 
     community_list, NE_communities, NW_communities, SW_communities, SE_communities = [], [], [], [], []
     for x in communities_data:
@@ -89,7 +94,7 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     # quadrant_array = np.ndarray((4,), [NE_communities, NW_communities, SW_communities, SE_communities], dtype=str) #DOESNT WORK YET
     # print(quadrant_array) 
     pets_per_capita = {}
-    pass
+    return pets_registration
 
 #Main menu
 def main_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
