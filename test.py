@@ -110,7 +110,7 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     # quadrant_array = np.ndarray((4,), [NE_communities, NW_communities, SW_communities, SE_communities], dtype=str) #DOESNT WORK YET
     # print(quadrant_array) 
     pets_per_capita = {}
-    return pets_registration
+    return pets_registration, cats_per_cap, dogs_per_cap, pets_per_cap
 
 #Main menu
 def main_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
