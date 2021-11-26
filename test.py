@@ -68,8 +68,8 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     pets_registration = list(zip(*pets_registration.T))
     dtp = np.dtype([('Name', 'U100'), ('Cats', '>i4'), ('Dogs', '>i4'), ('Total', '>i4')])
     pets_registration = np.array(pets_registration, dtype=dtp)          # Creates a structured array
-    print(pets_registration)
-    print(pets_registration['Cats'])
+    # print(pets_registration)
+    # print(pets_registration['Cats'])
 
     community_list, NE_communities, NW_communities, SW_communities, SE_communities = [], [], [], [], []
     for x in communities_data:
