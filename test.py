@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from numpy.lib.function_base import average
 
 class Neighborhood:
     def __init__(self, name, population, pets_per_capita, vets):
@@ -47,6 +48,7 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         Dictionary (or maybe array) pairing communities with pets per capita (for figure 2 and generating statistics)
         Array listing each quadrants communities 
         List containing Calgary, quadrants then communities (for graphing and checking if valid usere input)
+        Dictionary (or maybe array) pairing communities with their avergae income
     '''
     #TODO get a list of communities
     # community_list = ['Calgary', 'NE', 'NW', 'SW', 'SE']
@@ -263,18 +265,9 @@ def area_most_least_pets(pets_data, communities_data, vets_data,initial_pet_calc
                     num_of_pets_array_finding_min = np.where(num_of_pets_array_finding_min == min, 10000000, num_of_pets_array_finding_min)
         
         #Either ends this section of the code or repeats whole thing
-        print('\nPlease type Return to use other parts of the program else otherwise hit enter to learn more stats')
+        print('\nPlease type Return to use other parts of the program otherwise hit enter to learn more about the minimum and maximum number of pets for communities in Calgary')
         if input() == 'Return':
             return
-       
-
-    
-
-
-    
-    return
-
-
 
 def area_most_least_pets_capita(pets_data, communities_data, vets_data,initial_pet_calculations):
     pass
