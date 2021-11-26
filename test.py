@@ -49,6 +49,18 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     '''
     #TODO get a list of communities
     # community_list = ['Calgary', 'NE', 'NW', 'SW', 'SE']
+    pets_registration = []
+
+    print(pets_data)
+    for x in pets_data:
+        if x[0] == '2021-10-01':
+            pets_registration.append(x[4])
+    pets_registration = np.array(pets_registration)
+    pets_registration = pets_registration.reshape((int(len(pets_registration)/2)), 2)
+    print(pets_registration)
+        
+        
+
     community_list, NE_communities, NW_communities, SW_communities, SE_communities = [], [], [], [], []
     for x in communities_data:
         community_list.append(x[0])
@@ -67,10 +79,8 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     # print(SW_communities)
     # print(SE_communities)
 
-    pet_registration
+    # pet_registration
     
-
-
     # quadrant_array = np.ndarray((4,), [NE_communities, NW_communities, SW_communities, SE_communities], dtype=str) #DOESNT WORK YET
     # print(quadrant_array) 
     pets_per_capita = {}
