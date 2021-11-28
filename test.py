@@ -28,16 +28,7 @@ def main():
 
     main_menu(pets_data, communities_data, vets_data,initial_pet_calculations)
     return
-
-#Imports
-def import_pets_data():
-    pass
-
-def import_communities_data():
-    pass
-
-def import_vets_data():
-    pass
+#Coding Complete, docstring needed
 
 #Start of Program Calculations
 def run_initial_pet_calculations(pets_data, communities_data, vets_data):
@@ -117,6 +108,7 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     # print(quadrant_array) 
     pets_per_capita = {}
     return pets_registration, cats_per_cap, dogs_per_cap, pets_per_cap, community_list, NE_communities, NW_communities, SW_communities, SE_communities
+#In Progress
 
 #Main menu
 def main_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
@@ -134,6 +126,7 @@ def main_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
         else:
             print('That was an invalid entry. Please try again using one of the above options')
     return
+#Coding Complete, docstring needed
 
 def print_main_menu():
     print('This is the main menu. Please select one of the following options:\n')
@@ -141,6 +134,7 @@ def print_main_menu():
     print('{selection_option:>4} : {reason}'.format(selection_option = 'Vets', reason = 'To learn more about the veterinarian distribution in Calgary'))
     print('{selection_option:>4} : {reason}'.format(selection_option = 'End', reason = 'To end the program'))
     return
+#Coding Complete, docstring needed
 
 #Pets menu
 def pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
@@ -155,7 +149,7 @@ def pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
             graph_time_vs_new_registration(pets_data, communities_data, vets_data,initial_pet_calculations)
             print_pets_menu()
         elif user_input == 'Total Pets':
-            area_most_least_pets(pets_data, communities_data, vets_data,initial_pet_calculations)
+            area_most_least_pets_total(pets_data, communities_data, vets_data,initial_pet_calculations)
             print_pets_menu()
         elif user_input == 'Pets Per Capita':
             area_most_least_pets_capita(pets_data, communities_data, vets_data,initial_pet_calculations)
@@ -170,7 +164,7 @@ def pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
             exit()
         else:
             print('That was an invalid entry. Please try again using one of the above options')
-    
+#Coding Complete, docstring needed
 
 def print_pets_menu():
     print('This is the pet statistics menu. Please select one of the following options:\n')
@@ -182,6 +176,7 @@ def print_pets_menu():
     print('{selection_option:>15} : {reason}'.format(selection_option = 'Return', reason = 'To return to the main menu'))        
     print('{selection_option:>15} : {reason}'.format(selection_option = 'End', reason = 'To end the program'))
     return
+#Coding Complete, docstring needed
 
 #Pets related functions
 def graph_income_vs_pets_by_capita(pets_data, communities_data, vets_data,initial_pet_calculations):
@@ -259,16 +254,18 @@ def graph_income_vs_pets_by_capita(pets_data, communities_data, vets_data,initia
     print('You are now being returned to the pet statistics menu')
 
     return
-    
+#In Progress
+
 def graph_time_vs_new_registration(pets_data, communities_data, vets_data,initial_pet_calculations):
     pass
+#Not started
 
-def area_most_least_pets(initial_pet_calculations):
+def area_most_least_pets_total(initial_pet_calculations):
     '''This function allows the user to select cat, dog or both and quadrant of city.
-       This then causes the program to print out the three most animal populated communities and three least populated communities
-       The user is then given the choice to exit the function or do another selection
+       This then causes the program to print out the three most animal populated communities and three least populated communities.
+       The user is then given the choice to exit the function or do another selection.
 
-       This specific funtion generates the necesarry data for pets, calls upon a function to determine the user's selection, converts that to an array and then uses a second function to determine and print the max and mins
+       This specific funtion generates the necesarry data for pets, calls upon a function to determine the user's selection, converts that to an array and then uses a second function to determine and print the max and mins.
     
        parameters:
        initial_pet_calculations: A tuple containing many pieces of data. The ones used in this function and the ones it calls upon are
@@ -280,6 +277,7 @@ def area_most_least_pets(initial_pet_calculations):
 
        returns: none
     '''
+    #Converts 2-D array to three dictionaries that pair all communities with their cats, dogs, and cats and dogs combined
     all_pets_data = initial_pet_calculations[0]
     all_communities_cats, all_communities_dogs, all_communities_cats_dogs = {}, {}, {}
     for row in all_pets_data:
@@ -287,60 +285,92 @@ def area_most_least_pets(initial_pet_calculations):
         all_communities_dogs[row[0]] = row[2]
         all_communities_cats_dogs[row[0]] = row[3]
     
+    #Following part runs infinitely until user chooses to exit
     while True:
+        #Runs function that returns a dictionary with the only the area of Calgary the user specifies and the number per community for the type of pet the user specifies. Also returns what that quadrant is and the pet
         valid_communities_dict, area, animal = most_least_pets_step_1(all_communities_cats, all_communities_dogs, all_communities_cats_dogs, initial_pet_calculations)
 
-        #Creates array of just the valid animal population sizes based on the above conditions
+        #Creates array of just the valid animal population sizes based on a dictionary involving communities and pet numbers
         num_of_pets_array = np.fromiter(valid_communities_dict.values(), dtype=int)
         
+        #Runs function that uses the the num_of_pets_array and valid_communities_dict to generally determine the 3 highest and lowest pet populations for within the dictionary
         most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, animal , '')
     
         #Either ends this section of the code or repeats whole thing
         print('\nPlease type Return to use other parts of the program otherwise hit enter to learn more about the minimum and maximum number of pets for communities in Calgary')
         if input() == 'Return':
             return
+#Complete
 
-def area_most_least_pets_capita(pets_data, communities_data, vets_data,initial_pet_calculations):
+def area_most_least_pets_capita(initial_pet_calculations):
     '''This function allows the user to select cat, dog or both and quadrant of city.
-       This then causes the program to print out the three most animal populated communities and three least populated communities
-       The user is then given the choice to exit the function or do another selection
+       This then causes the program to print out the three most animal populated communities and three least populated communities per capita.
+       The user is then given the choice to exit the function or do another selection.
+
+       This specific funtion generates the necesarry data for pets, calls upon a function to determine the user's selection, converts that to an array and then uses a second function to determine and print the max and mins.
     
        parameters:
-       Unclear
+       initial_pet_calculations: A tuple containing many pieces of data. The ones used in this function and the ones it calls upon are
+            index 1: Dict. The keys are communities and the values are that communities cats per capita
+            index 2: Dict. The keys are communities and the values are that communities dogs per capita
+            index 3: Dict. The keys are communities and the values are that communities cats and dogs per capita
+            index 5: List. Contains all the communities in the NE
+            index 6: List. Contains all the communities in the NW
+            index 7: List. Contains all the communities in the SW
+            index 8: List. Contains all the communities in the SE
 
-       returns: 
-       
-       NOTES
-       Need to figure out inputs. Created for dictionary's but can be quickly converted to arrays. 
-       Acts very similar to pets by capita. Some use of shared functions will be helpful. For example, the second part of the code is exclusively dependent on 3-4 parameters
-
+       returns: none
     '''
+    #Creates three dictionaries that pair all communities with their cats, dogs, and cats and dogs combined per capita
     all_communities_cats_dogs = initial_pet_calculations[3] 
     all_communities_cats = initial_pet_calculations[1]
     all_communities_dogs = initial_pet_calculations[2]
 
     while True:    
-        
+        #Runs function that returns a dictionary with the only the area of Calgary the user specifies and the number per community for the type of pet the user specifies. Also returns what that quadrant is and the pet        
         valid_communities_dict, area, animal = most_least_pets_step_1(all_communities_cats, all_communities_dogs, all_communities_cats_dogs, initial_pet_calculations)
     
-        #Creates array of just the valid animal population sizes based on the above conditions
+        #Creates array of just the valid animal population sizes per capita based on a dictionary involving communities and pet numbers
         num_of_pets_array = np.fromiter(valid_communities_dict.values(), dtype=float)
         
+        #Runs function that uses the the num_of_pets_array and valid_communities_dict to generally determine the 3 highest and lowest pet populations per capita for within the dictionary
         most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, animal , ' per capita')
         
         #Either ends this section of the code or repeats whole thing
         print('\nPlease type Return to use other parts of the program otherwise hit enter to learn more about the minimum and maximum number of pets for communities in Calgary')
         if input() == 'Return':
             return
+#Complete
 
 def most_least_pets_step_1(all_communities_cats, all_communities_dogs, all_communities_cats_dogs, initial_pet_calculations):
+    '''This function is designed to take the users input for quadrant and type of pet and check if it is a valid input.
+    If valid, it will select one of the dictionaries that are passed into the function and modify it to match the user's input.
+    
+    parameters:
+    all_communities_cats: A dictionary with communities as the key and either total cat population or cats per capita specific to each community
+    all_communities_dogs: A dictionary with communities as the key and either total dog population or dogs per capita specific to each community    
+    all_communities_cats_dogs: A dictionary with communities as the key and either total cat and dog population or cats and dogs per capita specific to each community
+    initial_pet_calculations: A tuple containing many pieces of data. The ones used in this function are:
+        index 5: List. Contains all the communities in the NE
+        index 6: List. Contains all the communities in the NW
+        index 7: List. Contains all the communities in the SW
+        index 8: List. Contains all the communities in the SE
+
+    returns:
+    A tuple with multiple pieces of data. 
+        index 0: Dict. Contains only the communities the user wants as keys and the corresponding value for cats, dogs or cats and dogs based on what the user specifies
+        index 1: String. Contains either NE, NW, SE, SW or Calgary dependent on what the user selected
+        index 2: String. Contains either Cats, Dogs or Cats and Dogs dependent on what the user selected
+
+    '''
+    #Generates the list of communities for each quadrant
     northwest_communities = initial_pet_calculations[6]
     southwest_communities = initial_pet_calculations[7]
     northeast_communities = initial_pet_calculations[5]
     southeast_communities = initial_pet_calculations[8]
 
     
-    #Gathers input to determine animal to look into
+    #Gathers input to determine animal to look into. Prints out a menu, requests input. If valid it sets all_communities_with_selected_pet_type to that pets dictionary otherwise prompts user to re-enter input
     print('\nPlease select whether you would like to learn more about cats, dogs, or total cats and dogs within Calgary')
     print('{selection_option:>13} : {reason}'.format(selection_option = 'Cats', reason = 'To learn more about the most and least cats'))
     print('{selection_option:>13} : {reason}'.format(selection_option = 'Dogs', reason = 'To learn more about the most and least dogs'))
@@ -359,7 +389,7 @@ def most_least_pets_step_1(all_communities_cats, all_communities_dogs, all_commu
         else: 
             print('That was an invalid entry. Please try again using one of the above options')
     
-    #Gathers input to determine where in Calgary
+    #Gathers input to determine where in Calgary. Prints out a menu, requests input. If valid it sets adds only the pairs from all_communities_with_selected_pet_type to valid_communities_dict if the community in the pair is within that area of Calgary otherwise prompts user to re-enter input
     print('\nPlease select whether where in Calgary you would like to learn more about this pet')
     print('{selection_option:>7} : {reason}'.format(selection_option = 'Calgary', reason = 'To learn more about the pets in all of Calgary'))
     print('{selection_option:>7} : {reason}'.format(selection_option = 'NE', reason = 'To learn more about the pets in the North-East'))
@@ -398,49 +428,75 @@ def most_least_pets_step_1(all_communities_cats, all_communities_dogs, all_commu
         else: 
             print('That was an invalid entry. Please try again using one of the above options')
     return valid_communities_dict, area, animal
+#Complete
 
 def most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, animal, capita_vs_sum):
+    '''This function is designed to take the users input for quadrant and type of pet and check if it is a valid input.
+    If valid, it will select one of the dictionaries that are passed into the function and modify it to match the user's input.
+    
+    parameters:
+    num_of_pets_array: A 1D array that contains all the pet populations in the same order as valid_communities dict. Int if called from most_least_pets_total, float if called from most_least_pets_capita
+    valid_communities_dict: A dictionary that has a set of communities as keys and then their corresponding pet populations as values
+    area: A string that contains either NE, NW, SE, SW or Calgary dependent on what the user selected
+    animal: A string that contains either Cats, Dogs or Cats and Dogs depenent on what the user selected
+    capita_vs_sum: A string used to determine whether this function is called from most_least_pets_total or most_least_pets_capita. It is blank for most_lest_pets_total but says ' per capita' for most_least_pets_capita
+
+    returns: none
+    '''
 
     #Finds top three max's
-    print('The communities in the {} with the most {}{}:'.format(area, animal.lower(), capita_vs_sum))
+    print('The communities in the {} with the most {}{}:'.format(area, animal.lower(), capita_vs_sum)) #Specifies the area and the pet the program looks at and indicates if it is per capita
+
     number_max_found = 0
+    #Creates an array that can be modified without impacting the original
     num_of_pets_array_finding_max = np.copy(num_of_pets_array)
-        
+
+    #Runs until 3 or more communities are found and printed    
     while number_max_found < 3:
         index = -1
+        #Finds max in current set of data
         num_of_pets_max = np.amax(num_of_pets_array_finding_max)
         for community, max in valid_communities_dict.items():
             index += 1
             if max == num_of_pets_max:
                 number_max_found += 1
+                #Once max is found, prints it out with the community and animal. If this is for the per capita function that is specified and the max is multiplied 100 to set it to per 100 people
                 if capita_vs_sum == ' per capita':
                     print('{} with {:.2f} {} per 100 people'.format(community, max * 100, animal))
                 else:
                     print('{} with {} {}'.format(community, max, animal))
+                #The array is modified such that the max found is replaced with -1. Therefore a new number will now be the max when this section loops
                 num_of_pets_array_finding_max = np.where(num_of_pets_array_finding_max == max, -1, num_of_pets_array_finding_max)
         
     #Find bottom three min's
     print('\nThe communities in the {} with the least {}{}:'.format(area, animal.lower(), capita_vs_sum))
+    
     number_min_found = 0
+    #Creates an array that can be modified without impacting the original
     num_of_pets_array_finding_min = np.copy(num_of_pets_array)
 
+    #Runs until 3 or more communities are found and printed    
     while number_min_found < 3:
         index = -1
+        #Finds min in current set of data
         num_of_pets_min= np.amin(num_of_pets_array_finding_min)
         for community, min in valid_communities_dict.items():
             index += 1
             if min == num_of_pets_min:
                 number_min_found += 1
+                #Once min is found, prints it out with the community and animal. If this is for the per capita function that is specified and the min is multiplied 100 to set it to per 100 people
                 if capita_vs_sum == ' per capita':
                     print('{} with {:.2f} {} per 100 people'.format(community, min * 100, animal))
                 else:
                     print('{} with {} {}'.format(community, min, animal))
+                #The array is modified such that the min found is replaced with 10000000. Therefore a new number will now be the min when this section loops
                 num_of_pets_array_finding_min = np.where(num_of_pets_array_finding_min == min, 10000000, num_of_pets_array_finding_min)
     return
-     
+#Complete   
 
 def pets_info (pets_data, communities_data, vets_data,initial_pet_calculations):
     pass
+#Not started
 
 #Vets menu
 def vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
@@ -461,7 +517,7 @@ def vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
             exit()
         else:
             print('That was an invalid entry. Please try again using one of the above options')
-    
+#Coding Complete, docstring needed
 
 def print_vets_menu():
     print('This is the veterinarian statistics menu. Please select one of the following options:\n')
@@ -470,6 +526,7 @@ def print_vets_menu():
     print('{selection_option:>12} : {reason}'.format(selection_option = 'Return', reason = 'To return to the main menu'))        
     print('{selection_option:>12} : {reason}'.format(selection_option = 'End', reason = 'To end the program'))
     return
+#Coding Complete, docstring needed
 
 #Pets related functions
 def graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets_data,initial_pet_calculations):
@@ -513,10 +570,12 @@ def graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets
     plt.show()    
 
     return
+#In Progress
 
 def vets_in_area(pets_data, communities_data, vets_data,initial_pet_calculations):
     pass
-    
+#Not started    
 
 if __name__ == '__main__':
     main()
+#Complete    
