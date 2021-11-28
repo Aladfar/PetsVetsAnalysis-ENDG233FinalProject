@@ -263,120 +263,38 @@ def graph_income_vs_pets_by_capita(pets_data, communities_data, vets_data,initia
 def graph_time_vs_new_registration(pets_data, communities_data, vets_data,initial_pet_calculations):
     pass
 
-def area_most_least_pets(pets_data, communities_data, vets_data,initial_pet_calculations):
+def area_most_least_pets(initial_pet_calculations):
     '''This function allows the user to select cat, dog or both and quadrant of city.
        This then causes the program to print out the three most animal populated communities and three least populated communities
        The user is then given the choice to exit the function or do another selection
+
+       This specific funtion generates the necesarry data for pets, calls upon a function to determine the user's selection, converts that to an array and then uses a second function to determine and print the max and mins
     
        parameters:
-       Unclear
+       initial_pet_calculations: A tuple containing many pieces of data. The ones used in this function and the ones it calls upon are
+            index 0: 2D array. Col. 0 is all communities, Col. 1 is total cats, Col.2 is total dogs, Col.3 is total cats and dogs
+            index 5: List. Contains all the communities in the NE
+            index 6: List. Contains all the communities in the NW
+            index 7: List. Contains all the communities in the SW
+            index 8: List. Contains all the communities in the SE
 
-       returns: 
-       
-       NOTES
-       Need to figure out inputs. Created for dictionary's but can be quickly converted to arrays. 
-       Acts very similar to pets by capita. Some use of shared functions will be helpful. For example, the second part of the code is exclusively dependent on 3-4 parameters
-
+       returns: none
     '''
-    all_communities_cats_dogs = initial_pet_calculations[3] #Placeholders
-    all_communities_cats = initial_pet_calculations[2]
-    all_communities_dogs = initial_pet_calculations[1]
-    northwest_communities = initial_pet_calculations[6]
-    southwest_communities = initial_pet_calculations[7]
-    northeast_communities = initial_pet_calculations[5]
-    southeast_communities = initial_pet_calculations[8]
-
+    all_pets_data = initial_pet_calculations[0]
+    all_communities_cats, all_communities_dogs, all_communities_cats_dogs = {}, {}, {}
+    for row in all_pets_data:
+        all_communities_cats[row[0]] = row[1]
+        all_communities_dogs[row[0]] = row[2]
+        all_communities_cats_dogs[row[0]] = row[3]
+    
     while True:
-        #Gathers input to determine animal to look into
-        print('\nPlease select whether you would like to learn more about cats, dogs, or total cats and dogs within Calgary')
-        print('{selection_option:>13} : {reason}'.format(selection_option = 'Cats', reason = 'To learn more about the most and least cats'))
-        print('{selection_option:>13} : {reason}'.format(selection_option = 'Dogs', reason = 'To learn more about the most and least dogs'))
-        print('{selection_option:>13} : {reason}'.format(selection_option = 'Cats and Dogs', reason = 'To learn more about the most and least cats and dogs'))
-        while True:
-            animal = input()
-            if animal == 'Cats':
-                all_communities_with_selected_pet_type = all_communities_cats
-                break
-            elif animal == 'Dogs':
-                all_communities_with_selected_pet_type = all_communities_dogs
-                break
-            elif animal == 'Cats and Dogs':
-                all_communities_with_selected_pet_type = all_communities_cats_dogs
-                break
-            else: 
-                print('That was an invalid entry. Please try again using one of the above options')
-        
-        #Gathers input to determine where in Calgary
-        print('\nPlease select whether where in Calgary you would like to learn more about this pet')
-        print('{selection_option:>7} : {reason}'.format(selection_option = 'Calgary', reason = 'To learn more about the pets in all of Calgary'))
-        print('{selection_option:>7} : {reason}'.format(selection_option = 'NE', reason = 'To learn more about the pets in the North-East'))
-        print('{selection_option:>7} : {reason}'.format(selection_option = 'NW', reason = 'To learn more about the pets in the North-West'))
-        print('{selection_option:>7} : {reason}'.format(selection_option = 'SW', reason = 'To learn more about the pets in the South-West'))
-        print('{selection_option:>7} : {reason}'.format(selection_option = 'NE', reason = 'To learn more about the pets in the North-East'))
-        while True:
-            area = input()
-            if area == 'Calgary':
-                valid_communities_dict = all_communities_with_selected_pet_type
-                break
-            elif area == 'NE':
-                valid_communities_dict = {}
-                for community,pets in all_communities_with_selected_pet_type.items():
-                    if community in northeast_communities:
-                        valid_communities_dict[community] = pets
-                break
-            elif area == 'NW':
-                valid_communities_dict = {}
-                for community,pets in all_communities_with_selected_pet_type.items():
-                    if community in northwest_communities:
-                        valid_communities_dict[community] = pets
-                break
-            elif area == 'SW':
-                valid_communities_dict = {}
-                for community,pets in all_communities_with_selected_pet_type.items():
-                    if community in southwest_communities:
-                        valid_communities_dict[community] = pets
-                break
-            elif area == 'SE':
-                valid_communities_dict = {}
-                for community,pets in all_communities_with_selected_pet_type.items():
-                    if community in southeast_communities:
-                        valid_communities_dict[community] = pets
-                break
-            else: 
-                print('That was an invalid entry. Please try again using one of the above options')
-        
+        valid_communities_dict, area, animal = most_least_pets_step_1(all_communities_cats, all_communities_dogs, all_communities_cats_dogs, initial_pet_calculations)
+
         #Creates array of just the valid animal population sizes based on the above conditions
         num_of_pets_array = np.fromiter(valid_communities_dict.values(), dtype=int)
         
-        #Finds top three max's
-        print('The 3 communities in the {} with the most {}:'.format(area, animal.lower()))
-        number_max_found = 0
-        num_of_pets_array_finding_max = np.copy(num_of_pets_array)
-        
-        while number_max_found < 3:
-            index = -1
-            num_of_pets_max = np.amax(num_of_pets_array_finding_max)
-            for community, max in valid_communities_dict.items():
-                index += 1
-                if max == num_of_pets_max:
-                    number_max_found += 1
-                    print('{} with {} {}'.format(community, max, animal))
-                    num_of_pets_array_finding_max = np.where(num_of_pets_array_finding_max == max, -1, num_of_pets_array_finding_max)
-        
-        #Find bottom three min's
-        print('\nThe 3 communities in the {} with the least {}:'.format(area, animal.lower()))
-        number_min_found = 0
-        num_of_pets_array_finding_min = np.copy(num_of_pets_array)
-        while number_min_found < 3:
-            index = -1
-            num_of_pets_min= np.amin(num_of_pets_array_finding_min)
-            for community, min in valid_communities_dict.items():
-                index += 1
-                if min == num_of_pets_min:
-                    number_min_found += 1
-                    print('{} with {} {}'.format(community, min, animal))
-                    num_of_pets_array_finding_min = np.where(num_of_pets_array_finding_min == min, 10000000, num_of_pets_array_finding_min)
-        
+        most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, animal , '')
+    
         #Either ends this section of the code or repeats whole thing
         print('\nPlease type Return to use other parts of the program otherwise hit enter to learn more about the minimum and maximum number of pets for communities in Calgary')
         if input() == 'Return':
@@ -400,106 +318,126 @@ def area_most_least_pets_capita(pets_data, communities_data, vets_data,initial_p
     all_communities_cats_dogs = initial_pet_calculations[3] 
     all_communities_cats = initial_pet_calculations[1]
     all_communities_dogs = initial_pet_calculations[2]
-    northwest_communities = initial_pet_calculations[6]
-    southwest_communities = initial_pet_calculations[7]
-    northeast_communities = initial_pet_calculations[5]
-    southeast_communities = initial_pet_calculations[8]
 
-    while True:
-        #Gathers input to determine animal to look into
-        print('\nPlease select whether you would like to learn more about cats, dogs, or total cats and dogs within Calgary')
-        print('{selection_option:>13} : {reason}'.format(selection_option = 'Cats', reason = 'To learn more about the most and least cats'))
-        print('{selection_option:>13} : {reason}'.format(selection_option = 'Dogs', reason = 'To learn more about the most and least dogs'))
-        print('{selection_option:>13} : {reason}'.format(selection_option = 'Cats and Dogs', reason = 'To learn more about the most and least cats and dogs'))
-        while True:
-            animal = input()
-            if animal == 'Cats':
-                all_communities_with_selected_pet_type = all_communities_cats
-                break
-            elif animal == 'Dogs':
-                all_communities_with_selected_pet_type = all_communities_dogs
-                break
-            elif animal == 'Cats and Dogs':
-                all_communities_with_selected_pet_type = all_communities_cats_dogs
-                break
-            else: 
-                print('That was an invalid entry. Please try again using one of the above options')
+    while True:    
         
-        #Gathers input to determine where in Calgary
-        print('\nPlease select whether where in Calgary you would like to learn more about this pet')
-        print('{selection_option:>7} : {reason}'.format(selection_option = 'Calgary', reason = 'To learn more about the pets in all of Calgary'))
-        print('{selection_option:>7} : {reason}'.format(selection_option = 'NE', reason = 'To learn more about the pets in the North-East'))
-        print('{selection_option:>7} : {reason}'.format(selection_option = 'NW', reason = 'To learn more about the pets in the North-West'))
-        print('{selection_option:>7} : {reason}'.format(selection_option = 'SW', reason = 'To learn more about the pets in the South-West'))
-        print('{selection_option:>7} : {reason}'.format(selection_option = 'NE', reason = 'To learn more about the pets in the North-East'))
-        while True:
-            area = input()
-            if area == 'Calgary':
-                valid_communities_dict = all_communities_with_selected_pet_type
-                break
-            elif area == 'NE':
-                valid_communities_dict = {}
-                for community,pets in all_communities_with_selected_pet_type.items():
-                    if community in northeast_communities:
-                        valid_communities_dict[community] = pets
-                break
-            elif area == 'NW':
-                valid_communities_dict = {}
-                for community,pets in all_communities_with_selected_pet_type.items():
-                    if community in northwest_communities:
-                        valid_communities_dict[community] = pets
-                break
-            elif area == 'SW':
-                valid_communities_dict = {}
-                for community,pets in all_communities_with_selected_pet_type.items():
-                    if community in southwest_communities:
-                        valid_communities_dict[community] = pets
-                break
-            elif area == 'SE':
-                valid_communities_dict = {}
-                for community,pets in all_communities_with_selected_pet_type.items():
-                    if community in southeast_communities:
-                        valid_communities_dict[community] = pets
-                break
-            else: 
-                print('That was an invalid entry. Please try again using one of the above options')
-        
+        valid_communities_dict, area, animal = most_least_pets_step_1(all_communities_cats, all_communities_dogs, all_communities_cats_dogs, initial_pet_calculations)
+    
         #Creates array of just the valid animal population sizes based on the above conditions
         num_of_pets_array = np.fromiter(valid_communities_dict.values(), dtype=float)
         
-        #Finds top three max's
-        print('The 3 communities in the {} with the most {} per capita:'.format(area, animal.lower()))
-        number_max_found = 0
-        num_of_pets_array_finding_max = np.copy(num_of_pets_array)
-        
-        while number_max_found < 3:
-            index = -1
-            num_of_pets_max = np.amax(num_of_pets_array_finding_max)
-            for community, max in valid_communities_dict.items():
-                index += 1
-                if max == num_of_pets_max:
-                    number_max_found += 1
-                    print('{} with {:.1f} {} per 100 people'.format(community, max*100, animal))
-                    num_of_pets_array_finding_max = np.where(num_of_pets_array_finding_max == max, -1, num_of_pets_array_finding_max)
-        
-        #Find bottom three min's
-        print('\nThe 3 communities in the {} with the least {}:'.format(area, animal.lower()))
-        number_min_found = 0
-        num_of_pets_array_finding_min = np.copy(num_of_pets_array)
-        while number_min_found < 3:
-            index = -1
-            num_of_pets_min= np.amin(num_of_pets_array_finding_min)
-            for community, min in valid_communities_dict.items():
-                index += 1
-                if min == num_of_pets_min:
-                    number_min_found += 1
-                    print('{} with {:.1f} {} per 100 people'.format(community, min*100, animal))
-                    num_of_pets_array_finding_min = np.where(num_of_pets_array_finding_min == min, 10000000, num_of_pets_array_finding_min)
+        most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, animal , ' per capita')
         
         #Either ends this section of the code or repeats whole thing
         print('\nPlease type Return to use other parts of the program otherwise hit enter to learn more about the minimum and maximum number of pets for communities in Calgary')
         if input() == 'Return':
             return
+
+def most_least_pets_step_1(all_communities_cats, all_communities_dogs, all_communities_cats_dogs, initial_pet_calculations):
+    northwest_communities = initial_pet_calculations[6]
+    southwest_communities = initial_pet_calculations[7]
+    northeast_communities = initial_pet_calculations[5]
+    southeast_communities = initial_pet_calculations[8]
+
+    
+    #Gathers input to determine animal to look into
+    print('\nPlease select whether you would like to learn more about cats, dogs, or total cats and dogs within Calgary')
+    print('{selection_option:>13} : {reason}'.format(selection_option = 'Cats', reason = 'To learn more about the most and least cats'))
+    print('{selection_option:>13} : {reason}'.format(selection_option = 'Dogs', reason = 'To learn more about the most and least dogs'))
+    print('{selection_option:>13} : {reason}'.format(selection_option = 'Cats and Dogs', reason = 'To learn more about the most and least cats and dogs'))
+    while True:
+        animal = input()
+        if animal == 'Cats':
+            all_communities_with_selected_pet_type = all_communities_cats
+            break
+        elif animal == 'Dogs':
+            all_communities_with_selected_pet_type = all_communities_dogs
+            break
+        elif animal == 'Cats and Dogs':
+            all_communities_with_selected_pet_type = all_communities_cats_dogs
+            break
+        else: 
+            print('That was an invalid entry. Please try again using one of the above options')
+    
+    #Gathers input to determine where in Calgary
+    print('\nPlease select whether where in Calgary you would like to learn more about this pet')
+    print('{selection_option:>7} : {reason}'.format(selection_option = 'Calgary', reason = 'To learn more about the pets in all of Calgary'))
+    print('{selection_option:>7} : {reason}'.format(selection_option = 'NE', reason = 'To learn more about the pets in the North-East'))
+    print('{selection_option:>7} : {reason}'.format(selection_option = 'NW', reason = 'To learn more about the pets in the North-West'))
+    print('{selection_option:>7} : {reason}'.format(selection_option = 'SW', reason = 'To learn more about the pets in the South-West'))
+    print('{selection_option:>7} : {reason}'.format(selection_option = 'NE', reason = 'To learn more about the pets in the North-East'))
+    while True:
+        area = input()
+        if area == 'Calgary':
+            valid_communities_dict = all_communities_with_selected_pet_type
+            break
+        elif area == 'NE':
+            valid_communities_dict = {}
+            for community,pets in all_communities_with_selected_pet_type.items():
+                if community in northeast_communities:
+                    valid_communities_dict[community] = pets
+            break
+        elif area == 'NW':
+            valid_communities_dict = {}
+            for community,pets in all_communities_with_selected_pet_type.items():
+                if community in northwest_communities:
+                    valid_communities_dict[community] = pets
+            break
+        elif area == 'SW':
+            valid_communities_dict = {}
+            for community,pets in all_communities_with_selected_pet_type.items():
+                if community in southwest_communities:
+                    valid_communities_dict[community] = pets
+            break
+        elif area == 'SE':
+            valid_communities_dict = {}
+            for community,pets in all_communities_with_selected_pet_type.items():
+                if community in southeast_communities:
+                    valid_communities_dict[community] = pets
+            break
+        else: 
+            print('That was an invalid entry. Please try again using one of the above options')
+    return valid_communities_dict, area, animal
+
+def most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, animal, capita_vs_sum):
+
+    #Finds top three max's
+    print('The communities in the {} with the most {}{}:'.format(area, animal.lower(), capita_vs_sum))
+    number_max_found = 0
+    num_of_pets_array_finding_max = np.copy(num_of_pets_array)
+        
+    while number_max_found < 3:
+        index = -1
+        num_of_pets_max = np.amax(num_of_pets_array_finding_max)
+        for community, max in valid_communities_dict.items():
+            index += 1
+            if max == num_of_pets_max:
+                number_max_found += 1
+                if capita_vs_sum == ' per capita':
+                    print('{} with {:.2f} {} per 100 people'.format(community, max * 100, animal))
+                else:
+                    print('{} with {} {}'.format(community, max, animal))
+                num_of_pets_array_finding_max = np.where(num_of_pets_array_finding_max == max, -1, num_of_pets_array_finding_max)
+        
+    #Find bottom three min's
+    print('\nThe communities in the {} with the least {}{}:'.format(area, animal.lower(), capita_vs_sum))
+    number_min_found = 0
+    num_of_pets_array_finding_min = np.copy(num_of_pets_array)
+
+    while number_min_found < 3:
+        index = -1
+        num_of_pets_min= np.amin(num_of_pets_array_finding_min)
+        for community, min in valid_communities_dict.items():
+            index += 1
+            if min == num_of_pets_min:
+                number_min_found += 1
+                if capita_vs_sum == ' per capita':
+                    print('{} with {:.2f} {} per 100 people'.format(community, min * 100, animal))
+                else:
+                    print('{} with {} {}'.format(community, min, animal))
+                num_of_pets_array_finding_min = np.where(num_of_pets_array_finding_min == min, 10000000, num_of_pets_array_finding_min)
+    return
+     
 
 def pets_info (pets_data, communities_data, vets_data,initial_pet_calculations):
     pass
