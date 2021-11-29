@@ -1,13 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy.lib.function_base import average
+# from numpy.lib.function_base import average
 
 class Neighborhood:
     def __init__(self, name, population, pets_per_capita, vets):
         self.name = name
         self.population = population
         self.pets_per_capita = pets_per_capita
-        self.vets = vets
 
 #Main Program
 def main():
@@ -143,16 +142,16 @@ def pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
     while True:
         user_input = input()
         if user_input == 'Income':
-            graph_income_vs_pets_by_capita(pets_data, communities_data, vets_data,initial_pet_calculations)
+            graph_income_vs_pets_by_capita(communities_data,initial_pet_calculations)
             print_pets_menu()
         elif user_input == 'Registration': 
             graph_time_vs_new_registration(pets_data, communities_data, vets_data,initial_pet_calculations)
             print_pets_menu()
         elif user_input == 'Total Pets':
-            area_most_least_pets_total(pets_data, communities_data, vets_data,initial_pet_calculations)
+            area_most_least_pets_total(initial_pet_calculations)
             print_pets_menu()
         elif user_input == 'Pets Per Capita':
-            area_most_least_pets_capita(pets_data, communities_data, vets_data,initial_pet_calculations)
+            area_most_least_pets_capita(initial_pet_calculations)
             print_pets_menu()
         elif user_input == 'Area Info':
             pets_info(pets_data, communities_data, vets_data,initial_pet_calculations)
@@ -179,22 +178,33 @@ def print_pets_menu():
 #Coding Complete, docstring needed
 
 #Pets related functions
-def graph_income_vs_pets_by_capita(pets_data, communities_data, vets_data,initial_pet_calculations):
+def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
     '''This function takes cats and dogs and income by community and graphs it
     The x-axis is the communities ordered from poorest to richest
-    The x-axis is three lines, one for cats, one for dogs, one for cats and dogs
+    The x-axis is three lines, one for cats, one for dogs, one for cats and dogs. It displays all points as well as a line of best fit
 
     parameters:
-    UNCLEAR
-
+    communities_data: A 1-D array. Each row contains a tuple of data. The significant parts in each tuple is column 0 is community name and column 1 is income
+    initial_pet_calculations: A tuple containing many pieces of data. The ones used in this function and the ones it calls upon are
+        index 1: Dict. The keys are communities and the values are that communities cats per capita
+        index 2: Dict. The keys are communities and the values are that communities dogs per capita
+        index 3: Dict. The keys are communities and the values are that communities cats and dogs per capita
+    
     returns: none
-
-        NOTES: Pretty much completed just needs correct incomes
     '''
-    all_communities_income = {'a':9, 'b':4, 'c':5, 'd':6, 'e':7, 'f':8, 'g':8} #Placeholders
-    all_communities_cats_dogs = {'a':19, 'b':8, 'c':11, 'd':13, 'e':11, 'f':15, 'g':15} #Placeholders
-    all_communities_cats = {'a':10, 'b':2, 'c':6, 'd':9, 'e':8, 'f':13, 'g':7}
-    all_communities_dogs = {'a':9, 'b':6, 'c':5, 'd':4, 'e':3, 'f':2, 'g':8}
+    # Generates a dictionary pairing just communities with their average income using the dataset all_communities_income
+    all_communities_income = {}
+    for row in communities_data:
+        all_communities_income[row[0]] = row[1]
+    all_communities_income.pop('NE')
+    all_communities_income.pop('NW')
+    all_communities_income.pop('SE')
+    all_communities_income.pop('SW')
+    all_communities_income.pop('Calgary')
+
+    all_communities_cats_dogs = initial_pet_calculations[3] 
+    all_communities_cats = initial_pet_calculations[1]
+    all_communities_dogs = initial_pet_calculations[2]
 
     #This part pulls the income values, sorts them and then matches the communities back up with the incomes
     all_communities_sorted = {}
@@ -219,42 +229,64 @@ def graph_income_vs_pets_by_capita(pets_data, communities_data, vets_data,initia
     for community_sorted in all_communities_sorted.keys():
         for community,population in all_communities_cats_dogs.items():
             if community_sorted == community:
-                cats_dogs_y_axis.append(population)
+                cats_dogs_y_axis.append(population * 100)
     for community_sorted in all_communities_sorted.keys():
         for community,population in all_communities_cats.items():
             if community_sorted == community:
-                cats_y_axis.append(population)
+                cats_y_axis.append(population * 100)
     for community_sorted in all_communities_sorted.keys():
         for community,population in all_communities_dogs.items():
             if community_sorted == community:
-                dogs_y_axis.append(population)
+                dogs_y_axis.append(population * 100)
 
     #Graphs
     FIGURE1 = 1
 
     plt.figure(FIGURE1)
 
-    #Plots points
-    plt.plot(income_x_axis_points, cats_dogs_y_axis, 'bo--', label='Total Cats and Dogs') # Graphs all coordinates
-    plt.plot(income_x_axis_points, cats_y_axis, 'go--', label='Total Cats')
-    plt.plot(income_x_axis_points, dogs_y_axis, 'ro--', label='Total Dogs')
+    #Converted to numpy's to fit np.polyfit() rquirements
+    income_x_axis_points_numpy = np.array(income_x_axis_points)
+    cats_dogs_y_axis_numpy = np.array(cats_dogs_y_axis)    
+    cats_y_axis_numpy = np.array(cats_y_axis)    
+    dogs_y_axis_numpy = np.array(dogs_y_axis)    
 
-    #Creates a title and a legends
+    # Graphs cats and dogs. np.polyfit() takes the x-points and y-points and returns a line of best fit as a1, b1, c1 in the form y=ax^2+bx+c. That line is then graphed as well as the points themselves
+    a1, b1, c1 = np.polyfit(income_x_axis_points_numpy, cats_dogs_y_axis_numpy, 2)
+    plt.plot(income_x_axis_points_numpy, income_x_axis_points_numpy * income_x_axis_points_numpy * a1 + income_x_axis_points_numpy * b1 + c1, 'b')
+    plt.plot(income_x_axis_points, cats_dogs_y_axis, 'bo', label='Cats and Dogs per 100 People')
+    
+    # Graphs cats. np.polyfit() takes the x-points and y-points and returns a line of best fit as a2, b2, c2 in the form y=ax^2+bx+c. That line is then graphed as well as the points themselves
+    a2, b2, c2 = np.polyfit(income_x_axis_points_numpy, cats_y_axis_numpy, 2)
+    plt.plot(income_x_axis_points_numpy, income_x_axis_points_numpy * income_x_axis_points_numpy * a2 + income_x_axis_points_numpy * b2 + c2, 'g')
+    plt.plot(income_x_axis_points, cats_y_axis, 'go', label='Total Cat per 100 Peoples')
+    
+    # Graphs dogs. np.polyfit() takes the x-points and y-points and returns a line of best fit as a3, b3, c3 in the form y=ax^2+bx+c. That line is then graphed as well as the points themselves
+    a3, b3, c3 = np.polyfit(income_x_axis_points_numpy, dogs_y_axis_numpy, 2)
+    plt.plot(income_x_axis_points_numpy, income_x_axis_points_numpy * income_x_axis_points_numpy * a3 + income_x_axis_points_numpy * b3 + c3, 'r')
+    plt.plot(income_x_axis_points, dogs_y_axis, 'ro', label='Total Dogs per 100 People')
+
+    #Creates titles and a legend
     plt.title('Pet Ownership Compared to Income')      
     plt.xlabel('Communities (Ordered from lowest average income to highest)')
-    plt.ylabel('Number of pets')
+    plt.ylabel('Number of pets per 100 people')
     plt.legend(shadow=True)
 
-    #Modifies x-axis labels
-    plt.xticks(income_x_axis_points, income_x_axis_labels)
+    #Modifies x-axis labels 
+    plt.xticks(income_x_axis_points, income_x_axis_labels) #Used to display the community name instead of an integer
+    plt.xticks(rotation=90, fontsize=6) #Used to rotate the labels vertically and reduce their size to allow to accomodate for the cramped space
+    plt.xlim(0, len(cats_dogs_y_axis)+1)  #Used to set the lower and upped bounds for the display of the x-axis
+
     
-    #Displays graph
+    #Allows for slightly better viewing of the graph and ensures the x-title can be seen
+    plt.tight_layout()
+
+    #Shows graph
     plt.show()    
 
     print('You are now being returned to the pet statistics menu')
 
     return
-#In Progress
+#Complete
 
 def graph_time_vs_new_registration(pets_data, communities_data, vets_data,initial_pet_calculations):
     pass
@@ -395,7 +427,7 @@ def most_least_pets_step_1(all_communities_cats, all_communities_dogs, all_commu
     print('{selection_option:>7} : {reason}'.format(selection_option = 'NE', reason = 'To learn more about the pets in the North-East'))
     print('{selection_option:>7} : {reason}'.format(selection_option = 'NW', reason = 'To learn more about the pets in the North-West'))
     print('{selection_option:>7} : {reason}'.format(selection_option = 'SW', reason = 'To learn more about the pets in the South-West'))
-    print('{selection_option:>7} : {reason}'.format(selection_option = 'NE', reason = 'To learn more about the pets in the North-East'))
+    print('{selection_option:>7} : {reason}'.format(selection_option = 'SE', reason = 'To learn more about the pets in the South-East'))
     while True:
         area = input()
         if area == 'Calgary':
@@ -508,7 +540,7 @@ def vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
             graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets_data,initial_pet_calculations)
             print_vets_menu()
         elif user_input == 'Vets In Area': 
-            vets_in_area(pets_data, communities_data, vets_data,initial_pet_calculations)
+            vets_in_area(vets_data, initial_pet_calculations)
             print_vets_menu()
         elif user_input == 'Return':
             print()
@@ -572,9 +604,96 @@ def graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets
     return
 #In Progress
 
-def vets_in_area(pets_data, communities_data, vets_data,initial_pet_calculations):
-    pass
-#Not started    
+def vets_in_area(vets_data, initial_pet_calculations):
+    '''This function collects the user input and then outputs any veternarians in the area specified by the user. The veternarians are sorted by 24 hours vs not
+
+    parameters:
+    vet_data: A 1-D array in which each row is a tuple. Within each tuple column 0 is community, column 1 is name of vet, column 2 indicates if it is 24 hours(1) or not (0)
+    initial_pet_calculations: A tuple containing many pieces of data. The ones used in this function are:
+        index 4: List. Contains all communities in Calgary
+        index 5: List. Contains all the communities in the NE
+        index 6: List. Contains all the communities in the NW
+        index 7: List. Contains all the communities in the SW
+        index 8: List. Contains all the communities in the SE
+    
+    returns: none
+    '''
+    #Generates lists from the parameters that may be called upon
+    community_list = initial_pet_calculations[4]
+    northwest_communities = initial_pet_calculations[6]
+    southwest_communities = initial_pet_calculations[7]
+    northeast_communities = initial_pet_calculations[5]
+    southeast_communities = initial_pet_calculations[8]
+
+    print('This is the veterinarian info menu. Please type in the community or quadrant you would like to learn more about. If you need to see the options you can enter please type Details')
+    
+    #This section loops until a valid input is entered. The user is given the option to see all the selection options otherwise it takes an input and sets the selected_community_list to a correct value
+    while True:
+        area = input()
+        if area == 'Details':
+            for index,item in enumerate(community_list):
+                if index + 2 <= len(community_list): #Causes it to go through every element except the last in this if statement
+                    print('{}, '.format(item), end='') #Prints the area followed by a comma and a space
+                else:                                #For the last element just prints the element with a comma or space
+                    print(item)
+            continue
+        elif area == 'Calgary':
+            selcted_community_list = community_list  #The valid communities is set to a list of all communities in Calgary
+            break
+        elif area == 'NE':
+            selcted_community_list = northeast_communities #The valid communities is set to a list of the communities in North-East Calgary
+            break
+        elif area == 'NW':
+            selcted_community_list = northwest_communities #The valid communities is set to a list of the communities in North-West Calgary
+            break
+        elif area == 'SW':
+            selcted_community_list = southwest_communities #The valid communities is set to a list of the communities in South-West Calgary
+            break
+        elif area == 'SE':
+            selcted_community_list = southeast_communities #The valid communities is set to a list of the communities in South-East Calgary
+            break
+        elif area in community_list:
+            selcted_community_list = [area] #The valid communities is set to just the community specified
+            break
+        else:
+            print('That was an invalid entry. Please try again or enter Details to see the options')
+
+    #Sets up two variable to indicate whether there was any valid vets for each category
+    at_least_one_hours_24 = False
+    at_least_one_non_24_hours = False
+
+    for row in vets_data:
+        if row[0] in selcted_community_list and row[2] == 1 and at_least_one_hours_24 == False: #Only runs if the community is within one of the selected communities and it is the first 24 hours facility in the area
+            print()
+            print('Vets in {} that currently have 24 hour services:'.format(area))
+            print(row[1])
+            at_least_one_hours_24 = True #Changed to indicate that there is at least one 24 hours clinic in the area
+        elif row[0] in selcted_community_list and row[2] == 1 and at_least_one_hours_24 == True: #Only runs if the community is within one of the selected communities and it is the second or greater 24 hours facility in the area
+            print(row[1])
+    for row in vets_data:
+        if row[0] in selcted_community_list and row[2] == 0 and at_least_one_hours_24 == True and at_least_one_non_24_hours == False: #Only runs if the community is within the one of the selected communities, there was at least one 24 hour clinic found and it is the first not 24 hour clinic in the area
+            print()
+            print('Vets in {} that are not 24 hours:'.format(area))
+            print(row[1])
+            at_least_one_non_24_hours = True #Changed to indicate that there is at least one non-24 hours clinic in the area
+        elif row[0] in selcted_community_list and row[2] == 0 and at_least_one_hours_24 == False and at_least_one_non_24_hours == False: #Only runs if the community is within the one of the selected communities, there were no 24 hour clinics found and it is the first not 24 hour clinic in the area
+            print()
+            print('There are no 24 hour clinics in this area')
+            print()
+            print('Vets in {} that are not 24 hours:'.format(area))
+            print(row[1])
+            at_least_one_non_24_hours = True #Changed to indicate that there is at least one non-24 hours clinic in the area
+        elif row[0] in selcted_community_list and row[2] == 0 and at_least_one_non_24_hours == True: #Only runs if the community is within the one of the selected communities and it is the second or greaterr non-24 hours facility in the area
+            print(row[1])
+    if at_least_one_non_24_hours == False and at_least_one_hours_24 == False: #Only runs if there is no clinics at all in the area
+        print()
+        print('There are no veterinarian clinics in this area')
+    elif at_least_one_non_24_hours == False: #Only runs if there were 24 hour clinics but no non-24 hour clinics
+        print()
+        print('There are only 24 hour clinics in this area')
+    print()
+    return
+#Complete   
 
 if __name__ == '__main__':
     main()
