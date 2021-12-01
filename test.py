@@ -97,22 +97,39 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         index += 1
         test_list.append(population)
         test_list2.append(row[0])
-    print('\n', test_list, '\n')
-    print('\n', test_list2, '\n')    
+    # print('\n', test_list, '\n')
+    # print('\n', test_list2, '\n')    
 
-    print(dogs_per_cap)
+    # print(dogs_per_cap)
 
-    # print(community_list)
+    print(community_list)
     # print(NE_communities)
     # print(NW_communities)
     # print(SW_communities)
     # print(SE_communities)
 
-    # pet_registration
+    #Pets-per-Vet
+    pets_per_vet, vets_per_community, vets_per_community_plus_one = {}, {}, {}
     
-    # quadrant_array = np.ndarray((4,), [NE_communities, NW_communities, SW_communities, SE_communities], dtype=str) #DOESNT WORK YET
-    # print(quadrant_array) 
-    pets_per_capita = {}
+    for community in pets_registration:
+        vets_in_community = 0
+        for row in vets_data:
+            if community[0] == row[0]:
+                vets_in_community += 1
+        vets_per_community[community[0]] = vets_in_community
+        vets_per_community_plus_one[community[0]] = vets_per_community[community[0]] + 1 
+
+        pets_per_vet[community[0]] = community[3] / vets_per_community_plus_one[community[0]]
+    # print(vets_per_community)
+    # print(pets_per_vet)
+        
+
+
+
+
+    
+
+
     return pets_registration, cats_per_cap, dogs_per_cap, pets_per_cap, community_list, NE_communities, NW_communities, SW_communities, SE_communities
 #In Progress
 
