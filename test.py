@@ -49,8 +49,6 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         Dictionary (or maybe array) pairing communities with their avergae income
     '''
     #TODO    Dictionary (or maybe array) pairing communities with pets per capita (for figure 2 and generating statistics)
-    #TODO    Array listing each quadrants communities 
-    #TODO    List containing Calgary, quadrants then communities (for graphing and checking if valid usere input)
     #TODO    Dictionary (or maybe array) pairing communities with their avergae income
     #TODO   Pets per vets if a new vet opened (vets in community + 1)
     # community_list = ['Calgary', 'NE', 'NW', 'SW', 'SE']
@@ -83,6 +81,7 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     dtp = np.dtype([('Name', 'U100'), ('Cats', '>i4'), ('Dogs', '>i4'), ('Total', '>i4')])
     pets_registration = np.array(pets_registration, dtype=dtp)          # Creates a structured array
     print(pets_registration)
+
     # print(pets_registration['Cats'])
     test_list = []
     test_list2 = []
