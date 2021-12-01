@@ -10,6 +10,14 @@ class Neighborhood:
 
 #Main Program
 def main():
+    '''Runs the bulk of the code
+    Imports the data, uses a function to extract and info from the imports into more usable forms and then brings up the main menu
+
+    parameters: none
+
+    returns: none (The return statement is never reached. The program ends by using exit() which never causes a function to return to this function)
+    
+    '''
     pets_data = np.genfromtxt('pets_data.csv',  dtype=('U1000','U1000','U1000','U1000',int), delimiter=',', skip_header = True)
 
     communities_data = np.genfromtxt('communities_data.csv',  dtype=['U1000',int,int,int,int,int], delimiter=',', skip_header = True)
@@ -27,7 +35,7 @@ def main():
 
     main_menu(pets_data, communities_data, vets_data,initial_pet_calculations)
     return
-#Coding Complete, docstring needed
+#Complete
 
 #Start of Program Calculations
 def run_initial_pet_calculations(pets_data, communities_data, vets_data):
@@ -111,7 +119,41 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
 
 #Main menu
 def main_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
-    print_main_menu()
+    '''Collects the users input to either see options related to pets, vets or to end the code. The pets or vets section will then be run if selected
+    This function is designed to be run multiple times as it is an option to return to it from either the pets or vets menu
+    
+    parameters:
+    pets_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple: 
+        index 0: String. Date
+        index 1: String. Community abbreviation
+        index 2: String. Community
+        index 3: String. Cats or dogs
+        index 4: Int. Number of cats or dogs
+    communities_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
+        index 0: String. Community
+        index 1: Int. Median Household Income
+        index 2: Int. Median Age
+        index 3: Int. Population 2014
+        index 4: Int. Dwellings 2014
+        index 5: Int. City Quadrant (0 = NE, 1 = NW, 2= SW, 3 = SE)
+    vets_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
+        index 0: String. Community
+        index 1: String. Name of veterinarian
+        index 2: Int. 24 hour clinic? (1 = True, 0 = False)
+    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports:
+        index 0: 2D array. Col. 0 is all communities, Col. 1 is total cats, Col.2 is total dogs, Col.3 is total cats and dogs
+        index 1: Dict. The keys are communities and the values are that communities cats per capita
+        index 2: Dict. The keys are communities and the values are that communities dogs per capita
+        index 3: Dict. The keys are communities and the values are that communities cats and dogs per capita
+        index 4: List. Contains all the communities in Calgary            
+        index 5: List. Contains all the communities in the NE
+        index 6: List. Contains all the communities in the NW
+        index 7: List. Contains all the communities in the SW
+        index 8: List. Contains all the communities in the SE
+
+    returns: none (The return statement is never reached. The program ends by using exit() which causes this function to never finish)
+    '''
+    print_main_menu() #Prints the input options to the user. They are inserted in various spots to always have the menu printed when the user enters this function
     while True:
         user_input = input()
         if user_input == 'Pets':
@@ -121,11 +163,11 @@ def main_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
             vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations)
             print_main_menu()
         elif user_input == 'End':
-            exit()
-        else:
+            exit() #Ends the code
+        else: 
             print('That was an invalid entry. Please try again using one of the above options')
-    return
-#Coding Complete, docstring needed
+    
+#Complete
 
 def print_main_menu():
     print('This is the main menu. Please select one of the following options:\n')
@@ -137,8 +179,43 @@ def print_main_menu():
 
 #Pets menu
 def pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
+    '''Collects the users input which causes either a return to the main menu, end the program or to run a variety of different functions meant to manipulate and output information.
+    This function is designed to be run multiple times as it is returned to after running each data manipulation or from the main menu multiple times
+    
+    parameters:
+    pets_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple: 
+        index 0: String. Date
+        index 1: String. Community abbreviation
+        index 2: String. Community
+        index 3: String. Cats or dogs
+        index 4: Int. Number of cats or dogs
+    communities_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
+        index 0: String. Community
+        index 1: Int. Median Household Income
+        index 2: Int. Median Age
+        index 3: Int. Population 2014
+        index 4: Int. Dwellings 2014
+        index 5: Int. City Quadrant (0 = NE, 1 = NW, 2= SW, 3 = SE)
+    vets_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
+        index 0: String. Community
+        index 1: String. Name of veterinarian
+        index 2: Int. 24 hour clinic? (1 = True, 0 = False)
+    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports:
+        index 0: 2D array. Col. 0 is all communities, Col. 1 is total cats, Col.2 is total dogs, Col.3 is total cats and dogs
+        index 1: Dict. The keys are communities and the values are that communities cats per capita
+        index 2: Dict. The keys are communities and the values are that communities dogs per capita
+        index 3: Dict. The keys are communities and the values are that communities cats and dogs per capita
+        index 4: List. Contains all the communities in Calgary            
+        index 5: List. Contains all the communities in the NE
+        index 6: List. Contains all the communities in the NW
+        index 7: List. Contains all the communities in the SW
+        index 8: List. Contains all the communities in the SE
+
+    returns: none
+    '''
+    
     print()
-    print_pets_menu()
+    print_pets_menu() #Prints the input options to the user. They are inserted in various spots to always have the menu printed when the user enters this function
     while True:
         user_input = input()
         if user_input == 'Income':
@@ -157,13 +234,13 @@ def pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
             pets_info(pets_data, communities_data, vets_data,initial_pet_calculations)
             print_pets_menu()
         elif user_input == 'Return':
-            print()
-            return
+            print() 
+            return #Brings the user back to the main menu
         elif user_input == 'End':
-            exit()
+            exit() #Ends the code
         else:
             print('That was an invalid entry. Please try again using one of the above options')
-#Coding Complete, docstring needed
+#Complete
 
 def print_pets_menu():
     print('This is the pet statistics menu. Please select one of the following options:\n')
@@ -532,8 +609,42 @@ def pets_info (pets_data, communities_data, vets_data,initial_pet_calculations):
 
 #Vets menu
 def vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
+    '''Collects the users input which causes either a return to the main menu, end the program or to run a variety of different functions meant to manipulate and output information.
+    This function is designed to be run multiple times as it is returned to after running each data manipulation or from the main menu multiple times
+    
+    parameters:
+    pets_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple: 
+        index 0: String. Date
+        index 1: String. Community abbreviation
+        index 2: String. Community
+        index 3: String. Cats or dogs
+        index 4: Int. Number of cats or dogs
+    communities_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
+        index 0: String. Community
+        index 1: Int. Median Household Income
+        index 2: Int. Median Age
+        index 3: Int. Population 2014
+        index 4: Int. Dwellings 2014
+        index 5: Int. City Quadrant (0 = NE, 1 = NW, 2= SW, 3 = SE)
+    vets_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
+        index 0: String. Community
+        index 1: String. Name of veterinarian
+        index 2: Int. 24 hour clinic? (1 = True, 0 = False)
+    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports:
+        index 0: 2D array. Col. 0 is all communities, Col. 1 is total cats, Col.2 is total dogs, Col.3 is total cats and dogs
+        index 1: Dict. The keys are communities and the values are that communities cats per capita
+        index 2: Dict. The keys are communities and the values are that communities dogs per capita
+        index 3: Dict. The keys are communities and the values are that communities cats and dogs per capita
+        index 4: List. Contains all the communities in Calgary            
+        index 5: List. Contains all the communities in the NE
+        index 6: List. Contains all the communities in the NW
+        index 7: List. Contains all the communities in the SW
+        index 8: List. Contains all the communities in the SE
+
+    returns: none
+    '''
     print()
-    print_vets_menu()
+    print_vets_menu() #Prints the input options to the user. They are inserted in various spots to always have the menu printed when the user enters this function
     while True:
         user_input = input()
         if user_input == 'Pets Per Vet':
@@ -544,12 +655,12 @@ def vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
             print_vets_menu()
         elif user_input == 'Return':
             print()
-            return
+            return #Brings user back to main menu
         elif user_input == 'End':
-            exit()
+            exit() #Ends the code
         else:
             print('That was an invalid entry. Please try again using one of the above options')
-#Coding Complete, docstring needed
+#Complete
 
 def print_vets_menu():
     print('This is the veterinarian statistics menu. Please select one of the following options:\n')
