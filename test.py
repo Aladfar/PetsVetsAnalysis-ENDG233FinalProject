@@ -262,7 +262,7 @@ def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
 
     parameters:
     communities_data: A 1-D array. Each row contains a tuple of data. The significant parts in each tuple is column 0 is community name and column 1 is income
-    initial_pet_calculations: A tuple containing many pieces of data. The ones used in this function and the ones it calls upon are
+    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports. The relevant parts of it used are:
         index 1: Dict. The keys are communities and the values are that communities cats per capita
         index 2: Dict. The keys are communities and the values are that communities dogs per capita
         index 3: Dict. The keys are communities and the values are that communities cats and dogs per capita
@@ -351,7 +351,7 @@ def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
     #Modifies x-axis labels 
     plt.xticks(income_x_axis_points, income_x_axis_labels) #Used to display the community name instead of an integer
     plt.xticks(rotation=90, fontsize=6) #Used to rotate the labels vertically and reduce their size to allow to accomodate for the cramped space
-    plt.xlim(0, len(cats_dogs_y_axis)+1)  #Used to set the lower and upped bounds for the display of the x-axis
+    plt.xlim(0, len(income_x_axis_points)+1)  #Used to set the lower and upped bounds for the display of the x-axis
 
     
     #Allows for slightly better viewing of the graph and ensures the x-title can be seen
@@ -377,12 +377,12 @@ def area_most_least_pets_total(initial_pet_calculations):
        This specific funtion generates the necesarry data for pets, calls upon a function to determine the user's selection, converts that to an array and then uses a second function to determine and print the max and mins.
     
        parameters:
-       initial_pet_calculations: A tuple containing many pieces of data. The ones used in this function and the ones it calls upon are
-            index 0: 2D array. Col. 0 is all communities, Col. 1 is total cats, Col.2 is total dogs, Col.3 is total cats and dogs
-            index 5: List. Contains all the communities in the NE
-            index 6: List. Contains all the communities in the NW
-            index 7: List. Contains all the communities in the SW
-            index 8: List. Contains all the communities in the SE
+    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports. The relevant parts used are:
+        index 0: 2D array. Col. 0 is all communities, Col. 1 is total cats, Col.2 is total dogs, Col.3 is total cats and dogs           
+        index 5: List. Contains all the communities in the NE
+        index 6: List. Contains all the communities in the NW
+        index 7: List. Contains all the communities in the SW
+        index 8: List. Contains all the communities in the SE
 
        returns: none
     '''
@@ -419,14 +419,14 @@ def area_most_least_pets_capita(initial_pet_calculations):
        This specific funtion generates the necesarry data for pets, calls upon a function to determine the user's selection, converts that to an array and then uses a second function to determine and print the max and mins.
     
        parameters:
-       initial_pet_calculations: A tuple containing many pieces of data. The ones used in this function and the ones it calls upon are
-            index 1: Dict. The keys are communities and the values are that communities cats per capita
-            index 2: Dict. The keys are communities and the values are that communities dogs per capita
-            index 3: Dict. The keys are communities and the values are that communities cats and dogs per capita
-            index 5: List. Contains all the communities in the NE
-            index 6: List. Contains all the communities in the NW
-            index 7: List. Contains all the communities in the SW
-            index 8: List. Contains all the communities in the SE
+    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports. The relevant parts used are:
+        index 1: Dict. The keys are communities and the values are that communities cats per capita
+        index 2: Dict. The keys are communities and the values are that communities dogs per capita
+        index 3: Dict. The keys are communities and the values are that communities cats and dogs per capita           
+        index 5: List. Contains all the communities in the NE
+        index 6: List. Contains all the communities in the NW
+        index 7: List. Contains all the communities in the SW
+        index 8: List. Contains all the communities in the SE
 
        returns: none
     '''
@@ -459,7 +459,7 @@ def most_least_pets_step_1(all_communities_cats, all_communities_dogs, all_commu
     all_communities_cats: A dictionary with communities as the key and either total cat population or cats per capita specific to each community
     all_communities_dogs: A dictionary with communities as the key and either total dog population or dogs per capita specific to each community    
     all_communities_cats_dogs: A dictionary with communities as the key and either total cat and dog population or cats and dogs per capita specific to each community
-    initial_pet_calculations: A tuple containing many pieces of data. The ones used in this function are:
+    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports. The relevant parts used are:       
         index 5: List. Contains all the communities in the NE
         index 6: List. Contains all the communities in the NW
         index 7: List. Contains all the communities in the SW
@@ -683,7 +683,7 @@ def graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets
     NOTES: Communities may be a tight fit
     '''
     all_communities_income = {'a':9, 'b':4, 'c':5, 'd':6, 'e':7, 'f':8, 'g':8} #Placeholders
-    all_communities_cats_dogs = {'a':19, 'b':8, 'c':11, 'd':13, 'e':11, 'f':15, 'g':15} #Placeholders
+    all_communities_cats_dogs_vet = {'a':19, 'b':8, 'c':11, 'd':13, 'e':11, 'f':15, 'g':15} #Placeholders
 
     income_x_axis_labels = list(all_communities_income.keys())
     #Generates an order of numbers starting at 1 that has the same amount of numbers as the number of communities
@@ -693,24 +693,33 @@ def graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets
 
     fig, ax1 = plt.subplots()
     #Plots cat, dog points
-    ax1.plot(income_x_axis_points, all_communities_cats_dogs.values(), 'bo', label='Total Cats and Dogs') # Graphs all coordinates
+    ax1.plot(income_x_axis_points, all_communities_cats_dogs_vet.values(), 'bo', label='Total Cats and Dogs Per Veterinarian') # Graphs all coordinates
     ax1.set_ylabel('Pets per Vetrinarians if a New Vetrinarian Opened in Each Community', color='blue')
 
     #Plots income points
     ax2 = ax1.twinx()
-    ax2.plot(income_x_axis_points, all_communities_income.values(), 'go', label='Total Cats and Dogs') # Graphs all coordinates
+    ax2.plot(income_x_axis_points, all_communities_income.values(), 'go', label='Average Household Income') # Graphs all coordinates
     ax2.set_ylabel('Average Income for Each Community', color='green')
 
-    #Creates a title and x-axis lables
+    #Creates a title
     plt.title('Pets per Vetrinarian and Income for Each Community')      
+
+    #Modifies x_axis_display
     plt.xlabel('Communities')
     plt.xticks(income_x_axis_points, income_x_axis_labels)
-
+    plt.xticks(rotation=90, fontsize=6) #Used to rotate the labels vertically and reduce their size to allow to accomodate for the cramped space
+    plt.xlim(0, len(income_x_axis_points)+1)  #Used to set the lower and upped bounds for the display of the x-axis
+    
     #Explains graph
-    plt.figtext(0.5, 0.01, "This graph is designed to identify the best locations to start a new veterinarian practice.\nThe left y-axis is designed to demonstrate where there would be a large market of pets.\nThe right y-axis demonstrates which communities have more money to pay for veterinarian services", ha="center", fontsize=12)
+    plt.figtext(0.5, 0.01, "This graph is designed to identify the best locations to start a new veterinarian practice.\nThe left y-axis is designed to demonstrate where there would be a large market of pets.\nThe right y-axis demonstrates which communities have more money to pay for veterinarian services", ha="center", fontsize=7)
+ 
+    #Allows for slightly better viewing of the graph and ensures the x-title can be seen
+    plt.tight_layout()
 
-    #Displays graph
+    #Shows graph
     plt.show()    
+
+    print('You are now being returned to the vet statistics menu')   
 
     return
 #In Progress
@@ -719,9 +728,12 @@ def vets_in_area(vets_data, initial_pet_calculations):
     '''This function collects the user input and then outputs any veternarians in the area specified by the user. The veternarians are sorted by 24 hours vs not
 
     parameters:
-    vet_data: A 1-D array in which each row is a tuple. Within each tuple column 0 is community, column 1 is name of vet, column 2 indicates if it is 24 hours(1) or not (0)
-    initial_pet_calculations: A tuple containing many pieces of data. The ones used in this function are:
-        index 4: List. Contains all communities in Calgary
+    vets_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
+        index 0: String. Community
+        index 1: String. Name of veterinarian
+        index 2: Int. 24 hour clinic? (1 = True, 0 = False)    
+    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports. The relevant parts used are:
+        index 4: List. Contains all the communities in Calgary            
         index 5: List. Contains all the communities in the NE
         index 6: List. Contains all the communities in the NW
         index 7: List. Contains all the communities in the SW
