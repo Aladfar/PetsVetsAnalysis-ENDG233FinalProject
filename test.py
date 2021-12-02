@@ -374,7 +374,137 @@ def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
 #Complete
 
 def graph_time_vs_new_registration(pets_data, communities_data, vets_data,initial_pet_calculations):
-    pass
+    #Generates lists from the parameters that may be called upon
+    community_list = initial_pet_calculations[4]
+    northwest_communities = initial_pet_calculations[6]
+    southwest_communities = initial_pet_calculations[7]
+    northeast_communities = initial_pet_calculations[5]
+    southeast_communities = initial_pet_calculations[8]
+
+    print('Please type in the community or quadrant you would like to learn more about. If you need to see the options you can enter please type Details')
+    
+    #This section loops until a valid input is entered. The user is given the option to see all the selection options otherwise it takes an input and sets the selected_community_list to a correct value
+    while True:
+        area = input()
+        if area == 'Details':
+            for index,item in enumerate(community_list):
+                if index + 2 <= len(community_list): #Causes it to go through every element except the last in this if statement
+                    print('{}, '.format(item), end='') #Prints the area followed by a comma and a space
+                else:                                #For the last element just prints the element with a comma or space
+                    print(item)
+            continue
+        elif area == 'Calgary':
+            selcted_community_list = community_list  #The valid communities is set to a list of all communities in Calgary
+            break
+        elif area == 'NE':
+            selcted_community_list = northeast_communities #The valid communities is set to a list of the communities in North-East Calgary
+            break
+        elif area == 'NW':
+            selcted_community_list = northwest_communities #The valid communities is set to a list of the communities in North-West Calgary
+            break
+        elif area == 'SW':
+            selcted_community_list = southwest_communities #The valid communities is set to a list of the communities in South-West Calgary
+            break
+        elif area == 'SE':
+            selcted_community_list = southeast_communities #The valid communities is set to a list of the communities in South-East Calgary
+            break
+        elif area in community_list:
+            selcted_community_list = [area] #The valid communities is set to just the community specified
+            break
+        else:
+            print('That was an invalid entry. Please try again or enter Details to see the options')
+
+    dates_with_cats, dates_with_dogs, dates_with_cats_and_dogs = {}, {}, {}
+
+    for row in pets_data:
+        if row[2] in selcted_community_list and row[3] == 'CATS':
+            dates_with_cats[row[0]] = row[4]
+        if row[2] in selcted_community_list and row[3] == 'DOGS':
+            dates_with_dogs[row[0]] = row[4]
+    for date in dates_with_cats.keys():
+        dates_with_cats_and_dogs[date] = dates_with_cats[date] + dates_with_dogs[date]
+    
+    dates_list = dates_with_dogs.keys()
+    dates_string = ' '.join(dates_list)
+    years_list = [x for x in dates_string.split() if type(x) == int]
+
+    years_list.sort()
+
+    months_list = ['January', 'February', 'March', 'April', 'May', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+    dates_list_sorted = []
+    cats_sorted_by_date, dogs_sorted_by_date, cats_and_dogs_sorted_by_date = [], [], []
+    for year in years_list:
+        for month in months_list:
+            for date in dates_list:
+                if year in date and month in date:
+                    dates_list_sorted.append(date)
+                    cats_sorted_by_date.append(dates_with_cats[date])
+                    dogs_sorted_by_date.append(dates_with_dogs[date])
+                    cats_and_dogs_sorted_by_date.append(dates_with_cats_and_dogs[date])
+    
+    dates_x_axis_points = []
+    for i in range(len(dates_list_sorted)):
+        dates_x_axis_points.append(i+1)
+    
+    #Graphs
+    FIGURE1 = 1
+
+    plt.figure(FIGURE1)
+
+    #Converted to numpy's to fit np.polyfit() rquirements
+    dates_x_axis_points_numpy = np.array(dates_x_axis_points)
+    cats_dogs_y_axis_numpy = np.array(cats_and_dogs_sorted_by_date)    
+    cats_y_axis_numpy = np.array(cats_sorted_by_date)    
+    dogs_y_axis_numpy = np.array(dogs_sorted_by_date)    
+
+    # Graphs cats and dogs. np.polyfit() takes the x-points and y-points and returns a line of best fit as a1, b1, c1 in the form y=ax^2+bx+c. That line is then graphed as well as the points themselves
+    a1, b1, c1 = np.polyfit(dates_x_axis_points_numpy, cats_dogs_y_axis_numpy, 2)
+    plt.plot(dates_x_axis_points_numpy, dates_x_axis_points_numpy * dates_x_axis_points_numpy * a1 + dates_x_axis_points_numpy * b1 + c1, 'b')
+    plt.plot(dates_x_axis_points, cats_and_dogs_sorted_by_date, 'bo', label='Cats and Dogs per 100 People')
+    
+    # Graphs cats. np.polyfit() takes the x-points and y-points and returns a line of best fit as a2, b2, c2 in the form y=ax^2+bx+c. That line is then graphed as well as the points themselves
+    a2, b2, c2 = np.polyfit(dates_x_axis_points_numpy, cats_y_axis_numpy, 2)
+    plt.plot(dates_x_axis_points_numpy, dates_x_axis_points_numpy * dates_x_axis_points_numpy * a2 + dates_x_axis_points_numpy * b2 + c2, 'g')
+    plt.plot(dates_x_axis_points, cats_sorted_by_date, 'go', label='Total Cat per 100 Peoples')
+    
+    # Graphs dogs. np.polyfit() takes the x-points and y-points and returns a line of best fit as a3, b3, c3 in the form y=ax^2+bx+c. That line is then graphed as well as the points themselves
+    a3, b3, c3 = np.polyfit(dates_x_axis_points_numpy, dogs_y_axis_numpy, 2)
+    plt.plot(dates_x_axis_points_numpy, dates_x_axis_points_numpy * dates_x_axis_points_numpy * a3 + dates_x_axis_points_numpy * b3 + c3, 'r')
+    plt.plot(dates_x_axis_points, dogs_sorted_by_date, 'ro', label='Total Dogs per 100 People')
+
+    #Creates titles and a legend
+    plt.title('Pet Ownership Compared to Income')      
+    plt.xlabel('Communities (Ordered from lowest average income to highest)')
+    plt.ylabel('Number of pets per 100 people')
+    plt.legend(shadow=True)
+
+    #Modifies x-axis labels 
+    plt.xticks(dates_x_axis_points, dates_list_sorted) #Used to display the community name instead of an integer
+    plt.xticks(rotation=90, fontsize=6) #Used to rotate the labels vertically and reduce their size to allow to accomodate for the cramped space
+    plt.xlim(0, len(dates_x_axis_points)+1)  #Used to set the lower and upped bounds for the display of the x-axis
+
+    
+    #Allows for slightly better viewing of the graph and ensures the x-title can be seen
+    plt.tight_layout()
+
+    #Shows graph
+    plt.show()    
+
+    print('You are now being returned to the pet statistics menu')
+
+    return
+
+
+
+    
+
+
+    
+    
+
+        
+
 #Not started
 
 def area_most_least_pets_total(initial_pet_calculations):
