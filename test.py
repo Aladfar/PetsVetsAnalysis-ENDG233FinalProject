@@ -24,11 +24,6 @@ def main():
 
     vets_data = np.genfromtxt('vets_data.csv',  dtype=('U1000','U1000',int), delimiter=',', skip_header = True)
 
-    # print(pets_data)
-    print(communities_data)
-    # print(vets_data)
-    # print(pets_data[1][1])
-
     initial_pet_calculations = run_initial_pet_calculations(pets_data, communities_data, vets_data)
     
     print('Welcome to a program examining the pet and veterinarian distributions across Calgary\n')
@@ -68,7 +63,7 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     pets_registration, combined_pets = [], []
     # print(pets_data)
     for x in pets_data:
-        if x[0] == '2021-10-01' and x[2] in community_list:                        #Gets the most recent cats and dogs registration data
+        if x[0] == 'October 2021' and x[2] in community_list:                        #Gets the most recent cats and dogs registration data
             pets_registration.append(x[2])
             pets_registration.append(x[4])
     pets_registration = np.array(pets_registration)                     #Creates a 1D array from the list
@@ -120,9 +115,6 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         vets_per_community_plus_one[community[0]] = vets_per_community[community[0]] + 1 
 
         pets_per_vet[community[0]] = community[3] / vets_per_community_plus_one[community[0]]
-    # print(vets_per_community)
-    # print(pets_per_vet)
-        
 
 
 
@@ -130,7 +122,7 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     
 
 
-    return pets_registration, cats_per_cap, dogs_per_cap, pets_per_cap, community_list, NE_communities, NW_communities, SW_communities, SE_communities
+    return pets_registration, cats_per_cap, dogs_per_cap, pets_per_cap, community_list, NE_communities, NW_communities, SW_communities, SE_communities, pets_per_vet
 #In Progress
 
 #Main menu
@@ -698,8 +690,29 @@ def graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets
 
     NOTES: Communities may be a tight fit
     '''
-    all_communities_income = {'a':9, 'b':4, 'c':5, 'd':6, 'e':7, 'f':8, 'g':8} #Placeholders
-    all_communities_cats_dogs_vet = {'a':19, 'b':8, 'c':11, 'd':13, 'e':11, 'f':15, 'g':15} #Placeholders
+    all_communities_income = {}
+    for row in communities_data:
+        all_communities_income[row[0]] = row[1]
+    all_communities_income.pop('NE')
+    all_communities_income.pop('NW')
+    all_communities_income.pop('SE')
+    all_communities_income.pop('SW')
+    all_communities_income.pop('Calgary')
+
+    all_communities_cats_dogs_vet = initial_pet_calculations[9] 
+
+    all_communities_sorted = {}
+    all_communities_cats_dogs_vet_sorted = {}
+    income_sorted = sorted(all_communities_income.values())
+    for sorted_income in income_sorted:
+        for community, income in all_communities_income.items():
+            if income == sorted_income:
+                all_communities_sorted[community] = income
+                for community_unsorted, pets in all_communities_cats_dogs_vet.items():
+                    if community == community_unsorted:
+                        all_communities_cats_dogs_vet_sorted[community] = pets
+    all_communities_income = all_communities_sorted
+    all_communities_cats_dogs_vet = all_communities_cats_dogs_vet_sorted
 
     income_x_axis_labels = list(all_communities_income.keys())
     #Generates an order of numbers starting at 1 that has the same amount of numbers as the number of communities
