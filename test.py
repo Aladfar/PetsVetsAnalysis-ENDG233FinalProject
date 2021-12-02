@@ -414,35 +414,48 @@ def graph_time_vs_new_registration(pets_data, communities_data, vets_data,initia
         else:
             print('That was an invalid entry. Please try again or enter Details to see the options')
 
+    months_list = []
+    for row in reversed(pets_data):
+        if row[0] not in months_list:
+            months_list.append(row[0])
+    
     dates_with_cats, dates_with_dogs, dates_with_cats_and_dogs = {}, {}, {}
 
-    for row in pets_data:
-        if row[2] in selcted_community_list and row[3] == 'CATS':
-            dates_with_cats[row[0]] = row[4]
-        if row[2] in selcted_community_list and row[3] == 'DOGS':
-            dates_with_dogs[row[0]] = row[4]
-    for date in dates_with_cats.keys():
-        dates_with_cats_and_dogs[date] = dates_with_cats[date] + dates_with_dogs[date]
-    
-    dates_list = dates_with_dogs.keys()
-    dates_string = ' '.join(dates_list)
-    years_list = [x for x in dates_string.split() if type(x) == int]
+    for date in months_list:
+        cats = False
+        dogs = False
+        cats_value = 0
+        dogs_value = 0
+        for row in reversed(pets_data):  
+            if date == row[0] and row[2] in selcted_community_list and row[3] == 'CATS':
+                if date in dates_with_cats:
+                    dates_with_cats[date] = dates_with_cats[date] + row[4]
+                    cats_value += row[4]
+                else:
+                    dates_with_cats[date] = row[4]
+                    cats_value = row[4]
+                    cats = True
+            if date == row[0] and row[2] in selcted_community_list and row[3] == 'DOGS':
+                if date in dates_with_dogs:
+                    dates_with_dogs[date] = dates_with_dogs[date] + row[4]
+                    dogs_value += row[4]
+                else:
+                    dates_with_dogs[date] = row[4]
+                    dogs_value = row[4]
+                    dogs = True
+        if cats == False:
+            dates_with_cats[date] = np.NaN
+        if dogs == False:
+            dates_with_dogs[date] = np.NaN
+        if dogs == False or cats == False:
+            dates_with_cats_and_dogs[date] = np.NaN
+        else:
+            dates_with_cats_and_dogs[date] = cats_value + dogs_value
+    dates_list_sorted = list(dates_with_cats.keys())
+    cats_sorted_by_date = list(dates_with_cats.values())
+    dogs_sorted_by_date = list(dates_with_dogs.values())
+    cats_and_dogs_sorted_by_date = list(dates_with_cats_and_dogs.values())
 
-    years_list.sort()
-
-    months_list = ['January', 'February', 'March', 'April', 'May', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-
-    dates_list_sorted = []
-    cats_sorted_by_date, dogs_sorted_by_date, cats_and_dogs_sorted_by_date = [], [], []
-    for year in years_list:
-        for month in months_list:
-            for date in dates_list:
-                if year in date and month in date:
-                    dates_list_sorted.append(date)
-                    cats_sorted_by_date.append(dates_with_cats[date])
-                    dogs_sorted_by_date.append(dates_with_dogs[date])
-                    cats_and_dogs_sorted_by_date.append(dates_with_cats_and_dogs[date])
-    
     dates_x_axis_points = []
     for i in range(len(dates_list_sorted)):
         dates_x_axis_points.append(i+1)
@@ -452,41 +465,30 @@ def graph_time_vs_new_registration(pets_data, communities_data, vets_data,initia
 
     plt.figure(FIGURE1)
 
-    #Converted to numpy's to fit np.polyfit() rquirements
-    dates_x_axis_points_numpy = np.array(dates_x_axis_points)
-    cats_dogs_y_axis_numpy = np.array(cats_and_dogs_sorted_by_date)    
-    cats_y_axis_numpy = np.array(cats_sorted_by_date)    
-    dogs_y_axis_numpy = np.array(dogs_sorted_by_date)    
+    #Converted to numpy's to fit np.polyfit() rquirements   
 
-    # Graphs cats and dogs. np.polyfit() takes the x-points and y-points and returns a line of best fit as a1, b1, c1 in the form y=ax^2+bx+c. That line is then graphed as well as the points themselves
-    a1, b1, c1 = np.polyfit(dates_x_axis_points_numpy, cats_dogs_y_axis_numpy, 2)
-    plt.plot(dates_x_axis_points_numpy, dates_x_axis_points_numpy * dates_x_axis_points_numpy * a1 + dates_x_axis_points_numpy * b1 + c1, 'b')
-    plt.plot(dates_x_axis_points, cats_and_dogs_sorted_by_date, 'bo', label='Cats and Dogs per 100 People')
+    plt.plot(dates_x_axis_points, cats_and_dogs_sorted_by_date, 'bo--', label='Cats and Dogs')
     
-    # Graphs cats. np.polyfit() takes the x-points and y-points and returns a line of best fit as a2, b2, c2 in the form y=ax^2+bx+c. That line is then graphed as well as the points themselves
-    a2, b2, c2 = np.polyfit(dates_x_axis_points_numpy, cats_y_axis_numpy, 2)
-    plt.plot(dates_x_axis_points_numpy, dates_x_axis_points_numpy * dates_x_axis_points_numpy * a2 + dates_x_axis_points_numpy * b2 + c2, 'g')
-    plt.plot(dates_x_axis_points, cats_sorted_by_date, 'go', label='Total Cat per 100 Peoples')
-    
-    # Graphs dogs. np.polyfit() takes the x-points and y-points and returns a line of best fit as a3, b3, c3 in the form y=ax^2+bx+c. That line is then graphed as well as the points themselves
-    a3, b3, c3 = np.polyfit(dates_x_axis_points_numpy, dogs_y_axis_numpy, 2)
-    plt.plot(dates_x_axis_points_numpy, dates_x_axis_points_numpy * dates_x_axis_points_numpy * a3 + dates_x_axis_points_numpy * b3 + c3, 'r')
-    plt.plot(dates_x_axis_points, dogs_sorted_by_date, 'ro', label='Total Dogs per 100 People')
+    plt.plot(dates_x_axis_points, cats_sorted_by_date, 'go--', label='Cats')
+
+    plt.plot(dates_x_axis_points, dogs_sorted_by_date, 'ro--', label='Dogs')
 
     #Creates titles and a legend
-    plt.title('Pet Ownership Compared to Income')      
-    plt.xlabel('Communities (Ordered from lowest average income to highest)')
-    plt.ylabel('Number of pets per 100 people')
+    plt.title('Pet Ownership Over Time')      
+    plt.xlabel('Month')
+    plt.ylabel('Number of pets')
     plt.legend(shadow=True)
 
     #Modifies x-axis labels 
     plt.xticks(dates_x_axis_points, dates_list_sorted) #Used to display the community name instead of an integer
-    plt.xticks(rotation=90, fontsize=6) #Used to rotate the labels vertically and reduce their size to allow to accomodate for the cramped space
+    plt.xticks(rotation=45, fontsize=8) #Used to rotate the labels vertically and reduce their size to allow to accomodate for the cramped space
     plt.xlim(0, len(dates_x_axis_points)+1)  #Used to set the lower and upped bounds for the display of the x-axis
+
+    plt.ylim(bottom=0)
+
 
     
     #Allows for slightly better viewing of the graph and ensures the x-title can be seen
-    plt.tight_layout()
 
     #Shows graph
     plt.show()    
