@@ -49,8 +49,6 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         Dictionary (or maybe array) pairing communities with their avergae income
     '''
     #TODO    Dictionary (or maybe array) pairing communities with pets per capita (for figure 2 and generating statistics)
-    #TODO    Array listing each quadrants communities 
-    #TODO    List containing Calgary, quadrants then communities (for graphing and checking if valid usere input)
     #TODO    Dictionary (or maybe array) pairing communities with their avergae income
     #TODO   Pets per vets if a new vet opened (vets in community + 1)
     # community_list = ['Calgary', 'NE', 'NW', 'SW', 'SE']
@@ -83,6 +81,7 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     dtp = np.dtype([('Name', 'U100'), ('Cats', '>i4'), ('Dogs', '>i4'), ('Total', '>i4')])
     pets_registration = np.array(pets_registration, dtype=dtp)          # Creates a structured array
     print(pets_registration)
+
     # print(pets_registration['Cats'])
     test_list = []
     test_list2 = []
@@ -98,22 +97,39 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         index += 1
         test_list.append(population)
         test_list2.append(row[0])
-    print('\n', test_list, '\n')
-    print('\n', test_list2, '\n')    
+    # print('\n', test_list, '\n')
+    # print('\n', test_list2, '\n')    
 
-    print(dogs_per_cap)
+    # print(dogs_per_cap)
 
-    # print(community_list)
+    print(community_list)
     # print(NE_communities)
     # print(NW_communities)
     # print(SW_communities)
     # print(SE_communities)
 
-    # pet_registration
+    #Pets-per-Vet
+    pets_per_vet, vets_per_community, vets_per_community_plus_one = {}, {}, {}
     
-    # quadrant_array = np.ndarray((4,), [NE_communities, NW_communities, SW_communities, SE_communities], dtype=str) #DOESNT WORK YET
-    # print(quadrant_array) 
-    pets_per_capita = {}
+    for community in pets_registration:
+        vets_in_community = 0
+        for row in vets_data:
+            if community[0] == row[0]:
+                vets_in_community += 1
+        vets_per_community[community[0]] = vets_in_community
+        vets_per_community_plus_one[community[0]] = vets_per_community[community[0]] + 1 
+
+        pets_per_vet[community[0]] = community[3] / vets_per_community_plus_one[community[0]]
+    # print(vets_per_community)
+    # print(pets_per_vet)
+        
+
+
+
+
+    
+
+
     return pets_registration, cats_per_cap, dogs_per_cap, pets_per_cap, community_list, NE_communities, NW_communities, SW_communities, SE_communities
 #In Progress
 
