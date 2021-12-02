@@ -3,10 +3,15 @@ import matplotlib.pyplot as plt
 # from numpy.lib.function_base import average
 
 class Neighborhood:
-    def __init__(self, name, population, pets_per_capita, vets):
+    def __init__(self, name, population, num_cats, num_dogs, income):
         self.name = name
         self.population = population
-        self.pets_per_capita = pets_per_capita
+        self.income = income
+        self.num_dogs = num_dogs
+        self.num_cats = num_cats
+    def print_neighborhood_info(self):
+        print(f'Selected neighborhood: {self.name}\tPopulation: {self.population}\tAverage Income: {self.income}')
+        print(f'\nCats Information:\nNumber of Cats in {self.name}: {self.num_cats}\tNumber of Cats per 100 people: {(self.num_cats / self.population) * 100}{{:.2f}}')
 
 #Main Program
 def main():
@@ -59,7 +64,7 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
             SW_communities.append(x[0])
         elif x[5] == 4:
             SE_communities.append(x[0])
-    
+    print(communities_data)
     pets_registration, combined_pets = [], []
     # print(pets_data)
     for x in pets_data:
@@ -97,7 +102,7 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
 
     # print(dogs_per_cap)
 
-    print(community_list)
+    # print(community_list)
     # print(NE_communities)
     # print(NW_communities)
     # print(SW_communities)
@@ -744,7 +749,17 @@ def most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, anim
 #Complete   
 
 def pets_info (pets_data, communities_data, vets_data,initial_pet_calculations):
-    pass
+    pets_registration, communities = initial_pet_calculations[0], communities_data
+     
+    for row in pets_registration:
+        for community in communities:
+            if community[0] == row[0]:
+                x = str(community[0])
+                population = community[1]
+                income = community[2]
+            
+                x = Neighborhood(row[0], population, row[1], row[2], income)
+                x.print_neighborhood_info()
 #Not started
 
 #Vets menu
