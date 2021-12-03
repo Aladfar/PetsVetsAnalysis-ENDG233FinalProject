@@ -10,10 +10,13 @@ class Neighbourhood:
         self.num_dogs = num_dogs
         self.num_cats = num_cats
     def print_neighbourhood_info(self):
-        print(f'Selected neighbourhood: {self.name}\tPopulation: {self.population}\tAverage Income: {self.income}')
-        print(f'\nPets Information:\nNumber of Cats in {self.name}: {self.num_cats}\tNumber of Cats per 100 people: {(self.num_cats / self.population) * 100:.2f}')
-        print(f'Number of Dogs in {self.name}: {self.num_dogs}\tNumber of Dogs per 100 people: {(self.num_dogs / self.population) * 100:.2f}')
-        print(f'Number of Pets in {self.name}: {self.num_dogs + self.num_cats}\tNumber of Pets per 100 people: {((self.num_dogs + self.num_cats)/ self.population) * 100:.2f}')
+        print()
+        print(f'Selected neighbourhood: {self.name}   Population: {self.population}   Average Income: {self.income}')
+        print(f'\nPets Information:\nNumber of Cats in {self.name}: {self.num_cats:<6}Number of Cats per 100 people: {(self.num_cats / self.population) * 100:.2f}')
+        print(f'Number of Dogs in {self.name}: {self.num_dogs:<6}Number of Dogs per 100 people: {(self.num_dogs / self.population) * 100:.2f}')
+        print(f'Number of Pets in {self.name}: {self.num_dogs + self.num_cats:<6}Number of Pets per 100 people: {((self.num_dogs + self.num_cats)/ self.population) * 100:.2f}')
+        print()
+
 def main():
     '''Runs the bulk of the code
     Imports the data, uses a function to extract and info from the imports into more usable forms and then brings up the main menu
