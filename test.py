@@ -623,6 +623,7 @@ def graph_time_vs_new_registration(pets_data, communities_data, vets_data,initia
                     print('{}, '.format(item), end='') #Prints the area followed by a comma and a space
                 else:                                #For the last element just prints the element with a comma or space
                     print(item)
+            print('Please type in the community or quadrant you would like to learn more about. If you need to see the options you can enter please type Details')
             continue
         elif area == 'Calgary':
             selcted_community_list = community_list  #The valid communities is set to a list of all communities in Calgary
@@ -1000,7 +1001,9 @@ def most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, anim
 def pets_info (communities_data, initial_pet_calculations):
     pets_registration, communities = initial_pet_calculations[0], communities_data
     print(pets_registration)
-    print(communities)      
+    print(communities)
+    community_list = initial_pet_calculations[4]
+          
     print('This is the pet information menu.', end= ' ')
     while True:
         print('Please type in the community or quadrant you would like to learn more about. If you need to see the options you can enter, please type Details')
@@ -1008,7 +1011,11 @@ def pets_info (communities_data, initial_pet_calculations):
         if requested_community in [community[0] for community in communities[5:]]:
             break
         elif requested_community == 'Details':
-            print(f'Valid inputs are {[community[0] for community in communities]}')
+            for index,item in enumerate(community_list):
+                if index + 2 <= len(community_list): #Causes it to go through every element except the last in this if statement
+                    print('{}, '.format(item), end='') #Prints the area followed by a comma and a space
+                else:                                #For the last element just prints the element with a comma or space
+                    print(item)
         else:
              print('That was an invalid entry. Please try again or enter Details to see the options')
         
@@ -1193,6 +1200,7 @@ def vets_in_area(vets_data, initial_pet_calculations):
                     print('{}, '.format(item), end='') #Prints the area followed by a comma and a space
                 else:                                #For the last element just prints the element with a comma or space
                     print(item)
+            print('Please type in the community or quadrant you would like to learn more about. If you need to see the options you can enter please type Details')
             continue
         elif area == 'Calgary':
             selcted_community_list = community_list  #The valid communities is set to a list of all communities in Calgary
