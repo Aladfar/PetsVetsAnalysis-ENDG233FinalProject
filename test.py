@@ -764,7 +764,7 @@ def graph_time_vs_new_registration(pets_data, communities_data, vets_data,initia
 
     return
 
-def pets_info (pets_data, communities_data, vets_data,initial_pet_calculations):
+def pets_info (communities_data, initial_pet_calculations):
     pets_registration, communities = initial_pet_calculations[0], communities_data
      
     for row in pets_registration:
