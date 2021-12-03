@@ -997,7 +997,7 @@ def area_info(communities_data, initial_pet_calculations):
 
     print('This is the pet information menu.', end= ' ')                #Prints the name of the menu you're on    
     while True:
-        print('Please type in the community or quadrant you would like to learn more about. If you need to see the options you can enter, please type Details')
+        print('Please type in the community you would like to learn more about. If you need to see the options you can enter, please type Details')
         requested_community = str(input())                              #Get a community input from the user
         if requested_community in community_list:                       #Checks if it exists in our list of valid inputs
             break
