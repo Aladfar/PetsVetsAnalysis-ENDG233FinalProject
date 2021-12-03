@@ -300,7 +300,7 @@ def pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
             area_most_least_pets_capita(initial_pet_calculations)
             print_pets_menu()
         elif user_input == 'Area Info':
-            pets_info(pets_data, communities_data, vets_data,initial_pet_calculations)
+            pets_info(communities_data, initial_pet_calculations)
             print_pets_menu()
         elif user_input == 'Return':
             print() 
