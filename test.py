@@ -992,7 +992,7 @@ def most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, anim
     return
 #Complete   
 
-def area_info (communities_data, initial_pet_calculations):
+def area_info(communities_data, initial_pet_calculations):
     '''Takes in a user input for a community, checks if its valid and, if so, creates a Neighbourhood object.
     Then, the function prints it using the print_neighbourhood_info()
     
