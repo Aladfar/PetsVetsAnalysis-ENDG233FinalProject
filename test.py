@@ -46,11 +46,8 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         List containing Calgary, quadrants then communities (for graphing and checking if valid usere input)
         Dictionary (or maybe array) pairing communities with their avergae income
     '''
-    #TODO    Dictionary (or maybe array) pairing communities with pets per capita (for figure 2 and generating statistics)
-    #TODO    Dictionary (or maybe array) pairing communities with their avergae income
-    #TODO   Pets per vets if a new vet opened (vets in community + 1)
-    # community_list = ['Calgary', 'NE', 'NW', 'SW', 'SE']
-    
+
+
     community_list, NE_communities, NW_communities, SW_communities, SE_communities = [], [], [], [], []
     for x in communities_data:
         community_list.append(x[0])
@@ -93,22 +90,9 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         dogs_per_cap[row[0]] = row[2] / population
         pets_per_cap[row[0]] = row[3] / population
         index += 1
-        # test_list.append(population)
-        # test_list2.append(row[0])
-    # print('\n', test_list, '\n')
-    # print('\n', test_list2, '\n')    
-
-    # print(dogs_per_cap)
-
-    # print(community_list)
-    # print(NE_communities)
-    # print(NW_communities)
-    # print(SW_communities)
-    # print(SE_communities)
-
+    
     #Pets-per-Vet
     pets_per_vet, vets_per_community, vets_per_community_plus_one = {}, {}, {}
-    
     for community in pets_registration:
         vets_in_community = 0
         for row in vets_data:
