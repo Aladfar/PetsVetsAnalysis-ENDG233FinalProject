@@ -63,7 +63,7 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
             SE_communities.append(row[0])
 
     pets_registration, combined_pets = [], []
-    
+
     for row in pets_data:
         if row[0] == 'October 2021' and row[2] in community_list:                        #Gets the most recent cats and dogs registration data
             pets_registration.append(row[2])
@@ -659,6 +659,7 @@ def graph_time_vs_new_registration(pets_data, initial_pet_calculations):
             dates_with_cats_and_dogs[date] = np.NaN
         else:
             dates_with_cats_and_dogs[date] = cats_value + dogs_value
+
     dates_list_sorted = list(dates_with_cats.keys())
     cats_sorted_by_date = list(dates_with_cats.values())
     dogs_sorted_by_date = list(dates_with_dogs.values())
@@ -740,7 +741,6 @@ def graph_time_vs_new_registration(pets_data, initial_pet_calculations):
     print('You are now being returned to the pet statistics menu')
 
     return
-
 
 def area_most_least_pets_total(initial_pet_calculations):
     '''This function allows the user to select cat, dog or both and quadrant of city.
