@@ -81,8 +81,8 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     print(pets_registration)
 
     # print(pets_registration['Cats'])
-    test_list = []
-    test_list2 = []
+    # test_list = []
+    # test_list2 = []
     #pets per capita
     print(np.shape(pets_registration))
     cats_per_cap, dogs_per_cap, pets_per_cap = {}, {}, {}
@@ -93,8 +93,8 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         dogs_per_cap[row[0]] = row[2] / population
         pets_per_cap[row[0]] = row[3] / population
         index += 1
-        test_list.append(population)
-        test_list2.append(row[0])
+        # test_list.append(population)
+        # test_list2.append(row[0])
     # print('\n', test_list, '\n')
     # print('\n', test_list2, '\n')    
 
@@ -118,12 +118,6 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         vets_per_community_plus_one[community[0]] = vets_per_community[community[0]] + 1 
 
         pets_per_vet[community[0]] = community[3] / vets_per_community_plus_one[community[0]]
-
-
-
-
-    
-
 
     return pets_registration, cats_per_cap, dogs_per_cap, pets_per_cap, community_list, NE_communities, NW_communities, SW_communities, SE_communities, pets_per_vet
 
@@ -300,7 +294,7 @@ def pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
             area_most_least_pets_capita(initial_pet_calculations)
             print_pets_menu()
         elif user_input == 'Area Info':
-            pets_info(communities_data, initial_pet_calculations)
+            area_info(communities_data, initial_pet_calculations)
             print_pets_menu()
         elif user_input == 'Return':
             print() 
@@ -998,32 +992,44 @@ def most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, anim
     return
 #Complete   
 
-def pets_info (communities_data, initial_pet_calculations):
-    pets_registration, communities = initial_pet_calculations[0], communities_data
-    print(pets_registration)
-    print(communities)
-    community_list = initial_pet_calculations[4]
-          
-    print('This is the pet information menu.', end= ' ')
+def area_info (communities_data, initial_pet_calculations):
+    '''Takes in a user input for a community, checks if its valid and, if so, creates a Neighbourhood object.
+    Then, the function prints it using the print_neighbourhood_info()
+    
+    parameters:
+    communities_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
+        index 0: String. Community
+        index 1: Int. Median Household Income
+        index 3: Int. Population 2014
+    initial_pet_calculations:
+
+    returns: none
+    '''
+    pets_registration, communities = initial_pet_calculations[0], communities_data  
+    # print(pets_registration)
+    # print(communities)
+    community_list = [community[0] for community in communities[5:]]    #Creates a list of valid communities for inputs
+
+    print('This is the pet information menu.', end= ' ')                #Prints the name of the menu you're on    
     while True:
         print('Please type in the community or quadrant you would like to learn more about. If you need to see the options you can enter, please type Details')
-        requested_community = str(input())
-        if requested_community in [community[0] for community in communities[5:]]:
+        requested_community = str(input())                              #Get a community input from the user
+        if requested_community in community_list:                       #Checks if it exists in our list of valid inputs
             break
-        elif requested_community == 'Details':
+        elif requested_community == 'Details':                          #Prints all valid inputs
             for index,item in enumerate(community_list):
-                if index + 2 <= len(community_list): #Causes it to go through every element except the last in this if statement
-                    print('{}, '.format(item), end='') #Prints the area followed by a comma and a space
-                else:                                #For the last element just prints the element with a comma or space
+                if index + 2 <= len(community_list):                    #Causes it to go through every element except the last in this if statement
+                    print('{}, '.format(item), end='')                  #Prints the area followed by a comma and a space
+                else:                                                   #For the last element just prints the element with a comma or space
                     print(item)
         else:
              print('That was an invalid entry. Please try again or enter Details to see the options')
         
-    for row in pets_registration:
-        for community in communities:
-            if community[0] == row[0] and community[0] == requested_community:
-                requested_community = Neighbourhood(row[0], community[3], row[1], row[2], community[4])
-                requested_community.print_neighbourhood_info()
+    for row in pets_registration:                                       #Get each set in the structured array
+        for community in communities:                                   #Get each set in the strucured array                                   
+            if community[0] == row[0] and community[0] == requested_community:  #Finds the rows where the community names match with the requested community
+                requested_community = Neighbourhood(row[0], community[3], row[1], row[2], community[1])     #Creates a Neighbourhood object with the selected values
+                requested_community.print_neighbourhood_info()          #Uses the print_neighbourhood_info() function (inside Neighbourhood class) to print the pet information
 #Complete, docstring needed
 
 #Vets menu
