@@ -51,19 +51,19 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
 
 
     community_list, NE_communities, NW_communities, SW_communities, SE_communities = [], [], [], [], []
-    for x in communities_data:
-        community_list.append(x[0])
-        if x[5] == 1:
-            NE_communities.append(x[0])
-        elif x[5] == 2:
-            NW_communities.append(x[0])
-        elif x[5] == 3:
-            SW_communities.append(x[0])
-        elif x[5] == 4:
-            SE_communities.append(x[0])
-    print(communities_data)
+    for row in communities_data:
+        community_list.append(row[0])
+        if row[5] == 1:
+            NE_communities.append(row[0])
+        elif row[5] == 2:
+            NW_communities.append(row[0])
+        elif row[5] == 3:
+            SW_communities.append(row[0])
+        elif row[5] == 4:
+            SE_communities.append(row[0])
+
     pets_registration, combined_pets = [], []
-    # print(pets_data)
+    
     for row in pets_data:
         if row[0] == 'October 2021' and row[2] in community_list:                        #Gets the most recent cats and dogs registration data
             pets_registration.append(row[2])
@@ -143,10 +143,10 @@ def main_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
     while True:
         user_input = input()
         if user_input == 'Pets':
-            pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations)
+            pets_menu(pets_data, communities_data, initial_pet_calculations)
             print_main_menu()
         elif user_input == 'Vets':
-            vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations)
+            vets_menu(communities_data, vets_data,initial_pet_calculations)
             print_main_menu()
         elif user_input == 'End':
             exit() #Ends the code
@@ -161,7 +161,7 @@ def print_main_menu():
     return
 
 #Vets menu
-def vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
+def vets_menu(communities_data, vets_data,initial_pet_calculations):
     '''Collects the users input which causes either a return to the main menu, end the program or to run a variety of different functions meant to manipulate and output information.
     This function is designed to be run multiple times as it is returned to after running each data manipulation or from the main menu multiple times
     
@@ -201,7 +201,7 @@ def vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
     while True:
         user_input = input()
         if user_input == 'Pets Per Vet':
-            graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets_data,initial_pet_calculations)
+            graph_community_vs_income_and_pets_per_vet(communities_data, initial_pet_calculations)
             print_vets_menu()
         elif user_input == 'Vets In Area': 
             vets_in_area(vets_data, initial_pet_calculations)
@@ -223,7 +223,7 @@ def print_vets_menu():
     return
 
 #Pets menu
-def pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
+def pets_menu(pets_data, communities_data,initial_pet_calculations):
     '''Collects the users input which causes either a return to the main menu, end the program or to run a variety of different functions meant to manipulate and output information.
     This function is designed to be run multiple times as it is returned to after running each data manipulation or from the main menu multiple times
     
@@ -267,7 +267,7 @@ def pets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
             graph_income_vs_pets_by_capita(communities_data,initial_pet_calculations)
             print_pets_menu()
         elif user_input == 'Registration': 
-            graph_time_vs_new_registration(pets_data, communities_data, vets_data,initial_pet_calculations)
+            graph_time_vs_new_registration(pets_data, initial_pet_calculations)
             print_pets_menu()
         elif user_input == 'Total Pets':
             area_most_least_pets_total(initial_pet_calculations)
@@ -298,7 +298,7 @@ def print_pets_menu():
     return
 
 #Functions called from the vets menu
-def graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets_data,initial_pet_calculations):
+def graph_community_vs_income_and_pets_per_vet(communities_data, initial_pet_calculations):
     '''This functions takes pet per capita and income data and compares it on the same graph
 
     parameters:
@@ -580,7 +580,7 @@ def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
 
     return
 
-def graph_time_vs_new_registration(pets_data, communities_data, vets_data,initial_pet_calculations):
+def graph_time_vs_new_registration(pets_data, initial_pet_calculations):
     #Generates lists from the parameters that may be called upon
     community_list = initial_pet_calculations[4]
     northwest_communities = initial_pet_calculations[6]
