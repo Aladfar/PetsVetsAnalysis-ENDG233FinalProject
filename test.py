@@ -764,18 +764,6 @@ def graph_time_vs_new_registration(pets_data, communities_data, vets_data,initia
 
     return
 
-def pets_info (communities_data, initial_pet_calculations):
-    pets_registration, communities = initial_pet_calculations[0], communities_data
-     
-    for row in pets_registration:
-        for community in communities:
-            if community[0] == row[0]:
-                x = str(community[0])
-                population = community[1]
-                income = community[2]
-            
-                x = Neighbourhood(row[0], population, row[1], row[2], income)
-                x.print_neighbourhood_info()
 
 def area_most_least_pets_total(initial_pet_calculations):
     '''This function allows the user to select cat, dog or both and quadrant of city.
@@ -1010,7 +998,7 @@ def most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, anim
 #Complete   
 
 def pets_info (communities_data, initial_pet_calculations):
-    pets_registration, communities = initial_pet_calculations[0], communities_data
+    pets_registration, communities = initial_pet_calculations[0], communities_data      
     print('This is the pet information menu.', end= ' ')
     while True:
         print('Please type in the community or quadrant you would like to learn more about. If you need to see the options you can enter, please type Details')
@@ -1019,11 +1007,9 @@ def pets_info (communities_data, initial_pet_calculations):
             break
         elif requested_community == 'Details':
             print(f'Valid inputs are {[community[0] for community in communities]}')
-            
         else:
              print('That was an invalid entry. Please try again or enter Details to see the options')
         
-
     for row in pets_registration:
         for community in communities:
             if community[0] == row[0] and community[0] == requested_community:
