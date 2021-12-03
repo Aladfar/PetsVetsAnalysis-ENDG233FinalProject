@@ -10,13 +10,10 @@ class Neighbourhood:
         self.num_dogs = num_dogs
         self.num_cats = num_cats
     def print_neighbourhood_info(self):
-        print()
         print(f'Selected neighbourhood: {self.name}\tPopulation: {self.population}\tAverage Income: {self.income}')
-        print(f'\nPets Information:\nNumber of Cats in {self.name}: {self.num_cats:<10}Number of Cats per 100 people: {(self.num_cats / self.population) * 100:.2f}')
-        print(f'Number of Dogs in {self.name}: {self.num_dogs:<10}Number of Dogs per 100 people: {(self.num_dogs / self.population) * 100:.2f}')
-        print(f'Number of Pets in {self.name}: {self.num_dogs + self.num_cats:<10}Number of Pets per 100 people: {((self.num_dogs + self.num_cats)/ self.population) * 100:.2f}')
-        print()
-
+        print(f'\nPets Information:\nNumber of Cats in {self.name}: {self.num_cats}\tNumber of Cats per 100 people: {(self.num_cats / self.population) * 100:.2f}')
+        print(f'Number of Dogs in {self.name}: {self.num_dogs}\tNumber of Dogs per 100 people: {(self.num_dogs / self.population) * 100:.2f}')
+        print(f'Number of Pets in {self.name}: {self.num_dogs + self.num_cats}\tNumber of Pets per 100 people: {((self.num_dogs + self.num_cats)/ self.population) * 100:.2f}')
 def main():
     '''Runs the bulk of the code
     Imports the data, uses a function to extract and info from the imports into more usable forms and then brings up the main menu
@@ -49,11 +46,8 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         List containing Calgary, quadrants then communities (for graphing and checking if valid usere input)
         Dictionary (or maybe array) pairing communities with their avergae income
     '''
-    #TODO    Dictionary (or maybe array) pairing communities with pets per capita (for figure 2 and generating statistics)
-    #TODO    Dictionary (or maybe array) pairing communities with their avergae income
-    #TODO   Pets per vets if a new vet opened (vets in community + 1)
-    # community_list = ['Calgary', 'NE', 'NW', 'SW', 'SE']
-    
+
+
     community_list, NE_communities, NW_communities, SW_communities, SE_communities = [], [], [], [], []
     for x in communities_data:
         community_list.append(x[0])
@@ -96,22 +90,9 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
         dogs_per_cap[row[0]] = row[2] / population
         pets_per_cap[row[0]] = row[3] / population
         index += 1
-        # test_list.append(population)
-        # test_list2.append(row[0])
-    # print('\n', test_list, '\n')
-    # print('\n', test_list2, '\n')    
-
-    # print(dogs_per_cap)
-
-    # print(community_list)
-    # print(NE_communities)
-    # print(NW_communities)
-    # print(SW_communities)
-    # print(SE_communities)
-
+    
     #Pets-per-Vet
     pets_per_vet, vets_per_community, vets_per_community_plus_one = {}, {}, {}
-    
     for community in pets_registration:
         vets_in_community = 0
         for row in vets_data:
@@ -992,8 +973,7 @@ def most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, anim
                     print('{} with {} {}'.format(community, min, animal))
                 #The array is modified such that the min found is replaced with 10000000. Therefore a new number will now be the min when this section loops
                 num_of_pets_array_finding_min = np.where(num_of_pets_array_finding_min == min, 10000000, num_of_pets_array_finding_min)
-    return
-#Complete   
+    return 
 
 def area_info(communities_data, initial_pet_calculations):
     '''Takes in a user input for a community, checks if its valid and, if so, creates a Neighbourhood object.
@@ -1032,238 +1012,6 @@ def area_info(communities_data, initial_pet_calculations):
             if community[0] == row[0] and community[0] == requested_community:  #Finds the rows where the community names match with the requested community
                 requested_community = Neighbourhood(row[0], community[3], row[1], row[2], community[1])     #Creates a Neighbourhood object with the selected values
                 requested_community.print_neighbourhood_info()          #Uses the print_neighbourhood_info() function (inside Neighbourhood class) to print the pet information
-    return
-#Complete, docstring needed
-
-#Vets menu
-def vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
-    '''Collects the users input which causes either a return to the main menu, end the program or to run a variety of different functions meant to manipulate and output information.
-    This function is designed to be run multiple times as it is returned to after running each data manipulation or from the main menu multiple times
-    
-    parameters:
-    pets_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple: 
-        index 0: String. Date
-        index 1: String. Community abbreviation
-        index 2: String. Community
-        index 3: String. Cats or dogs
-        index 4: Int. Number of cats or dogs
-    communities_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
-        index 0: String. Community
-        index 1: Int. Median Household Income
-        index 2: Int. Median Age
-        index 3: Int. Population 2014
-        index 4: Int. Dwellings 2014
-        index 5: Int. City Quadrant (0 = NE, 1 = NW, 2= SW, 3 = SE)
-    vets_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
-        index 0: String. Community
-        index 1: String. Name of veterinarian
-        index 2: Int. 24 hour clinic? (1 = True, 0 = False)
-    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports:
-        index 0: 2D array. Col. 0 is all communities, Col. 1 is total cats, Col.2 is total dogs, Col.3 is total cats and dogs
-        index 1: Dict. The keys are communities and the values are that communities cats per capita
-        index 2: Dict. The keys are communities and the values are that communities dogs per capita
-        index 3: Dict. The keys are communities and the values are that communities cats and dogs per capita
-        index 4: List. Contains all the communities in Calgary            
-        index 5: List. Contains all the communities in the NE
-        index 6: List. Contains all the communities in the NW
-        index 7: List. Contains all the communities in the SW
-        index 8: List. Contains all the communities in the SE
-
-    returns: none
-    '''
-    print()
-    print_vets_menu() #Prints the input options to the user. They are inserted in various spots to always have the menu printed when the user enters this function
-    while True:
-        user_input = input()
-        if user_input == 'Pets Per Vet':
-            graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets_data,initial_pet_calculations)
-            print_vets_menu()
-        elif user_input == 'Vets In Area': 
-            vets_in_area(vets_data, initial_pet_calculations)
-            print_vets_menu()
-        elif user_input == 'Return':
-            print()
-            return #Brings user back to main menu
-        elif user_input == 'End':
-            exit() #Ends the code
-        else:
-            print('That was an invalid entry. Please try again using one of the above options')
-#Complete
-
-def print_vets_menu():
-    print('This is the veterinarian statistics menu. Please select one of the following options:\n')
-    print('{selection_option:>12} : {reason}'.format(selection_option = 'Pets Per Vet', reason = 'To see a graph comparing the number of pets per veterinarian for different areas in Calgary'))
-    print('{selection_option:>12} : {reason}'.format(selection_option = 'Vets In Area', reason = 'To learn more about the veterinarian services offered for different areas of Calgary'))        
-    print('{selection_option:>12} : {reason}'.format(selection_option = 'Return', reason = 'To return to the main menu'))        
-    print('{selection_option:>12} : {reason}'.format(selection_option = 'End', reason = 'To end the program'))
-    return
-#Coding Complete, docstring needed
-
-#Pets related functions
-def graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets_data,initial_pet_calculations):
-    '''This functions takes pet per capita and income data and compares it on the same graph
-    parameters:
-    UNCLEAR
-    returns: none
-    NOTES: Communities may be a tight fit
-    '''
-    all_communities_income = {}
-    for row in communities_data:
-        all_communities_income[row[0]] = row[1]
-    all_communities_income.pop('NE')
-    all_communities_income.pop('NW')
-    all_communities_income.pop('SE')
-    all_communities_income.pop('SW')
-    all_communities_income.pop('Calgary')
-
-    all_communities_cats_dogs_vet = initial_pet_calculations[9] 
-
-    all_communities_sorted = {}
-    all_communities_cats_dogs_vet_sorted = {}
-    income_sorted = sorted(all_communities_income.values())
-    for sorted_income in income_sorted:
-        for community, income in all_communities_income.items():
-            if income == sorted_income:
-                all_communities_sorted[community] = income
-                for community_unsorted, pets in all_communities_cats_dogs_vet.items():
-                    if community == community_unsorted:
-                        all_communities_cats_dogs_vet_sorted[community] = pets
-    all_communities_income = all_communities_sorted
-    all_communities_cats_dogs_vet = all_communities_cats_dogs_vet_sorted
-
-    income_x_axis_labels = list(all_communities_income.keys())
-    #Generates an order of numbers starting at 1 that has the same amount of numbers as the number of communities
-    income_x_axis_points = []
-    for i in range(len(income_x_axis_labels)):
-        income_x_axis_points.append(i+1)
-
-    fig = plt.figure()
-
-    #Two subplots will be created on top of each other to have two sets of data with different values on the same plot
-    ax1 = fig.add_subplot(111)
-    #Plots cat, dog points
-    ax1.plot(income_x_axis_points, all_communities_cats_dogs_vet.values(), 'bo', label='Total Cats and Dogs Per Veterinarian') # Graphs all coordinates
-    ax1.set_ylabel('Pets per Vetrinarians if a New Vetrinarian Opened in Each Community', color='blue')
-    #Changes the labels from numberes to communities and formats them
-    plt.xticks(income_x_axis_points, income_x_axis_labels, fontsize=6, rotation = 90)
-    plt.grid()
-    #Creates a second axis along the y-axis
-    ax2 = ax1.twinx()
-    #Plots income points
-    ax2.plot(income_x_axis_points, all_communities_income.values(), 'go', label='Average Household Income') # Graphs all coordinates
-    ax2.set_ylabel('Average Income for Each Community', color='green')
-
-    #Creates a title
-    plt.title('Pets per Vetrinarian and Income for Each Community')      
-
-    #Adds x-axis title
-    ax1.set_xlabel('Communities')
-
-    #Used to set the lower and upped bounds for the display of the x-axis
-    plt.xlim(0, len(income_x_axis_points)+1)  
-
-    #Explains graph
-    plt.figtext(0.5, 0.01, "This graph is designed to identify the best locations to start a new veterinarian practice.\nThe left y-axis is designed to demonstrate where there would be a large market of pets.\nThe right y-axis demonstrates which communities have more money to pay for veterinarian services", ha="center", fontsize=7)
-
-    #Allows for slightly better viewing of the graph and ensures the x-title can be seen
-    plt.tight_layout()
-
-    #Shows graph
-    plt.show()    
-
-    print('You are now being returned to the vet statistics menu')   
-
-    return
-#In Progress
-
-def vets_in_area(vets_data, initial_pet_calculations):
-    '''This function collects the user input and then outputs any veternarians in the area specified by the user. The veternarians are sorted by 24 hours vs not
-    parameters:
-    vets_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
-        index 0: String. Community
-        index 1: String. Name of veterinarian
-        index 2: Int. 24 hour clinic? (1 = True, 0 = False)    
-    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports. The relevant parts used are:
-        index 4: List. Contains all the communities in Calgary            
-        index 5: List. Contains all the communities in the NE
-        index 6: List. Contains all the communities in the NW
-        index 7: List. Contains all the communities in the SW
-        index 8: List. Contains all the communities in the SE
-    
-    returns: none
-    '''
-    #Generates lists from the parameters that may be called upon
-    community_list = initial_pet_calculations[4]
-    northwest_communities = initial_pet_calculations[6]
-    southwest_communities = initial_pet_calculations[7]
-    northeast_communities = initial_pet_calculations[5]
-    southeast_communities = initial_pet_calculations[8]
-    print('This is the veterinarian info menu. Please type in the community or quadrant you would like to learn more about. If you need to see the options you can enter please type Details')
-    
-    #This section loops until a valid input is entered. The user is given the option to see all the selection options otherwise it takes an input and sets the selected_community_list to a correct value
-    while True:
-        area = input()
-        if area == 'Details':
-            for index,item in enumerate(community_list):
-                if index + 2 <= len(community_list): #Causes it to go through every element except the last in this if statement
-                    print('{}, '.format(item), end='') #Prints the area followed by a comma and a space
-                else:                                #For the last element just prints the element with a comma or space
-                    print(item)
-            print('Please type in the community or quadrant you would like to learn more about. If you need to see the options you can enter please type Details')
-            continue
-        elif area == 'Calgary':
-            selcted_community_list = community_list  #The valid communities is set to a list of all communities in Calgary
-            break
-        elif area == 'NE':
-            selcted_community_list = northeast_communities #The valid communities is set to a list of the communities in North-East Calgary
-            break
-        elif area == 'NW':
-            selcted_community_list = northwest_communities #The valid communities is set to a list of the communities in North-West Calgary
-            break
-        elif area == 'SW':
-            selcted_community_list = southwest_communities #The valid communities is set to a list of the communities in South-West Calgary
-            break
-        elif area == 'SE':
-            selcted_community_list = southeast_communities #The valid communities is set to a list of the communities in South-East Calgary
-            break
-        elif area in community_list:
-            selcted_community_list = [area] #The valid communities is set to just the community specified
-            break
-        else:
-            print('That was an invalid entry. Please try again or enter Details to see the options')
-    #Sets up two variable to indicate whether there was any valid vets for each category
-    at_least_one_hours_24 = False
-    at_least_one_non_24_hours = False
-    for row in vets_data:
-        if row[0] in selcted_community_list and row[2] == 1 and at_least_one_hours_24 == False: #Only runs if the community is within one of the selected communities and it is the first 24 hours facility in the area
-            print()
-            print('Vets in {} that currently have 24 hour services:'.format(area))
-            print(row[1])
-            at_least_one_hours_24 = True #Changed to indicate that there is at least one 24 hours clinic in the area
-        elif row[0] in selcted_community_list and row[2] == 1 and at_least_one_hours_24 == True: #Only runs if the community is within one of the selected communities and it is the second or greater 24 hours facility in the area
-            print(row[1])
-    for row in vets_data:
-        if row[0] in selcted_community_list and row[2] == 0 and at_least_one_hours_24 == True and at_least_one_non_24_hours == False: #Only runs if the community is within the one of the selected communities, there was at least one 24 hour clinic found and it is the first not 24 hour clinic in the area
-            print()
-            print('Vets in {} that are not 24 hours:'.format(area))
-            print(row[1])
-            at_least_one_non_24_hours = True #Changed to indicate that there is at least one non-24 hours clinic in the area
-        elif row[0] in selcted_community_list and row[2] == 0 and at_least_one_hours_24 == False and at_least_one_non_24_hours == False: #Only runs if the community is within the one of the selected communities, there were no 24 hour clinics found and it is the first not 24 hour clinic in the area
-            print()
-            print('There are no 24 hour clinics in this area')
-            print()
-            print('Vets in {} that are not 24 hours:'.format(area))
-            print(row[1])
-            at_least_one_non_24_hours = True #Changed to indicate that there is at least one non-24 hours clinic in the area
-        elif row[0] in selcted_community_list and row[2] == 0 and at_least_one_non_24_hours == True: #Only runs if the community is within the one of the selected communities and it is the second or greaterr non-24 hours facility in the area
-            print(row[1])
-    if at_least_one_non_24_hours == False and at_least_one_hours_24 == False: #Only runs if there is no clinics at all in the area
-        print()
-        print('There are no veterinarian clinics in this area')
-    elif at_least_one_non_24_hours == False: #Only runs if there were 24 hour clinics but no non-24 hour clinics
-        print()
-        print('There are only 24 hour clinics in this area')
-    print()
     return
 
 #Starts running the code
