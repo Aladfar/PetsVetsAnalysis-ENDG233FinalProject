@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-# from numpy.lib.function_base import average
 
 class Neighbourhood:
     def __init__(self, name, population, num_cats, num_dogs, income):
@@ -65,26 +64,22 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
     print(communities_data)
     pets_registration, combined_pets = [], []
     # print(pets_data)
-    for x in pets_data:
-        if x[0] == 'October 2021' and x[2] in community_list:                        #Gets the most recent cats and dogs registration data
-            pets_registration.append(x[2])
-            pets_registration.append(x[4])
+    for row in pets_data:
+        if row[0] == 'October 2021' and row[2] in community_list:                        #Gets the most recent cats and dogs registration data
+            pets_registration.append(row[2])
+            pets_registration.append(row[4])
     pets_registration = np.array(pets_registration)                     #Creates a 1D array from the list
     pets_registration = pets_registration.reshape((int(len(pets_registration)/4)), 4)   #Turns the 1D array into a 2D array with 4 columns and (1D Array Length / 4) Rows
     pets_registration = np.delete(pets_registration, 2, 1)              #Deletes the third column (repeat of communtity name)
-    for x in pets_registration:
-        combined_pets.append(int(x[1]) + int(x[2]))
-    pets_registration = np.c_[pets_registration, combined_pets]       #Formatting is community, cats, dogs, combined total
+    
+    for row in pets_registration:
+        combined_pets.append(int(row[1]) + int(row[2]))
+
+    pets_registration = np.c_[pets_registration, combined_pets]         #Formatting is community, cats, dogs, combined total
     pets_registration = list(zip(*pets_registration.T))
     dtp = np.dtype([('Name', 'U100'), ('Cats', '>i4'), ('Dogs', '>i4'), ('Total', '>i4')])
     pets_registration = np.array(pets_registration, dtype=dtp)          # Creates a structured array
-    print(pets_registration)
 
-    # print(pets_registration['Cats'])
-    # test_list = []
-    # test_list2 = []
-    #pets per capita
-    print(np.shape(pets_registration))
     cats_per_cap, dogs_per_cap, pets_per_cap = {}, {}, {}
     index = 5
     for row in pets_registration:
