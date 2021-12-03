@@ -2,18 +2,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 # from numpy.lib.function_base import average
 
-class Neighborhood:
+class Neighbourhood:
     def __init__(self, name, population, num_cats, num_dogs, income):
         self.name = name
         self.population = population
         self.income = income
         self.num_dogs = num_dogs
         self.num_cats = num_cats
-    def print_neighborhood_info(self):
-        print(f'Selected neighborhood: {self.name}\tPopulation: {self.population}\tAverage Income: {self.income}')
-        print(f'\nCats Information:\nNumber of Cats in {self.name}: {self.num_cats}\tNumber of Cats per 100 people: {(self.num_cats / self.population) * 100}{{:.2f}}')
-
-#Main Program
+    def print_neighbourhood_info(self):
+        print(f'Selected neighbourhood: {self.name}\tPopulation: {self.population}\tAverage Income: {self.income}')
+        print(f'\nPets Information:\nNumber of Cats in {self.name}: {self.num_cats}\tNumber of Cats per 100 people: {(self.num_cats / self.population) * 100:.2f}')
+        print(f'Number of Dogs in {self.name}: {self.num_dogs}\tNumber of Dogs per 100 people: {(self.num_dogs / self.population) * 100:.2f}')
+        print(f'Number of Pets in {self.name}: {self.num_dogs + self.num_cats}\tNumber of Pets per 100 people: {((self.num_dogs + self.num_cats)/ self.population) * 100:.2f}')
 def main():
     '''Runs the bulk of the code
     Imports the data, uses a function to extract and info from the imports into more usable forms and then brings up the main menu
@@ -750,16 +750,24 @@ def most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, anim
 
 def pets_info (pets_data, communities_data, vets_data,initial_pet_calculations):
     pets_registration, communities = initial_pet_calculations[0], communities_data
-     
+    print('This is the pet information menu.', end= ' ')
+    while True:
+        print('Please type in the community or quadrant you would like to learn more about. If you need to see the options you can enter, please type Details')
+        requested_community = str(input())
+        if requested_community in [community[0] for community in communities]:
+            break
+        elif requested_community == 'Details':
+            print(f'Valid inputs are {[community[0] for community in communities]}')
+            
+        else:
+             print('That was an invalid entry. Please try again or enter Details to see the options')
+        
+
     for row in pets_registration:
         for community in communities:
-            if community[0] == row[0]:
-                x = str(community[0])
-                population = community[1]
-                income = community[2]
-            
-                x = Neighborhood(row[0], population, row[1], row[2], income)
-                x.print_neighborhood_info()
+            if community[0] == row[0] and community[0] == requested_community:
+                requested_community = Neighbourhood(row[0], community[3], row[1], row[2], community[4])
+                requested_community.print_neighbourhood_info()
 #Not started
 
 #Vets menu
