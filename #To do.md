@@ -20,5 +20,7 @@
 
 -Other
     -Remove random commented print statements
-    -Change file name
+    -Change file name (Ahmed)
     -Take out extra parameter calls (Ahmed)
+    -Cats pets total capita wording change (Dylan)
+    -Registration tight layout
