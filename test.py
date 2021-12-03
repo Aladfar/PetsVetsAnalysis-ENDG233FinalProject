@@ -774,8 +774,8 @@ def pets_info (pets_data, communities_data, vets_data,initial_pet_calculations):
                 population = community[1]
                 income = community[2]
             
-                x = Neighborhood(row[0], population, row[1], row[2], income)
-                x.print_neighborhood_info()
+                x = Neighbourhood(row[0], population, row[1], row[2], income)
+                x.print_neighbourhood_info()
 
 def area_most_least_pets_total(initial_pet_calculations):
     '''This function allows the user to select cat, dog or both and quadrant of city.
@@ -1009,7 +1009,7 @@ def most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, anim
     return
 #Complete   
 
-def pets_info (pets_data, communities_data, vets_data,initial_pet_calculations):
+def pets_info (communities_data, initial_pet_calculations):
     pets_registration, communities = initial_pet_calculations[0], communities_data
     print('This is the pet information menu.', end= ' ')
     while True:
@@ -1029,7 +1029,7 @@ def pets_info (pets_data, communities_data, vets_data,initial_pet_calculations):
             if community[0] == row[0] and community[0] == requested_community:
                 requested_community = Neighbourhood(row[0], community[3], row[1], row[2], community[4])
                 requested_community.print_neighbourhood_info()
-#Not started
+#Complete, docstring needed
 
 #Vets menu
 def vets_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
@@ -1098,12 +1098,9 @@ def print_vets_menu():
 #Pets related functions
 def graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets_data,initial_pet_calculations):
     '''This functions takes pet per capita and income data and compares it on the same graph
-
     parameters:
     UNCLEAR
-
     returns: none
-
     NOTES: Communities may be a tight fit
     '''
     all_communities_income = {}
@@ -1136,28 +1133,34 @@ def graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets
     for i in range(len(income_x_axis_labels)):
         income_x_axis_points.append(i+1)
 
-    fig, ax1 = plt.subplots()
+    fig = plt.figure()
+
+    #Two subplots will be created on top of each other to have two sets of data with different values on the same plot
+    ax1 = fig.add_subplot(111)
     #Plots cat, dog points
     ax1.plot(income_x_axis_points, all_communities_cats_dogs_vet.values(), 'bo', label='Total Cats and Dogs Per Veterinarian') # Graphs all coordinates
     ax1.set_ylabel('Pets per Vetrinarians if a New Vetrinarian Opened in Each Community', color='blue')
-
-    #Plots income points
+    #Changes the labels from numberes to communities and formats them
+    plt.xticks(income_x_axis_points, income_x_axis_labels, fontsize=6, rotation = 90)
+    plt.grid()
+    #Creates a second axis along the y-axis
     ax2 = ax1.twinx()
+    #Plots income points
     ax2.plot(income_x_axis_points, all_communities_income.values(), 'go', label='Average Household Income') # Graphs all coordinates
     ax2.set_ylabel('Average Income for Each Community', color='green')
 
     #Creates a title
     plt.title('Pets per Vetrinarian and Income for Each Community')      
 
-    #Modifies x_axis_display
-    plt.xlabel('Communities')
-    plt.xticks(income_x_axis_points, income_x_axis_labels)
-    plt.xticks(rotation=90, fontsize=6) #Used to rotate the labels vertically and reduce their size to allow to accomodate for the cramped space
-    plt.xlim(0, len(income_x_axis_points)+1)  #Used to set the lower and upped bounds for the display of the x-axis
-    
+    #Adds x-axis title
+    ax1.set_xlabel('Communities')
+
+    #Used to set the lower and upped bounds for the display of the x-axis
+    plt.xlim(0, len(income_x_axis_points)+1)  
+
     #Explains graph
     plt.figtext(0.5, 0.01, "This graph is designed to identify the best locations to start a new veterinarian practice.\nThe left y-axis is designed to demonstrate where there would be a large market of pets.\nThe right y-axis demonstrates which communities have more money to pay for veterinarian services", ha="center", fontsize=7)
- 
+
     #Allows for slightly better viewing of the graph and ensures the x-title can be seen
     plt.tight_layout()
 
@@ -1257,17 +1260,6 @@ def vets_in_area(vets_data, initial_pet_calculations):
         print('There are only 24 hour clinics in this area')
     print()
     return
-#Function called from pets_infp
-class Neighborhood:
-    def __init__(self, name, population, num_cats, num_dogs, income):
-        self.name = name
-        self.population = population
-        self.income = income
-        self.num_dogs = num_dogs
-        self.num_cats = num_cats
-    def print_neighborhood_info(self):
-        print(f'Selected neighborhood: {self.name}\tPopulation: {self.population}\tAverage Income: {self.income}')
-        print(f'\nCats Information:\nNumber of Cats in {self.name}: {self.num_cats}\tNumber of Cats per 100 people: {(self.num_cats / self.population) * 100}{{:.2f}}')
 
 #Starts running the code
 if __name__ == '__main__':
