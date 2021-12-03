@@ -1001,13 +1001,12 @@ def area_info (communities_data, initial_pet_calculations):
         index 0: String. Community
         index 1: Int. Median Household Income
         index 3: Int. Population 2014
-    initial_pet_calculations:
+    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports. The relevant parts used are:
+        index 0: 2D array. Col. 0 is all communities, Col. 1 is total cats, Col.2 is total dogs, Col.3 is total cats and dogs
 
     returns: none
     '''
     pets_registration, communities = initial_pet_calculations[0], communities_data  
-    # print(pets_registration)
-    # print(communities)
     community_list = [community[0] for community in communities[5:]]    #Creates a list of valid communities for inputs
 
     print('This is the pet information menu.', end= ' ')                #Prints the name of the menu you're on    
@@ -1030,6 +1029,7 @@ def area_info (communities_data, initial_pet_calculations):
             if community[0] == row[0] and community[0] == requested_community:  #Finds the rows where the community names match with the requested community
                 requested_community = Neighbourhood(row[0], community[3], row[1], row[2], community[1])     #Creates a Neighbourhood object with the selected values
                 requested_community.print_neighbourhood_info()          #Uses the print_neighbourhood_info() function (inside Neighbourhood class) to print the pet information
+    return
 #Complete, docstring needed
 
 #Vets menu
