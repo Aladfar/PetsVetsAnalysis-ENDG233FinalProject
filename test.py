@@ -52,19 +52,18 @@ def run_initial_pet_calculations(pets_data, communities_data, vets_data):
 
 
     community_list, NE_communities, NW_communities, SW_communities, SE_communities = [], [], [], [], []
-    for x in communities_data:
-        community_list.append(x[0])
-        if x[5] == 1:
-            NE_communities.append(x[0])
-        elif x[5] == 2:
-            NW_communities.append(x[0])
-        elif x[5] == 3:
-            SW_communities.append(x[0])
-        elif x[5] == 4:
-            SE_communities.append(x[0])
-    print(communities_data)
+    for row in communities_data:
+        community_list.append(row[0])
+        if row[5] == 1:
+            NE_communities.append(row[0])
+        elif row[5] == 2:
+            NW_communities.append(row[0])
+        elif row[5] == 3:
+            SW_communities.append(row[0])
+        elif row[5] == 4:
+            SE_communities.append(row[0])
+
     pets_registration, combined_pets = [], []
-    # print(pets_data)
     for x in pets_data:
         if x[0] == 'October 2021' and x[2] in community_list:                        #Gets the most recent cats and dogs registration data
             pets_registration.append(x[2])
