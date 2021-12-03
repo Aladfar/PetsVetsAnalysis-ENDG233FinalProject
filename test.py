@@ -1171,7 +1171,92 @@ def graph_community_vs_income_and_pets_per_vet(pets_data, communities_data, vets
 
 def vets_in_area(vets_data, initial_pet_calculations):
     '''This function collects the user input and then outputs any veternarians in the area specified by the user. The veternarians are sorted by 24 hours vs not
-'''
+    parameters:
+    vets_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
+        index 0: String. Community
+        index 1: String. Name of veterinarian
+        index 2: Int. 24 hour clinic? (1 = True, 0 = False)    
+    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports. The relevant parts used are:
+        index 4: List. Contains all the communities in Calgary            
+        index 5: List. Contains all the communities in the NE
+        index 6: List. Contains all the communities in the NW
+        index 7: List. Contains all the communities in the SW
+        index 8: List. Contains all the communities in the SE
+    
+    returns: none
+    '''
+    #Generates lists from the parameters that may be called upon
+    community_list = initial_pet_calculations[4]
+    northwest_communities = initial_pet_calculations[6]
+    southwest_communities = initial_pet_calculations[7]
+    northeast_communities = initial_pet_calculations[5]
+    southeast_communities = initial_pet_calculations[8]
+    print('This is the veterinarian info menu. Please type in the community or quadrant you would like to learn more about. If you need to see the options you can enter please type Details')
+    
+    #This section loops until a valid input is entered. The user is given the option to see all the selection options otherwise it takes an input and sets the selected_community_list to a correct value
+    while True:
+        area = input()
+        if area == 'Details':
+            for index,item in enumerate(community_list):
+                if index + 2 <= len(community_list): #Causes it to go through every element except the last in this if statement
+                    print('{}, '.format(item), end='') #Prints the area followed by a comma and a space
+                else:                                #For the last element just prints the element with a comma or space
+                    print(item)
+            continue
+        elif area == 'Calgary':
+            selcted_community_list = community_list  #The valid communities is set to a list of all communities in Calgary
+            break
+        elif area == 'NE':
+            selcted_community_list = northeast_communities #The valid communities is set to a list of the communities in North-East Calgary
+            break
+        elif area == 'NW':
+            selcted_community_list = northwest_communities #The valid communities is set to a list of the communities in North-West Calgary
+            break
+        elif area == 'SW':
+            selcted_community_list = southwest_communities #The valid communities is set to a list of the communities in South-West Calgary
+            break
+        elif area == 'SE':
+            selcted_community_list = southeast_communities #The valid communities is set to a list of the communities in South-East Calgary
+            break
+        elif area in community_list:
+            selcted_community_list = [area] #The valid communities is set to just the community specified
+            break
+        else:
+            print('That was an invalid entry. Please try again or enter Details to see the options')
+    #Sets up two variable to indicate whether there was any valid vets for each category
+    at_least_one_hours_24 = False
+    at_least_one_non_24_hours = False
+    for row in vets_data:
+        if row[0] in selcted_community_list and row[2] == 1 and at_least_one_hours_24 == False: #Only runs if the community is within one of the selected communities and it is the first 24 hours facility in the area
+            print()
+            print('Vets in {} that currently have 24 hour services:'.format(area))
+            print(row[1])
+            at_least_one_hours_24 = True #Changed to indicate that there is at least one 24 hours clinic in the area
+        elif row[0] in selcted_community_list and row[2] == 1 and at_least_one_hours_24 == True: #Only runs if the community is within one of the selected communities and it is the second or greater 24 hours facility in the area
+            print(row[1])
+    for row in vets_data:
+        if row[0] in selcted_community_list and row[2] == 0 and at_least_one_hours_24 == True and at_least_one_non_24_hours == False: #Only runs if the community is within the one of the selected communities, there was at least one 24 hour clinic found and it is the first not 24 hour clinic in the area
+            print()
+            print('Vets in {} that are not 24 hours:'.format(area))
+            print(row[1])
+            at_least_one_non_24_hours = True #Changed to indicate that there is at least one non-24 hours clinic in the area
+        elif row[0] in selcted_community_list and row[2] == 0 and at_least_one_hours_24 == False and at_least_one_non_24_hours == False: #Only runs if the community is within the one of the selected communities, there were no 24 hour clinics found and it is the first not 24 hour clinic in the area
+            print()
+            print('There are no 24 hour clinics in this area')
+            print()
+            print('Vets in {} that are not 24 hours:'.format(area))
+            print(row[1])
+            at_least_one_non_24_hours = True #Changed to indicate that there is at least one non-24 hours clinic in the area
+        elif row[0] in selcted_community_list and row[2] == 0 and at_least_one_non_24_hours == True: #Only runs if the community is within the one of the selected communities and it is the second or greaterr non-24 hours facility in the area
+            print(row[1])
+    if at_least_one_non_24_hours == False and at_least_one_hours_24 == False: #Only runs if there is no clinics at all in the area
+        print()
+        print('There are no veterinarian clinics in this area')
+    elif at_least_one_non_24_hours == False: #Only runs if there were 24 hour clinics but no non-24 hour clinics
+        print()
+        print('There are only 24 hour clinics in this area')
+    print()
+    return
 #Function called from pets_infp
 class Neighborhood:
     def __init__(self, name, population, num_cats, num_dogs, income):
