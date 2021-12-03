@@ -998,12 +998,14 @@ def most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, anim
 #Complete   
 
 def pets_info (communities_data, initial_pet_calculations):
-    pets_registration, communities = initial_pet_calculations[0], communities_data      
+    pets_registration, communities = initial_pet_calculations[0], communities_data
+    print(pets_registration)
+    print(communities)      
     print('This is the pet information menu.', end= ' ')
     while True:
         print('Please type in the community or quadrant you would like to learn more about. If you need to see the options you can enter, please type Details')
         requested_community = str(input())
-        if requested_community in [community[0] for community in communities]:
+        if requested_community in [community[0] for community in communities[5:]]:
             break
         elif requested_community == 'Details':
             print(f'Valid inputs are {[community[0] for community in communities]}')
