@@ -308,6 +308,7 @@ def graph_community_vs_income_and_pets_per_vet(communities_data, initial_pet_cal
 
     NOTES: Communities may be a tight fit
     '''
+    #Creates a dictionary pairing community with community income. It uses communities data which includes Calgary and quadrants so those are removed
     all_communities_income = {}
     for row in communities_data:
         all_communities_income[row[0]] = row[1]
@@ -317,22 +318,22 @@ def graph_community_vs_income_and_pets_per_vet(communities_data, initial_pet_cal
     all_communities_income.pop('SW')
     all_communities_income.pop('Calgary')
 
+    #A dictionary pairing community with the amount of cats and dogs per veterinarian
     all_communities_cats_dogs_vet = initial_pet_calculations[9] 
 
+    #Sorts the dictionary so that in both dictionary's are ordered from lowest community to highest community income
     all_communities_sorted = {}
     all_communities_cats_dogs_vet_sorted = {}
-    income_sorted = sorted(all_communities_income.values())
-    for sorted_income in income_sorted:
+    income_sorted = sorted(all_communities_income.values()) #Creates an iterable of the incomes in order from smallest to biggest
+    for sorted_income in income_sorted: 
         for community, income in all_communities_income.items():
             if income == sorted_income:
-                all_communities_sorted[community] = income
+                all_communities_sorted[community] = income #Creates a sorted community with income dictionary
                 for community_unsorted, pets in all_communities_cats_dogs_vet.items():
                     if community == community_unsorted:
-                        all_communities_cats_dogs_vet_sorted[community] = pets
-    all_communities_income = all_communities_sorted
-    all_communities_cats_dogs_vet = all_communities_cats_dogs_vet_sorted
+                        all_communities_cats_dogs_vet_sorted[community] = pets #Creates a sorted community with pets per vet dictionary
 
-    income_x_axis_labels = list(all_communities_income.keys())
+    income_x_axis_labels = list(all_communities_sorted.keys())
     #Generates an order of numbers starting at 1 that has the same amount of numbers as the number of communities
     income_x_axis_points = []
     for i in range(len(income_x_axis_labels)):
@@ -343,15 +344,15 @@ def graph_community_vs_income_and_pets_per_vet(communities_data, initial_pet_cal
     #Two subplots will be created on top of each other to have two sets of data with different values on the same plot
     ax1 = fig.add_subplot(111)
     #Plots cat, dog points
-    ax1.plot(income_x_axis_points, all_communities_cats_dogs_vet.values(), 'bo', label='Total Cats and Dogs Per Veterinarian') # Graphs all coordinates
+    ax1.plot(income_x_axis_points, all_communities_cats_dogs_vet_sorted.values(), 'bo', label='Total Cats and Dogs Per Veterinarian') # Graphs all coordinates
     ax1.set_ylabel('Pets per Vetrinarians if a New Vetrinarian Opened in Each Community', color='blue')
-    #Changes the labels from numberes to communities and formats them
+    #Changes the labels from numbers to communities and formats them
     plt.xticks(income_x_axis_points, income_x_axis_labels, fontsize=6, rotation = 90)
     plt.grid()
     #Creates a second axis along the y-axis
     ax2 = ax1.twinx()
     #Plots income points
-    ax2.plot(income_x_axis_points, all_communities_income.values(), 'go', label='Average Household Income') # Graphs all coordinates
+    ax2.plot(income_x_axis_points, all_communities_sorted.values(), 'go', label='Average Household Income') # Graphs all coordinates
     ax2.set_ylabel('Average Income for Each Community', color='green')
 
     #Creates a title
@@ -484,7 +485,7 @@ def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
     
     returns: none
     '''
-    # Generates a dictionary pairing just communities with their average income using the dataset all_communities_income
+    # Generates a dictionary pairing just communities with their average income using the dataset all_communities_income. Communities data is included which includes Calgary and quadrants so they are removed
     all_communities_income = {}
     for row in communities_data:
         all_communities_income[row[0]] = row[1]
@@ -494,6 +495,7 @@ def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
     all_communities_income.pop('SW')
     all_communities_income.pop('Calgary')
 
+    #Dictionaries pairing communities with their pets by capita
     all_communities_cats_dogs = initial_pet_calculations[3] 
     all_communities_cats = initial_pet_calculations[1]
     all_communities_dogs = initial_pet_calculations[2]
@@ -518,7 +520,7 @@ def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
     cats_dogs_y_axis = []
     cats_y_axis = []
     dogs_y_axis = []
-    for community_sorted in all_communities_sorted.keys():
+    for community_sorted in all_communities_sorted.keys(): #Looks at the sorted communities
         for community,population in all_communities_cats_dogs.items():
             if community_sorted == community:
                 cats_dogs_y_axis.append(population * 100)

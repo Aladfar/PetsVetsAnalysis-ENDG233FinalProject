@@ -11,7 +11,6 @@
 
 -Commenting
     -Initial Pet Calculations (Ahmed)
-    -Community vs income and pets per vet (Dylan)
     -Income vs pets capita (Dylan)
     -Time vs pets (Dylan)
 
