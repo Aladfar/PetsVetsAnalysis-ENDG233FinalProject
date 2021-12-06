@@ -180,6 +180,7 @@ def main_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
         index 6: List. Contains all the communities in the NW
         index 7: List. Contains all the communities in the SW
         index 8: List. Contains all the communities in the SE
+        index 9: Dict. Contains the number of pets for each community divided by the number of vets + 1. Format is 'Community Name': Pets in Community / (Vets + 1)
 
     returns: none (The return statement is never reached. The program ends by using exit() which causes this function to never finish)
     '''
@@ -243,6 +244,7 @@ def vets_menu(communities_data, vets_data,initial_pet_calculations):
         index 6: List. Contains all the communities in the NW
         index 7: List. Contains all the communities in the SW
         index 8: List. Contains all the communities in the SE
+        index 9: Dict. Contains the number of pets for each community divided by the number of vets + 1. Format is 'Community Name': Pets in Community / (Vets + 1)
 
     returns: none
     '''
@@ -311,6 +313,8 @@ def pets_menu(pets_data, communities_data,initial_pet_calculations):
         index 6: List. Contains all the communities in the NW
         index 7: List. Contains all the communities in the SW
         index 8: List. Contains all the communities in the SE
+        index 9: Dict. Contains the number of pets for each community divided by the number of vets + 1. Format is 'Community Name': Pets in Community / (Vets + 1)
+
 
     returns: none
     '''
@@ -363,12 +367,14 @@ def print_pets_menu():
 def graph_community_vs_income_and_pets_per_vet(communities_data, initial_pet_calculations):
     '''This functions takes pet per capita and income data and compares it on the same graph
 
-    parameters:
-    UNCLEAR
+    parameters: 
+    communities_data: Data directly imported from a csv file. A 1D array with rows of tuples. The relevant indexes within the tuple are:
+        index 0: String. Community
+        index 1: Int. Median Household Income
+    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports. The relevant index within the tuple is:
+        index 9: Dict. Contains the number of pets for each community divided by the number of vets + 1. Format is 'Community Name': Pets in Community / (Vets + 1)
 
     returns: none
-
-    NOTES: Communities may be a tight fit
     '''
     #Creates a dictionary pairing community with community income. It uses communities data which includes Calgary and quadrants so those are removed
     all_communities_income = {}
@@ -411,7 +417,7 @@ def graph_community_vs_income_and_pets_per_vet(communities_data, initial_pet_cal
     #Changes the labels from numbers to communities and formats them
     plt.xticks(income_x_axis_points, income_x_axis_labels, fontsize=6, rotation = 90)
     plt.grid()
-    #Creates a second axis along the y-axis
+    #Creates a second axis along the y-axis that has a shared x axis
     ax2 = ax1.twinx()
     #Plots income points
     ax2.plot(income_x_axis_points, all_communities_sorted.values(), 'go', label='Average Household Income') # Graphs all coordinates
@@ -539,7 +545,9 @@ def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
     The x-axis is three lines, one for cats, one for dogs, one for cats and dogs. It displays all points as well as a line of best fit
 
     parameters:
-    communities_data: A 1-D array. Each row contains a tuple of data. The significant parts in each tuple is column 0 is community name and column 1 is income
+    communities_data: Data directly imported from a csv file. A 1D array with rows of tuples. The relevant indexes within the tuple are:
+        index 0: String. Community
+        index 1: Int. Median Household Income    
     initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports. The relevant parts of it used are:
         index 1: Dict. The keys are communities and the values are that communities cats per capita
         index 2: Dict. The keys are communities and the values are that communities dogs per capita
@@ -547,11 +555,11 @@ def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
     
     returns: none
     '''
-    # Generates a dictionary pairing just communities with their average income using the dataset all_communities_income. Communities data is included which includes Calgary and quadrants so they are removed
+    # Generates a dictionary pairing just communities with their average income using the dataset all_communities_income
     all_communities_income = {}
     for row in communities_data:
         all_communities_income[row[0]] = row[1]
-    all_communities_income.pop('NE')
+    all_communities_income.pop('NE') #Communities_data also has quadrants and city so they are removed
     all_communities_income.pop('NW')
     all_communities_income.pop('SE')
     all_communities_income.pop('SW')
@@ -573,20 +581,20 @@ def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
     #A list of the communities that has been sorted poorest to richest
     income_x_axis_labels = list(all_communities_sorted.keys())
 
-    #Generates an order of numbers starting at 1 that has the same amount of numbers as then number of communities
+    #Generates an order of numbers starting at 1 that has the same amount of numbers as the number of communities
     income_x_axis_points = []
     for i in range(len(income_x_axis_labels)):
         income_x_axis_points.append(i+1)
 
-    #Creates the three y-axis data sets
+    #Creates the three y-axis data sets that are pet populations listed in order
     cats_dogs_y_axis = []
     cats_y_axis = []
     dogs_y_axis = []
     for community_sorted in all_communities_sorted.keys(): #Looks at the sorted communities
-        for community,population in all_communities_cats_dogs.items():
-            if community_sorted == community:
-                cats_dogs_y_axis.append(population * 100)
-    for community_sorted in all_communities_sorted.keys():
+        for community, population in all_communities_cats_dogs.items():
+            if community_sorted == community:              #If the sorted community matches the key in the dict pairing community with cats and dogs
+                cats_dogs_y_axis.append(population * 100)  #The corresponding animal population is then added to the list. Multiplied by 100 to convert from per 1 person to per 100 people
+    for community_sorted in all_communities_sorted.keys(): #Repeats for just cats and then just dogs
         for community,population in all_communities_cats.items():
             if community_sorted == community:
                 cats_y_axis.append(population * 100)
@@ -600,7 +608,7 @@ def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
 
     plt.figure(FIGURE1)
 
-    #Converted to numpy's to fit np.polyfit() rquirements
+    #Converted to numpys to fit np.polyfit() requirements
     income_x_axis_points_numpy = np.array(income_x_axis_points)
     cats_dogs_y_axis_numpy = np.array(cats_dogs_y_axis)    
     cats_y_axis_numpy = np.array(cats_y_axis)    
@@ -632,6 +640,7 @@ def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
     plt.xticks(rotation=90, fontsize=6) #Used to rotate the labels vertically and reduce their size to allow to accomodate for the cramped space
     plt.xlim(0, len(income_x_axis_points)+1)  #Used to set the lower and upped bounds for the display of the x-axis
 
+    #Gives gridlines
     plt.grid()
 
     #Allows for slightly better viewing of the graph and ensures the x-title can be seen
@@ -645,7 +654,24 @@ def graph_income_vs_pets_by_capita(communities_data, initial_pet_calculations):
     return
 
 def graph_time_vs_new_registration(pets_data, initial_pet_calculations):
-    #Generates lists from the parameters that may be called upon
+    '''Collects the user's input to determine which communities in Calgary to look at. Once found it generates the number of pets for each month for that area.
+    That data is then converted to find the change in pets for each month and then graphed.
+
+    parameters:
+    pets_data: Data directly imported from a csv file. A 1D array with rows of tuples. The relvant indexes within each tuple is: 
+        index 0: String. Date
+        index 2: String. Community
+        index 3: String. Cats or dogs
+        index 4: Int. Number of cats or dogs
+    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports. The relvant indexes within each tuple is: 
+        index 4: List. Contains all the communities in Calgary            
+        index 5: List. Contains all the communities in the NE
+        index 6: List. Contains all the communities in the NW
+        index 7: List. Contains all the communities in the SW
+        index 8: List. Contains all the communities in the SE
+
+    returns: none
+    '''
     community_list = initial_pet_calculations[4]
     northwest_communities = initial_pet_calculations[6]
     southwest_communities = initial_pet_calculations[7]
@@ -686,44 +712,47 @@ def graph_time_vs_new_registration(pets_data, initial_pet_calculations):
         else:
             print('That was an invalid entry. Please try again or enter Details to see the options')
 
-    months_list = []
-    for row in reversed(pets_data):
-        if row[0] not in months_list:
+    months_list = [] 
+    for row in reversed(pets_data): #Creates a list of the all the months in the data set from oldest to newest
+        if row[0] not in months_list: 
             months_list.append(row[0])
     
     dates_with_cats, dates_with_dogs, dates_with_cats_and_dogs = {}, {}, {}
 
+    #This section creates 3 dictionaries pairing date with animal population at that date
+    #This section deals with there not being any information provided for a specific month and community by instead inserting a numpy NaN value. The significance of a NaN value is it will be skipped over when graphing without an error message
     for date in months_list:
-        cats = False
+        cats = False #cats and dogs are both indicators as to whether at least one cat/dog data point has been found for that date
         dogs = False
-        cats_value = 0
+        cats_value = 0 #cats_value and dogs_value are used to track the cats and dogs in order to sum them together for total cats and dogs
         dogs_value = 0
-        for row in reversed(pets_data):  
-            if date == row[0] and row[2] in selcted_community_list and row[3] == 'CATS':
-                if date in dates_with_cats:
+        for row in reversed(pets_data): #Goes through the data oldest date to newest
+            if date == row[0] and row[2] in selcted_community_list and row[3] == 'CATS': #If the date is correct, it's a community we want and for cats it evaluates true
+                if date in dates_with_cats: #If already in dictionary, the value is added
                     dates_with_cats[date] = dates_with_cats[date] + row[4]
                     cats_value += row[4]
-                else:
+                else:                       #If not in dictionary, the value is created and cats is changed to True
                     dates_with_cats[date] = row[4]
                     cats_value = row[4]
                     cats = True
-            if date == row[0] and row[2] in selcted_community_list and row[3] == 'DOGS':
-                if date in dates_with_dogs:
+            if date == row[0] and row[2] in selcted_community_list and row[3] == 'DOGS': #If the date is correct, it's a community we want and for dogs it evaluates true
+                if date in dates_with_dogs: #If already in dictionary, the value is added
                     dates_with_dogs[date] = dates_with_dogs[date] + row[4]
                     dogs_value += row[4]
-                else:
+                else:                       #If not in dictionary, the value is created and dogs is changed to True
                     dates_with_dogs[date] = row[4]
                     dogs_value = row[4]
                     dogs = True
-        if cats == False:
+        if cats == False: #If no cat value for the specified communities and month then set to Nan
             dates_with_cats[date] = np.NaN
-        if dogs == False:
+        if dogs == False: #If no dog value for the specified communities and month then set to Nan
             dates_with_dogs[date] = np.NaN
-        if dogs == False or cats == False:
+        if dogs == False or cats == False: #If no cat or dog value for the specified communities and month then set to Nan
             dates_with_cats_and_dogs[date] = np.NaN
-        else:
+        else:                              #If both cats and dogs are valid then it is summed and added to cats_and_dogs
             dates_with_cats_and_dogs[date] = cats_value + dogs_value
 
+    #Creates lists to be used to find change in pets
     dates_list_sorted = list(dates_with_cats.keys())
     cats_sorted_by_date = list(dates_with_cats.values())
     dogs_sorted_by_date = list(dates_with_dogs.values())
@@ -731,15 +760,16 @@ def graph_time_vs_new_registration(pets_data, initial_pet_calculations):
 
     delta_cats = []
     first_value = True
-    for value in reversed(cats_sorted_by_date):
-        if first_value == True:
+    for value in reversed(cats_sorted_by_date): #Goes through the dates from newest to oldest
+        if first_value == True:  #If first value, assigns nothing, instead saves temporary value to be used to find change in for value 2
             temp = value
             first_value = False
-        else:
+        else:                    #If not first value, takes the last value and subtracts the current value to find the change in pets
             delta_cats.append(temp-value)
             temp = value
-    delta_cats.reverse()
-    delta_dogs = []
+    delta_cats.reverse() #Reversed to have it be from oldest to newest
+    
+    delta_dogs = [] #Repeated for dogs
     first_value = True
     for value in reversed(dogs_sorted_by_date):
         if first_value == True:
@@ -749,7 +779,8 @@ def graph_time_vs_new_registration(pets_data, initial_pet_calculations):
             delta_dogs.append(temp-value)
             temp = value
     delta_dogs.reverse()
-    delta_cats_dogs = []
+    
+    delta_cats_dogs = [] #Repeated for cats and dogs
     first_value = True
     for value in reversed(cats_and_dogs_sorted_by_date):
         if first_value == True:
@@ -760,9 +791,9 @@ def graph_time_vs_new_registration(pets_data, initial_pet_calculations):
             temp = value
     delta_cats_dogs.reverse()
 
-    dates_list_sorted.pop()
+    dates_list_sorted.pop() # With finding change in, the most recent month can not be found so that value is removed
 
-    dates_x_axis_points = []
+    dates_x_axis_points = [] #Creates a list of numbers starting from 1 designed to correspond to the dates. Necesarry in order to graph
     for i in range(len(dates_list_sorted)):
         dates_x_axis_points.append(i + 1)
     
@@ -772,8 +803,7 @@ def graph_time_vs_new_registration(pets_data, initial_pet_calculations):
 
     plt.figure(FIGURE1)
 
-    #Converted to numpy's to fit np.polyfit() rquirements   
-
+    #Graphs all 3 lines
     plt.plot(dates_x_axis_points, delta_cats_dogs, 'bo--', label='Cats and Dogs')
     
     plt.plot(dates_x_axis_points, delta_cats, 'go--', label='Cats')
@@ -785,7 +815,6 @@ def graph_time_vs_new_registration(pets_data, initial_pet_calculations):
         title = 'Change in Pet Ownership Over 3 Years in the ' + area
     else:
         title = 'Change in Pet Ownership Over 3 Years in ' + area
-
     plt.title(title)      
     plt.xlabel('Month')
     plt.ylabel('Number of pets')
@@ -795,9 +824,9 @@ def graph_time_vs_new_registration(pets_data, initial_pet_calculations):
     plt.xticks(dates_x_axis_points, dates_list_sorted) #Used to display the community name instead of an integer
     plt.xticks(rotation=45, fontsize=8, ha='right') #Used to rotate the labels vertically and reduce their size to allow to accomodate for the cramped space
     plt.xlim(0, len(dates_x_axis_points)+1)  #Used to set the lower and upped bounds for the display of the x-axis
-    # plt.ylim(bottom=0)
 
     #Allows for slightly better viewing of the graph and ensures the x-title can be seen
+    plt.tight_layout()
 
     #Shows graph
     plt.show()    
@@ -886,7 +915,46 @@ def area_most_least_pets_capita(initial_pet_calculations):
         if input() == 'Return':
             return
 
-#Functions called from most_least_pets_total or most_leas_pets_capita
+def area_info(communities_data, initial_pet_calculations):
+    '''Takes in a user input for a community, checks if its valid and, if so, creates a Neighbourhood object.
+    Then, the function prints it using the print_neighbourhood_info()
+    
+    parameters:
+    communities_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
+        index 0: String. Community
+        index 1: Int. Median Household Income
+        index 3: Int. Population 2014
+    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports. The relevant parts used are:
+        index 0: 2D array. Col. 0 is all communities, Col. 1 is total cats, Col.2 is total dogs, Col.3 is total cats and dogs
+
+    returns: none
+    '''
+    pets_registration, communities = initial_pet_calculations[0], communities_data  
+    community_list = [community[0] for community in communities[5:]]    #Creates a list of valid communities for inputs
+
+    print('This is the pet information menu.', end= ' ')                #Prints the name of the menu you're on    
+    while True:
+        print('Please type in the community you would like to learn more about. If you need to see the options you can enter, please type Details')
+        requested_community = str(input())                              #Get a community input from the user
+        if requested_community in community_list:                       #Checks if it exists in our list of valid inputs
+            break
+        elif requested_community == 'Details':                          #Prints all valid inputs
+            for index,item in enumerate(community_list):
+                if index + 2 <= len(community_list):                    #Causes it to go through every element except the last in this if statement
+                    print('{}, '.format(item), end='')                  #Prints the area followed by a comma and a space
+                else:                                                   #For the last element just prints the element with a comma or space
+                    print(item)
+        else:
+             print('That was an invalid entry. Please try again or enter Details to see the options')
+        
+    for row in pets_registration:                                       #Get each set in the structured array
+        for community in communities:                                   #Get each set in the strucured array                                   
+            if community[0] == row[0] and community[0] == requested_community:  #Finds the rows where the community names match with the requested community
+                requested_community = Neighbourhood(row[0], community[3], row[1], row[2], community[1])     #Creates a Neighbourhood object with the selected values
+                requested_community.print_neighbourhood_info()          #Uses the print_neighbourhood_info() function (inside Neighbourhood class) to print the pet information
+    return
+
+#Functions called from most_least_pets_total or most_least_pets_capita
 def most_least_pets_step_1(all_communities_cats, all_communities_dogs, all_communities_cats_dogs, initial_pet_calculations):
     '''This function is designed to take the users input for quadrant and type of pet and check if it is a valid input.
     If valid, it will select one of the dictionaries that are passed into the function and modify it to match the user's input.
@@ -1037,45 +1105,7 @@ def most_least_pets_step_2(num_of_pets_array, valid_communities_dict, area, anim
                 num_of_pets_array_finding_min = np.where(num_of_pets_array_finding_min == min, 10000000, num_of_pets_array_finding_min)
     return 
 
-def area_info(communities_data, initial_pet_calculations):
-    '''Takes in a user input for a community, checks if its valid and, if so, creates a Neighbourhood object.
-    Then, the function prints it using the print_neighbourhood_info()
-    
-    parameters:
-    communities_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
-        index 0: String. Community
-        index 1: Int. Median Household Income
-        index 3: Int. Population 2014
-    initial_pet_calculations: A tuple containing data that was extracted, modified and formatted from the orginal csv imports. The relevant parts used are:
-        index 0: 2D array. Col. 0 is all communities, Col. 1 is total cats, Col.2 is total dogs, Col.3 is total cats and dogs
-
-    returns: none
-    '''
-    pets_registration, communities = initial_pet_calculations[0], communities_data  
-    community_list = [community[0] for community in communities[5:]]    #Creates a list of valid communities for inputs
-
-    print('This is the pet information menu.', end= ' ')                #Prints the name of the menu you're on    
-    while True:
-        print('Please type in the community you would like to learn more about. If you need to see the options you can enter, please type Details')
-        requested_community = str(input())                              #Get a community input from the user
-        if requested_community in community_list:                       #Checks if it exists in our list of valid inputs
-            break
-        elif requested_community == 'Details':                          #Prints all valid inputs
-            for index,item in enumerate(community_list):
-                if index + 2 <= len(community_list):                    #Causes it to go through every element except the last in this if statement
-                    print('{}, '.format(item), end='')                  #Prints the area followed by a comma and a space
-                else:                                                   #For the last element just prints the element with a comma or space
-                    print(item)
-        else:
-             print('That was an invalid entry. Please try again or enter Details to see the options')
-        
-    for row in pets_registration:                                       #Get each set in the structured array
-        for community in communities:                                   #Get each set in the strucured array                                   
-            if community[0] == row[0] and community[0] == requested_community:  #Finds the rows where the community names match with the requested community
-                requested_community = Neighbourhood(row[0], community[3], row[1], row[2], community[1])     #Creates a Neighbourhood object with the selected values
-                requested_community.print_neighbourhood_info()          #Uses the print_neighbourhood_info() function (inside Neighbourhood class) to print the pet information
-    return
-
 #Starts running the code
 if __name__ == '__main__':
     main()
+    
