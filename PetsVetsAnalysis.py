@@ -2,12 +2,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class Neighbourhood:
+    """A class used to create Horse object.
+
+        Attributes:
+            name (str): String that represents the neighbourhood name
+            population (int): Integer that represents the number of residents in a neighbourhood
+            num_cats (str): String that represents the number of cats in a neighbourhood
+            num_dogs (str): String that represents the number of dogs in a neighbourhood
+            income (int): String that represents the median income in the neighbourhood
+            ***Note that self is implicit and is not included!
+    """
+
     def __init__(self, name, population, num_cats, num_dogs, income):
         self.name = name
         self.population = population
-        self.income = income
-        self.num_dogs = num_dogs
         self.num_cats = num_cats
+        self.num_dogs = num_dogs
+        self.income = income
+
     def print_neighbourhood_info(self):
         print()
         print(f'Selected neighbourhood: {self.name}   Population: {self.population}   Average Income: {self.income}')
@@ -39,67 +51,99 @@ def main():
 
 #Start of Program Calculations
 def run_initial_pet_calculations(pets_data, communities_data, vets_data):
-    '''Runs initial calculations
+    '''Takes the imported data and runs several calculations with them.
     
-    returns
-        Dictionary (or maybe array) pairing communities with the most recent pet registration numbers (for pets per capita, figure 1, )
-        Dictionary (or maybe array) pairing communities with pets per capita (for figure 2 and generating statistics)
-        Array listing each quadrants communities 
-        List containing Calgary, quadrants then communities (for graphing and checking if valid usere input)
-        Dictionary (or maybe array) pairing communities with their avergae income
+    parameters:
+    pets_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple: 
+        index 0: String. Date
+        index 1: String. Community abbreviation
+        index 2: String. Community
+        index 3: String. Cats or dogs
+        index 4: Int. Number of cats or dogs
+    communities_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
+        index 0: String. Community
+        index 1: Int. Median Household Income
+        index 2: Int. Median Age
+        index 3: Int. Population 2014
+        index 4: Int. Dwellings 2014
+        index 5: Int. City Quadrant (0 = NE, 1 = NW, 2= SW, 3 = SE)
+    vets_data: Data directly imported from a csv file. A 1D array with rows of tuples. Within each tuple:
+        index 0: String. Community
+        index 1: String. Name of veterinarian
+        index 2: Int. 24 hour clinic? (1 = True, 0 = False)
+    
+    returns:
+    pets_registration: 2D array with information on number of cats/dogs/total pets in each community
+        index 0: String. Community
+        index 1: Int. Number of Cats
+        index 2: Int. Number of Dogs
+        index 3: Int. Number of Cats and Dogs
+    cats_per_capita: Dict. Contains number of cats in each community divided by the population. Format is 'Community Name': Number of Cats (int)
+    dogs_per_capita: Dict. Contains number of dogs in each community divided by the population. Format is 'Community Name': Number of Dogs (int)
+    pets_per_capita: Dict. Contains number of pets in each community divided by the population. Format is 'Community Name': Number of pets (int)
+    communitity_list: List. Contains all the communities in Calgary            
+    NE_communities: List. Contains all the communities in the NE
+    NW_communities: List. Contains all the communities in the NW
+    SW_communities: List. Contains all the communities in the SW
+    SE_communities: List. Contains all the communities in the SE
+    pets_per_vet: Dict. Contains the number of pets for each community divided by the number of vets + 1. Format is 'Community Name': Pets in Community / (Vets + 1)
     '''
 
-
+    # Community lists: creates lists of all communities, as well as the communities in each quadrant
     community_list, NE_communities, NW_communities, SW_communities, SE_communities = [], [], [], [], []
-    for row in communities_data:
-        community_list.append(row[0])
-        if row[5] == 1:
+    for row in communities_data:                # Gets each tuple from the 1D array
+        community_list.append(row[0])           # Adds the community name to community_list 
+        if row[5] == 1:                         # Adds to NE if the final tuple value is 1
             NE_communities.append(row[0])
-        elif row[5] == 2:
+        elif row[5] == 2:                       # Adds to NW if the final tuple value is 2
             NW_communities.append(row[0])
-        elif row[5] == 3:
+        elif row[5] == 3:                       # Adds to SW if the final tuple value is 3
             SW_communities.append(row[0])
-        elif row[5] == 4:
+        elif row[5] == 4:                       # Adds to SE if the final tuple value is 4
             SE_communities.append(row[0])
 
+    # Pets Registration: produces a strucured array pets_registration that contains the number of cats and dogs for each community
+    
     pets_registration, combined_pets = [], []
 
     for row in pets_data:
-        if row[0] == 'October 2021' and row[2] in community_list:                        #Gets the most recent cats and dogs registration data
-            pets_registration.append(row[2])
-            pets_registration.append(row[4])
-    pets_registration = np.array(pets_registration)                     #Creates a 1D array from the list
-    pets_registration = pets_registration.reshape((int(len(pets_registration)/4)), 4)   #Turns the 1D array into a 2D array with 4 columns and (1D Array Length / 4) Rows
-    pets_registration = np.delete(pets_registration, 2, 1)              #Deletes the third column (repeat of communtity name)
+        if row[0] == 'October 2021' and row[2] in community_list:       # Gets the most recent cats and dogs registration data from October 2021 and ensures that only communities that we have census data for are taken
+            pets_registration.append(row[2])                            # Gets the community name and adds to list
+            pets_registration.append(row[4])                            # Gets the # of cats/dogs and adds to list
+    pets_registration = np.array(pets_registration)                     # Creates a 1D array from the list
+    pets_registration = pets_registration.reshape((int(len(pets_registration)/4)), 4)   # Turns the 1D array into a 2D array with 4 columns and (1D Array Length / 4) Rows; current format is Community Name, Cats, Community Name, Dogs
+    pets_registration = np.delete(pets_registration, 2, 1)              # Deletes the third column (repeat of communtity name)
     
     for row in pets_registration:
-        combined_pets.append(int(row[1]) + int(row[2]))
+        combined_pets.append(int(row[1]) + int(row[2]))                 # Makes a consisting of the combined cats and dogs from each community
 
-    pets_registration = np.c_[pets_registration, combined_pets]         #Formatting is community, cats, dogs, combined total
-    pets_registration = list(zip(*pets_registration.T))
-    dtp = np.dtype([('Name', 'U100'), ('Cats', '>i4'), ('Dogs', '>i4'), ('Total', '>i4')])
+    pets_registration = np.c_[pets_registration, combined_pets]         # Adds the combined_pets list to the end of the array, overall formatting is community, cats, dogs, combined total
+    pets_registration = list(zip(*pets_registration.T))                 # Turns it into a list so we can convert to a structured array
+    
+    dtp = np.dtype([('Name', 'U100'), ('Cats', '>i4'), ('Dogs', '>i4'), ('Total', '>i4')])      #Sets the datatype for each column of the structured array
     pets_registration = np.array(pets_registration, dtype=dtp)          # Creates a structured array
 
-    cats_per_cap, dogs_per_cap, pets_per_cap = {}, {}, {}
-    index = 5
-    for row in pets_registration:
+    # Cats/Dogs/Pets per Capita: Creates 3 dictionaries containing the number of cats, number of dogs, and total number of pets in each community using data from pets_registration
+    cats_per_cap, dogs_per_cap, pets_per_cap = {}, {}, {}               
+    index = 5                                                           # skips the first 5 rows of communities_data (Calgary-wide and Quadrant data)
+    for row in pets_registration:                                       
         population = communities_data[index][3]
-        cats_per_cap[row[0]] = row[1] / population
-        dogs_per_cap[row[0]] = row[2] / population
-        pets_per_cap[row[0]] = row[3] / population
+        cats_per_cap[row[0]] = row[1] / population                      # Gets the number of cats in a community and divides by population
+        dogs_per_cap[row[0]] = row[2] / population                      # Gets the number of dogs in a community and divides by population
+        pets_per_cap[row[0]] = row[3] / population                      # Gets the number of pets in a community and divides by population
         index += 1
     
-    #Pets-per-Vet
+    # Pets-per-Vet: gets the number of vets in each community and gives a dictionary containing the number of pets for each vet in the community
     pets_per_vet, vets_per_community, vets_per_community_plus_one = {}, {}, {}
-    for community in pets_registration:
-        vets_in_community = 0
-        for row in vets_data:
-            if community[0] == row[0]:
-                vets_in_community += 1
-        vets_per_community[community[0]] = vets_in_community
-        vets_per_community_plus_one[community[0]] = vets_per_community[community[0]] + 1 
+    for community in pets_registration:                         
+        vets_in_community = 0                                   # Default is 0 vets in a community
+        for row in vets_data:                                   # Check for the community name in vets_data
+            if community[0] == row[0]:                          # If the community name matches with the neighborhood the vet is located in
+                vets_in_community += 1                          # Add it to the number of vets in community
+        vets_per_community[community[0]] = vets_in_community    # Create dictionary with that value
+        vets_per_community_plus_one[community[0]] = vets_per_community[community[0]] + 1    # Add one to find the hypothetical best place to open a vet and to prevent divide by 0 errors
 
-        pets_per_vet[community[0]] = community[3] / vets_per_community_plus_one[community[0]]
+        pets_per_vet[community[0]] = community[3] / vets_per_community_plus_one[community[0]]   # Create a third dictionary with the community name and the pet_per_vet value
 
     return pets_registration, cats_per_cap, dogs_per_cap, pets_per_cap, community_list, NE_communities, NW_communities, SW_communities, SE_communities, pets_per_vet
 
@@ -146,7 +190,7 @@ def main_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
             pets_menu(pets_data, communities_data, initial_pet_calculations)
             print_main_menu()
         elif user_input == 'Vets':
-            vets_menu(communities_data, vets_data,initial_pet_calculations)
+            vets_menu(communities_data, vets_data, initial_pet_calculations)
             print_main_menu()
         elif user_input == 'End':
             exit() #Ends the code
@@ -154,6 +198,12 @@ def main_menu(pets_data, communities_data, vets_data,initial_pet_calculations):
             print('That was an invalid entry. Please try again using one of the above options')
     
 def print_main_menu():
+    ''' A simple function that prints the main menu options.
+    
+    parameters: none
+    returns: none
+    
+    '''
     print('This is the main menu. Please select one of the following options:\n')
     print('{selection_option:>4} : {reason}'.format(selection_option = 'Pets', reason = 'To learn more about the pet distribution in Calgary'))
     print('{selection_option:>4} : {reason}'.format(selection_option = 'Vets', reason = 'To learn more about the veterinarian distribution in Calgary'))
@@ -215,6 +265,12 @@ def vets_menu(communities_data, vets_data,initial_pet_calculations):
             print('That was an invalid entry. Please try again using one of the above options')
 
 def print_vets_menu():
+    ''' A simple function that prints the vet menu options.
+    
+    parameters: none
+    returns: none
+    
+    '''
     print('This is the veterinarian statistics menu. Please select one of the following options:\n')
     print('{selection_option:>12} : {reason}'.format(selection_option = 'Pets Per Vet', reason = 'To see a graph comparing the number of pets per veterinarian for different areas in Calgary'))
     print('{selection_option:>12} : {reason}'.format(selection_option = 'Vets In Area', reason = 'To learn more about the veterinarian services offered for different areas of Calgary'))        
@@ -287,6 +343,12 @@ def pets_menu(pets_data, communities_data,initial_pet_calculations):
             print('That was an invalid entry. Please try again using one of the above options')
 
 def print_pets_menu():
+    ''' A simple function that prints the pets_menu options.
+    
+    parameters: none
+    returns: none
+    
+    '''
     print('This is the pet statistics menu. Please select one of the following options:\n')
     print('{selection_option:>15} : {reason}'.format(selection_option = 'Income', reason = 'To see a graph comparing income by community compared to pet ownership'))
     print('{selection_option:>15} : {reason}'.format(selection_option = 'Registration', reason = 'To see a graph comparing the change in pets for the last three years'))        
