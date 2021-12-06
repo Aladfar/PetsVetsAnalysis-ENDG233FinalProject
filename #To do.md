@@ -1,7 +1,5 @@
 #To do
 -Docstrings
-    -Neighbourhood Class (Ahmed)
-    -Initial Pet Calculations (Ahmed)
     -Print main menu (Ahmed)
     -Print vets menu (Ahmed)
     -Print pets menu (Ahmed)
@@ -10,7 +8,6 @@
     -Time vs pets(Dylan)
 
 -Commenting
-    -Initial Pet Calculations (Ahmed)
     -Community vs income and pets per vet (Dylan)
     -Income vs pets capita (Dylan)
     -Time vs pets (Dylan)
@@ -20,6 +17,5 @@
 
 -Other
     -Change file name (Ahmed)
-    -Take out extra parameter calls (Ahmed)
     -Cats pets total capita wording change (Dylan)
     -Registration tight layout (Dylan)
