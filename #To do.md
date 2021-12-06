@@ -10,7 +10,13 @@
     -Time vs pets (Dylan)
 
 -Documenting
-    -Still to do (Ahmed)
+    -A brief PDF summary (ideally less than two pages) that gives an overview of your project 
+and how it meets the requirements.Your summary should also include: 
+    -Evidence of your design process and planning (flowchart, pseudocode, mind-map, etc.) 
+    -Evidence of task management and timeline of milestones 
+    -Screenshots of successful execution as PNG files 
+    -Dataset Citations
+
 
 -Other
     -Cats pets total capita wording change (Dylan)
