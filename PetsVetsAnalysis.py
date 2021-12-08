@@ -1,3 +1,17 @@
+'''
+Pets Vets Analysis:
+A project to look at the pet and veterinarian distributions across Calgary
+By: Dylan Conley and Ahmed #TO DO
+
+Modules required:
+    matplotlib
+    numpy
+CSV files required:
+    pets_data.csv
+    communities_data.csv
+    vets_data.csv
+'''
+
 import numpy as np
 import matplotlib.pyplot as plt
 
