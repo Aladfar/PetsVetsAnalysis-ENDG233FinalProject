@@ -449,8 +449,7 @@ def graph_community_vs_income_and_pets_per_vet(communities_data, initial_pet_cal
 
     #Explains graph
     plt.figtext(0.5, 0.01, "This graph is designed to identify the best locations to start a new veterinarian practice.\nThe left y-axis is designed to demonstrate where there would be a large market of pets.\nThe right y-axis demonstrates which communities have more money to pay for veterinarian services", ha="center", fontsize=7)
-    ax1.legend(shadow=True, loc = (0.05,0.93))
-    ax2.legend(shadow=True, loc = (0.05,0.85))
+    
     #Allows for slightly better viewing of the graph and ensures the x-title can be seen
     plt.tight_layout()
 
@@ -491,7 +490,6 @@ def vets_in_area(vets_data, initial_pet_calculations):
     while True:
         area = input()
         if area == 'Details':
-            print('The valid inputs are:')
             for index,item in enumerate(community_list):
                 if index + 2 <= len(community_list): #Causes it to go through every element except the last in this if statement
                     print('{}, '.format(item), end='') #Prints the area followed by a comma and a space
@@ -701,7 +699,6 @@ def graph_time_vs_new_registration(pets_data, initial_pet_calculations):
     while True:
         area = input()
         if area == 'Details':
-            print('The valid inputs are:')
             for index,item in enumerate(community_list):
                 if index + 2 <= len(community_list): #Causes it to go through every element except the last in this if statement
                     print('{}, '.format(item), end='') #Prints the area followed by a comma and a space
@@ -957,7 +954,6 @@ def area_info(communities_data, initial_pet_calculations):
         if requested_community in community_list:                       #Checks if it exists in our list of valid inputs
             break
         elif requested_community == 'Details':                          #Prints all valid inputs
-            print('The valid inputs are:')
             for index,item in enumerate(community_list):
                 if index + 2 <= len(community_list):                    #Causes it to go through every element except the last in this if statement
                     print('{}, '.format(item), end='')                  #Prints the area followed by a comma and a space
