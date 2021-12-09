@@ -16,7 +16,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class Neighbourhood:
-    """A class used to create Horse object.
+    """A class used to create Neighbourhood objects.
 
         Attributes:
             name (str): String that represents the neighbourhood name
@@ -24,7 +24,6 @@ class Neighbourhood:
             num_cats (str): String that represents the number of cats in a neighbourhood
             num_dogs (str): String that represents the number of dogs in a neighbourhood
             income (int): String that represents the median income in the neighbourhood
-            ***Note that self is implicit and is not included!
     """
 
     def __init__(self, name, population, num_cats, num_dogs, income):
