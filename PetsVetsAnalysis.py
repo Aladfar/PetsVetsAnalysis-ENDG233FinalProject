@@ -1,7 +1,8 @@
 '''
+ENDG233 Final Project
 Pets Vets Analysis:
 A project to look at the pet and veterinarian distributions across Calgary
-By: Dylan Conley and Ahmed #TO DO
+By: Dylan Conley and Ahmed Almousawi #TO DO
 
 Modules required:
     matplotlib
