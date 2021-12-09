@@ -3,7 +3,7 @@ ENDG233 Final Project
 Pets Vets Analysis:
 A project to look at the pet and veterinarian distributions across Calgary
 By: Dylan Conley and Ahmed Almousawi
-L01 - 5 Pairs
+L01 - Group 5 Pairs
 
 Modules required:
     matplotlib
@@ -449,7 +449,8 @@ def graph_community_vs_income_and_pets_per_vet(communities_data, initial_pet_cal
 
     #Explains graph
     plt.figtext(0.5, 0.01, "This graph is designed to identify the best locations to start a new veterinarian practice.\nThe left y-axis is designed to demonstrate where there would be a large market of pets.\nThe right y-axis demonstrates which communities have more money to pay for veterinarian services", ha="center", fontsize=7)
- 
+    ax1.legend(shadow=True, loc = (0.05,0.93))
+    ax2.legend(shadow=True, loc = (0.05,0.85))
     #Allows for slightly better viewing of the graph and ensures the x-title can be seen
     plt.tight_layout()
 
