@@ -491,6 +491,7 @@ def vets_in_area(vets_data, initial_pet_calculations):
     while True:
         area = input()
         if area == 'Details':
+            print('The valid inputs are:')
             for index,item in enumerate(community_list):
                 if index + 2 <= len(community_list): #Causes it to go through every element except the last in this if statement
                     print('{}, '.format(item), end='') #Prints the area followed by a comma and a space
@@ -700,6 +701,7 @@ def graph_time_vs_new_registration(pets_data, initial_pet_calculations):
     while True:
         area = input()
         if area == 'Details':
+            print('The valid inputs are:')
             for index,item in enumerate(community_list):
                 if index + 2 <= len(community_list): #Causes it to go through every element except the last in this if statement
                     print('{}, '.format(item), end='') #Prints the area followed by a comma and a space
@@ -955,6 +957,7 @@ def area_info(communities_data, initial_pet_calculations):
         if requested_community in community_list:                       #Checks if it exists in our list of valid inputs
             break
         elif requested_community == 'Details':                          #Prints all valid inputs
+            print('The valid inputs are:')
             for index,item in enumerate(community_list):
                 if index + 2 <= len(community_list):                    #Causes it to go through every element except the last in this if statement
                     print('{}, '.format(item), end='')                  #Prints the area followed by a comma and a space
