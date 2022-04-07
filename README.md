@@ -12,7 +12,7 @@ Creates potential applications for veterinarians to identify the best locations 
 Download entire folder and open the folders terminal.
 Must have a version of python 3 installed.
 Must have numpy and matplotlib installed or run the local vitrual environment 'venv\Scripts\activate' that has them preinstalled.
-In run 'python PetsVetsAnalysis.py' for a terminal based program.
+Run 'python PetsVetsAnalysis.py' for a terminal based program.
 
 **Data Sourcing**
 
