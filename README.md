@@ -9,10 +9,10 @@ Features a graph that compares community income to number of vetrinarians and nu
 Creates potential applications for veterinarians to identify the best locations based on demand and financial standing to open new veterinarian practices.
 
 **Running**
-
+Download entire folder and open command prompt.
 Must have a version of python 3 installed.
-Must have numpy and matplotlib installed or run venv\Scripts\activate to open a virtual environemnt with them installed.
-Run PetsVetsAnalysis.py for a terminal based program.
+Must have numpy and matplotlib installed or run the local vitrual environment 'venv\Scripts\activate' that has them preinstalled.
+In run 'python PetsVetsAnalysis.py' for a terminal based program.
 
 **Data Sourcing**
 
